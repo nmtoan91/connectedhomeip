@@ -184,30 +184,10 @@ protected:
 };
 
 
-
-
-// class EchonetDevice
-// {
-//     public:
-//         string ipAddress;
-//         vector<EchonetEndpoint*> eojs;
-//     public:
-//         EchonetDevice()
-//         {
-
-//         }
-//         void PrintAll();
-//         //void TurnOnOff(int endPointTypeId, bool isOn);
-//         //void ParseDeviceDataFromString(vector<string> substrs,string& ip, int sockfd); 
-
-// };
-
-
 typedef int (*OnAEchonetEndpointAddedDelegate) (EchonetEndpoint *echonetEndpointInfo);
 class EchonetDevicesManager
 {
     private:
-        
 		mutex myMutex_;
     public:
 		static EchonetDevicesManager* instance;
@@ -225,9 +205,7 @@ class EchonetDevicesManager
         } 
         void FindEchonetDevices();
         void PrintDevicesSummary();
-        static EchonetDevicesManager* GetInstance(){ 
-			//if(instance==nullptr){instance = new EchonetDevicesManager();}
-			return instance;};
+        static EchonetDevicesManager* GetInstance(){ return instance;};
         void OnFoundEchoObject(std::shared_ptr<EchoObject> eoj);
 		void AddEchonetGetAttributeValue(pair<string,unsigned int>& id, EchoProperty& echoProperty);
 		void AddDeviceObject(std::shared_ptr<DeviceObject> deviceObject,pair<string,unsigned int>& id );
@@ -236,10 +214,7 @@ class EchonetDevicesManager
 		void CheckStartupDone();
 		void RemoveAnEchonetEndpoint(EchonetEndpoint* e);
 		void WriteAllAdapterInfoToTextFile(string filaname="out/0_adapters.json");
-		//void AddiHouseSpecialSwitches();
 		void PrintEchonetDevicesSummary();
-		//bool IsiHouseSpecialSwitches();
-
 };
 
 

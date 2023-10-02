@@ -24,8 +24,6 @@
 #include <string>
 #include <map>
 #include "Utils.h"
-//#include <app/clusters/mode-select-server/supported-modes-manager.h>
-//#include "MatterMetaData.h"
 #include <app/util/af.h>
 #include <app/util/config.h>
 #include "include/EchonetSelectModeSupportedModes.h"
@@ -48,19 +46,10 @@ using namespace chip::Transport;
 using namespace chip::DeviceLayer;
 using namespace chip::app::Clusters;
 
-
-
-
-
-
 struct PropertyValues{
     vector<unsigned char> echonetValue;
     string matterValueString;
 };
-
-
-
-
 
 class EchonetEndpoint
 {
@@ -95,8 +84,7 @@ class EchonetEndpoint
     public:
         EchonetEndpoint(){device= NULL;};
         virtual ~EchonetEndpoint(){};
-        EchonetEndpoint(string address_,pair<string,unsigned int>& eoj_pair_);//,string& masterIpAddress, string& myIpAddress);
-        //void ComputerMyMatterEndpointType();
+        EchonetEndpoint(string address_,pair<string,unsigned int>& eoj_pair_);
         void CreateMatterDeviceEndpointOBJ();
         vector<unsigned char> GetGET(unsigned char epc)     {    return GET_properties[epc].echonetValue;    };  
         virtual EmberAfStatus SetGET(unsigned char epc, vector<unsigned char> value);
@@ -104,6 +92,7 @@ class EchonetEndpoint
         virtual int ReadProperty(chip::ClusterId clusterId,chip::AttributeId attributeId, uint8_t * buffer, uint16_t maxReadLength);
         virtual EmberAfStatus WriteProperty(chip::AttributeId attributeId, ClusterId clusterId, const EmberAfAttributeMetadata * attributeMetadata,uint8_t * buffer); 
 
+        //Preset rules
         AttributePropertyAdapter* AddPresetEchonetAdapter_OnOff(unsigned char echoId=0x80);
         AttributePropertyAdapter* AddPresetEchonetAdapter_LevelControl(unsigned char echoId=0xB0,float scale=2.54f);
         AttributePropertyAdapter* AddPresetEchonetAdapter_ModeSelect(unsigned char echoId=0xE0,EchonetOptionType presetOptionTypes = EchonetOptionType::OPEN_CLOSE_STOP_41_42_43);
@@ -119,16 +108,13 @@ class EchonetEndpoint
         bool HealthCheck();
         bool onSetProperty(std::shared_ptr<EchoObject> eoj, unsigned short tid, unsigned char esv, EchoProperty& property, bool success);
         
+        //JSON IO
         Json::Value ToJson();
         string GetName();
         string PropertiesInfoToString();
         string PropertiesPairsInfoToString();
         
 };
-
-
-
-
 
 
 

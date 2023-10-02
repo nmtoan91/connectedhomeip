@@ -1,6 +1,16 @@
+ /*
+ * Author: nmtoan91
+ * Date:   2023-10-02
+ *
+ * Description:
+ * This file includes static configs to describe Matter endpoints
+ * These configs are based from orifginal example project
+ */
+
 #pragma once
 #ifndef MATTERMETADATA_ECHONET_H
 #define MATTERMETADATA_ECHONET_H
+
 
 #include <AppMain.h>
 #include <platform/CHIPDeviceLayer.h>
@@ -346,22 +356,6 @@ DECLARE_DYNAMIC_CLUSTER(FlowMeasurement::Id, flowSensorElectricAttrs_, nullptr, 
     DECLARE_DYNAMIC_CLUSTER_LIST_END;
 DECLARE_DYNAMIC_ENDPOINT(bridgedFlowSensorElectricEndpoint_, bridgedFlowSensorElectricClusters_);
 DataVersion gFlowSensorElectricDataVersions_[ArraySize(bridgedFlowSensorElectricClusters_)];
-
-
-// DECLARE_DYNAMIC_ATTRIBUTE_LIST_BEGIN(pressureSensorAttrs_)
-// DECLARE_DYNAMIC_ATTRIBUTE(PressureMeasurement::Attributes::MeasuredValue::Id, INT16S, 2, 0),        /* Measured Value */
-//     DECLARE_DYNAMIC_ATTRIBUTE(PressureMeasurement::Attributes::MinMeasuredValue::Id, INT16S, 2, 0), /* Min Measured Value */
-//     DECLARE_DYNAMIC_ATTRIBUTE(PressureMeasurement::Attributes::MaxMeasuredValue::Id, INT16S, 2, 0), /* Max Measured Value */
-//     DECLARE_DYNAMIC_ATTRIBUTE(PressureMeasurement::Attributes::FeatureMap::Id, BITMAP32, 4, 0),     /* FeatureMap */
-//     DECLARE_DYNAMIC_ATTRIBUTE_LIST_END();
-// DECLARE_DYNAMIC_CLUSTER_LIST_BEGIN(bridgedPressureSensorClusters_)
-// DECLARE_DYNAMIC_CLUSTER(PressureMeasurement::Id, pressureSensorAttrs_, nullptr, nullptr),
-//     DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, nullptr, nullptr),
-//     DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, nullptr, nullptr),
-//     DECLARE_DYNAMIC_CLUSTER_LIST_END;
-// DECLARE_DYNAMIC_ENDPOINT(bridgedPressureSensorEndpoint_, bridgedPressureSensorClusters_);
-// DataVersion gPressureSensorDataVersions_[ArraySize(bridgedPressureSensorClusters_)];
-
 
 
 DECLARE_DYNAMIC_ATTRIBUTE_LIST_BEGIN(pressureBatterySensorAttrs_)

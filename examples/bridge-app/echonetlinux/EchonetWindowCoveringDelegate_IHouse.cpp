@@ -16,7 +16,6 @@ CHIP_ERROR EchonetWindowCoveringDelegate_IHouse::HandleMovement(WindowCoveringTy
 {
     printf("\n\n\n[[[[[[[[[[[ EchonetWindowCoveringDelegate_IHouse HandleMovement %d p=%d]]]]]]]]]]]]]\n\n\n\n\n\n",(int)type,openPercent);
 
-    //EchonetEndpoint* echonetEndpoint  = this->echonetEndpoint;
     if(openPercent>50)
     {
         echonetEndpoint->SetGET(0xE0, {0x41});
@@ -28,7 +27,6 @@ CHIP_ERROR EchonetWindowCoveringDelegate_IHouse::HandleMovement(WindowCoveringTy
 CHIP_ERROR EchonetWindowCoveringDelegate_IHouse::HandleStopMotion()
 {
     printf("\n\n\n[[[[[[[[[[[ EchonetWindowCoveringDelegate_IHouse HandleStopMotion]]]]]]]]]]]]]\n\n\n\n\n\n");
-    //EchonetEndpoint* echonetEndpoint  = this->echonetEndpoint;
     echonetEndpoint->SetGET(0xE0, {0x43});
 
     return CHIP_NO_ERROR;

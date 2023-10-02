@@ -1,4 +1,31 @@
-# Important notes to sync
+
+# Introduction
+This is project to build echonetLITE Matter briged-app.
+The project was based on the project example/bridge-app/linux
+
+# Build and Run
+1. Active Matter environment: [the build guide](guides/BUILDING.md)
+2. Run commands
+```
+    cd examples/bridge-app/echonetlinux
+    make
+```
+
+# Runtime commands
+| Command | Description |
+| --- | --- |
+| R | Factory reset |
+| E | Safe Exit|
+| e | Show mappedechonetLITE endpoints|
+| f | Show echonetLITE endpoints and GET/SET|
+| g | Show echonetLITE endpoints and GET/SET data|
+| h | Show echonetLITE endpoints|
+| j | Show mapped addresses|
+| j | Show add addresses|
+
+
+
+# Important notes to sync upsteam
 1.  Copy and replace zap files in bridge-common project
 2.  In file src/app/clusters/window-covering-server/window-covering-server.cpp
         1. #ifndef EMBER_AF_WINDOW_COVERING_CLUSTER_SERVER_ENDPOINT_COUNT #define
@@ -52,11 +79,6 @@
     ```
 
 
-
-
-
-
-
 # Tips to manually edit the zap files
 ## bridge-app.matter
 1. Search for "endpoint 0" in source .matter file,. 
@@ -65,17 +87,3 @@ Sometime the desired infomation is listed near "endpoint 2".
 ## bridge-app.zap
 1. Search for keyword. For example "Window Covering"
 2. Put it under "endpointTypes.clusters". Note: COPY TWO OF THEM 
-
-
-
-# Commands
-| Command | Description |
-| --- | --- |
-| R | Factory reset |
-| E | Safe Exit|
-| e | Show mappedechonetLITE endpoints|
-| f | Show echonetLITE endpoints and GET/SET|
-| g | Show echonetLITE endpoints and GET/SET data|
-| h | Show echonetLITE endpoints|
-| j | Show mapped addresses|
-| j | Show add addresses|

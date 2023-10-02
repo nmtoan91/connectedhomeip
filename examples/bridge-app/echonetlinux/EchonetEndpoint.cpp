@@ -36,20 +36,15 @@ EchonetEndpoint::EchonetEndpoint(string address_,pair<string,unsigned int>& eoj_
     delegate = NULL;
     device= NULL;
 }
-// void EchonetEndpoint::ComputerMyMatterEndpointType()
-// {
-//     this->type = (MatterDeviceEndpointType)GetMatterEndpointTypeFromEchonetEndpointCode(this);
-// }
+
+// This is the core function to establish the mapping rules
 void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
 {
     AttributePropertyAdapter* apt;
     this->device = NULL;
-    //printf("\n\n\n CreateMatterDeviceEndpointOBJ: type=%d \n\n ", this->type);
     switch (this->type)
     {
     case  MatterDeviceEndpointType::ONOFF_LIGHT:
-        //printf("\n\n\n\n\n\n\n\n\n\n\n\n\n aaaaaaa %s  \n\n\n\n\n\n",("LIGHT " + this->GetName()).c_str() );
-        //this->device = new DeviceEchonetAdapter("LIGHT","myroom");
         this->device = new DeviceEchonetAdapter(("LIGHT " + this->GetName()).c_str(),"myroom");
         
         this->emberAfEndpointType = &bridgedLightEndpoint_;
@@ -67,7 +62,6 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         AddPresetEchonetAdapter_OnOff();
         break;
     case MatterDeviceEndpointType::DIMMABLE_LIGHT:
-        //this->device = new DeviceEchonetAdapter("DIMMABLE LIGHT","myroom");
         this->device = new DeviceEchonetAdapter(("DIMMABLE LIGHT " + this->GetName()).c_str(),"myroom");
         
         this->emberAfEndpointType = &bridgedDimmableLightEndpoint_;
@@ -78,7 +72,6 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         break;
     case  MatterDeviceEndpointType::COLOR_TEMPERATURE_LIGHT:
     
-        //this->device = new  DeviceColorTemperature ("COLOR_TEMPERATURE_LIGHT","myroom");
         this->device = new DeviceEchonetAdapter(("COLOR TEMPERATURE LIGHT " + this->GetName()).c_str(),"myroom");
         this->emberAfEndpointType = &bridgedTemperatureLightEndpoint_;
         this->deviceTypeList = Span<const EmberAfDeviceType>(gColorTemperatureBridgedLightDeviceTypes_);
@@ -108,7 +101,6 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         this->attributePropertyAdapters.insert({make_pair(TemperatureMeasurement::Id,apt->matterAttributeId),apt} );
         break;
     case MatterDeviceEndpointType::ILLUMINANCE_SENSOR: 
-        //this->device = new  DeviceEchonetAdapter("ILLUMINANCE SENSOR","myroom");
         this->device = new  DeviceEchonetAdapter(("ILLUMINANCE SENSOR " + this->GetName()).c_str(),"myroom");
         this->emberAfEndpointType = &bridgedIlluminanceSensorEndpoint_;
         this->deviceTypeList = Span<const EmberAfDeviceType>(gBridgedIlluminanceSensorDeviceTypes_);
@@ -122,7 +114,6 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
 
 
     case MatterDeviceEndpointType::HUMIDITY_SENSOR: 
-        //this->device = new  DeviceEchonetAdapter("HUMIDITY SENSOR","myroom");
         this->device = new  DeviceEchonetAdapter(("HUMIDITY SENSOR " + this->GetName()).c_str(),"myroom");
         this->emberAfEndpointType = &bridgedHumiditySensorEndpoint_;
         this->deviceTypeList = Span<const EmberAfDeviceType>(gBridgedHumiditySensorDeviceTypes_);
@@ -139,10 +130,6 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         this->emberAfEndpointType = &bridgedFlowSensorEndpoint_;
         this->deviceTypeList = Span<const EmberAfDeviceType>(gBridgedFlowSensorDeviceTypes_);
         this->dataVersionStorage = Span<DataVersion>(gFlowSensorDataVersions_);
-
-        //apt = new AttributePropertyAdapter(FlowMeasurement::Id,FlowMeasurement::Attributes::MeasuredValue::Id,0xE0,
-        //ZAP_TYPE(INT16U), 2,ZAP_TYPE(INT32U ), 4);
-        //this->attributePropertyAdapters.insert({make_pair(apt->matterClusterId,apt->matterAttributeId),apt} );
 
         //toanstt: quick fix 
         apt = new AttributePropertyAdapter(FlowMeasurement::Id,FlowMeasurement::Attributes::MeasuredValue::Id,0xE2,
@@ -164,7 +151,6 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         break;
 
     case MatterDeviceEndpointType::PRESSURE_SENSOR_for_STORAGE_BATTERY: 
-        //this->device = new  DeviceEchonetAdapter("PRESSURE SENSOR for storage battery","myroom");
         this->device = new  DeviceEchonetAdapter(("PRESSURE SENSOR bat " + this->GetName()).c_str(),"myroom");
 
         this->emberAfEndpointType = &bridgedPressureBatterySensorEndpoint_;
@@ -186,9 +172,6 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
 
         apt = new AttributePropertyAdapter(OccupancySensing::Id,OccupancySensing::Attributes::Occupancy::Id,0xB1,
         ZAP_TYPE(BITMAP8), 1, ZAP_TYPE(ENUM8),1 );
-
-        // apt->AddPairOfmapValue({0x41},{2}); 
-        // apt->AddPairOfmapValue({0x42},{1}); 
 
         apt->AddPairOfmapValue({0x41},{1}); 
         apt->AddPairOfmapValue({0x42},{0}); 
@@ -228,8 +211,6 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         this->attributePropertyAdapters.insert({make_pair(WindowCovering::Id,apt->matterAttributeId),apt} );
         break;
     case MatterDeviceEndpointType::WINDOW_COVERING_IHOUSE:
-
-        //printf("\n\n\n\n\n\n\n\n\n\n\n UUUUUUUUUUUUUUUUUUUU \n\n\n\n\n\n\n\n\n\n\n");
         this->device = new  DeviceWindowCovering (("WINDOW COVERING i " + this->GetName()).c_str(),"myroom");
         this->emberAfEndpointType = &windowCoveringEndpoint_;
         this->deviceTypeList = Span<const EmberAfDeviceType>(gBridgedWindowCoveringDeviceTypes_);
@@ -254,7 +235,6 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
     case MatterDeviceEndpointType::WINDOW:
     case MatterDeviceEndpointType::MODESELECT:
         //test
-        //this->device = new  DeviceEchonetAdapter ("GENERIC WINDOW","myroom");
         this->device = new  DeviceEchonetAdapter (("GENERIC WINDOW " + this->GetName()).c_str(),"myroom");
         this->emberAfEndpointType = &bridgedGenericEndpoint_;
         this->deviceTypeList = Span<const EmberAfDeviceType>(gBridgeGenericCurtainDeviceTypes_);
@@ -280,15 +260,12 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         break;
 
     case MatterDeviceEndpointType::HEATING_COOLING_UNIT:
-        //this->device = new  DeviceEchonetAdapter ("HEATING COOLING UNIT","myroom");
         this->device = new  DeviceEchonetAdapter (("HEATING COOLING UNIT " + this->GetName()).c_str(),"myroom");
         this->emberAfEndpointType = &heatingColingEndpoint_;
         this->deviceTypeList = Span<const EmberAfDeviceType>(gHeatingCoolingDeviceTypes_);
         this->dataVersionStorage = Span<DataVersion>(heatingColingDataVersions_);
 
         AddPresetEchonetAdapter_OnOff();
-
-        //Operation Mode Setting  <==> SystemMode (Matter)
         apt = new AttributePropertyAdapter(Thermostat::Id,Thermostat::Attributes::SystemMode::Id ,0xB0, 
         ZAP_TYPE(INT8U), 1, ZAP_TYPE(INT8U));
         apt->AddPairOfmapValue({0x40},{9}); //Other -> Sleep
@@ -373,9 +350,7 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         break;
     }
     this->device->SetReachable(true);
-    //this->device->echonetId = echonetId;
     this->device->echonetEndpointInfoPointer = (void*) this;
-
 }
 
 
@@ -404,7 +379,6 @@ EmberAfAttributeMetadata* EchonetEndpoint::GenerateBridgedDeviceBasicAttrs(Ember
     {
         for(int i =0; i < 500; i++)
         {
-            //printf("\n999999999999999999999999999999999999999999\n");
             if(currentWaitingTID  == 0xFFFF) 
             {
                 TimeManager::GetInstance()->RecordTime(TimeRecordType::END_SEND_WRITE_COMMAND_TO_ECHONET_DEVICE, echoClassCode,instanceCode,epc ,eoj_pair.second>>8,eoj_pair.second%256, ConvertToUnsignedInt(value) );
@@ -422,6 +396,7 @@ EmberAfAttributeMetadata* EchonetEndpoint::GenerateBridgedDeviceBasicAttrs(Ember
  {
     if(delegate!=NULL) return delegate->ReadProperty(clusterId,attributeId, buffer,maxReadLength );
 
+    //Check (clusterId,attributeId) is available or not
     if(this->attributePropertyAdapters.find(make_pair(clusterId,attributeId)) == this->attributePropertyAdapters.end())
     {
         printf("\n\n[WARNING ReadProperty] toanstt: key not existed in the map clusterId=0x%02x attributeId=0x%06x\n\n",(int)clusterId, (int)attributeId);
@@ -429,6 +404,8 @@ EmberAfAttributeMetadata* EchonetEndpoint::GenerateBridgedDeviceBasicAttrs(Ember
     }
     AttributePropertyAdapter* apt = this->attributePropertyAdapters[make_pair(clusterId,attributeId)];
     
+
+    //Return constant value if any
     if(this->GET_properties.find(apt->echonetPropertyId) == this->GET_properties.end())
     {
         if(apt->defaultValue!=NULL)
@@ -448,7 +425,8 @@ EmberAfAttributeMetadata* EchonetEndpoint::GenerateBridgedDeviceBasicAttrs(Ember
     }
 
 
-
+    //Try to get new value from echonetLITE device
+    //This step can be skip to have better speed. however, be carefull when some devices may change their value without any notification.
     currentWaitingPropertyId = apt->echonetPropertyId;
     GetDeviceObject()->get().reqGetProperty(currentWaitingPropertyId).send();
     TimeManager::GetInstance()->RecordTime(TimeRecordType::START_SEND_READ_COMMAND_TO_ECHONET_DEVICE, echoClassCode, instanceCode, apt->echonetPropertyId,(unsigned short)clusterId, attributeId,(unsigned int)buffer[0]);
@@ -464,23 +442,18 @@ EmberAfAttributeMetadata* EchonetEndpoint::GenerateBridgedDeviceBasicAttrs(Ember
         usleep(10 * 1000); //sleep 10 miliseconds
     }
 
+    
     vector<unsigned char> echonetValue = this->GET_properties[apt->echonetPropertyId].echonetValue;
-    //printf("\n\n KKKKKKKKKKKKKKK %s\n\n", ConvertEchonetValueToHexString(echonetValue).c_str());
     unsigned int val;
-    //int vals;
     short val_shorts;
-    //unsigned short val_shortu;
     unsigned long val_longu;
-    //short val_short;
     int val_int;
     unsigned int val_intu;
     unsigned char val_charu;
     char val_char;
-    //check if existed in the map
-    //printf("\n\n\n cccccccccccccccccccccccccc id=0x%02x %d \n\n\n",apt->echonetPropertyId, (int)echonetValue.size());
+    //check dictionary
     if(apt->mapValueEchonet2Matter.find(echonetValue)!=apt->mapValueEchonet2Matter.end())
     {
-        //printf("\n\n\n cccccccccccccccccccccccccc \n\n\n");
         if(apt->matterDataType == ZAP_TYPE(BOOLEAN))
             *buffer = (uint8_t)ConvertToUnsignedChar(apt->mapValueEchonet2Matter[echonetValue]);
         else if(apt->matterDataType == ZAP_TYPE(INT8U))
@@ -507,7 +480,7 @@ EmberAfAttributeMetadata* EchonetEndpoint::GenerateBridgedDeviceBasicAttrs(Ember
         return 0;
     }
 
-    //printf("\n\n KKKKKKKKKKKKKKK22  %s\n\n", ConvertEchonetValueToHexString(echonetValue).c_str());
+    //Convert values
     switch (apt->echonetDataType)
     {
     case ZAP_TYPE(ENUM8):
@@ -537,23 +510,8 @@ EmberAfAttributeMetadata* EchonetEndpoint::GenerateBridgedDeviceBasicAttrs(Ember
 
         printf("\n\n\n [INT16U] test size=%d apt->matterDataLength=%d\n\n\n",(int)echonetValue.size(),apt->matterDataLength );
         
-        // val_shortu = echonetValue.size()>0?echonetValue[0]:0;
-        // if(echonetValue.size()>1) 
-        // {
-            
-        //     val_shortu+= (unsigned short)(echonetValue[1]*256);
-        //     printf("%d %d -> %d \n\n",echonetValue[1],echonetValue[0], val_shortu);
-        // }
         *((unsigned long*)buffer) = (unsigned long)val_longu;
 
-
-        // if(apt->matterDataLength==4)
-        //     *((unsigned int*)buffer) = val_shortu;
-        // else if(apt->matterDataLength==2)
-        //     *((unsigned int*)buffer) = (unsigned int)val_shortu;
-        // else if(apt->matterDataLength==1)
-        //     *buffer = (uint8_t)val_shortu;
-        // else printf("\n\n[ERROR 3] toanstt's error with matterDataLength=%d \n\n", (int)apt->matterDataLength);
         return 0;
     case ZAP_TYPE(INT32U):
         
@@ -582,7 +540,6 @@ EmberAfAttributeMetadata* EchonetEndpoint::GenerateBridgedDeviceBasicAttrs(Ember
 
         if(apt->valueMultiplierForEchonetValue!=0) val_intu = (unsigned int)(val_charu*apt->valueMultiplierForEchonetValue);
 
-        //printf("\n\n KKKKKKKKKKKKKKK %s -> %d matterDataLength=%d\n\n", ConvertEchonetValueToHexString(echonetValue).c_str(),val_charu,apt->matterDataLength);
 
         if(apt->matterDataLength==4)
             *((unsigned int*)buffer) = val_intu;
@@ -612,7 +569,6 @@ EmberAfAttributeMetadata* EchonetEndpoint::GenerateBridgedDeviceBasicAttrs(Ember
         printf("\n\n[WARNING] toanstt not implemented this case: echonetDataType=%d \n\n", (int)apt->echonetDataType);
         break;
     }
-    printf("\n\n KKKKKKKKKKKKKKK55 ");
     string s = "dddddd";
     memcpy(buffer, s.c_str(), s.size());
 
@@ -624,22 +580,26 @@ EmberAfAttributeMetadata* EchonetEndpoint::GenerateBridgedDeviceBasicAttrs(Ember
 
  EmberAfStatus EchonetEndpoint::WriteProperty(chip::AttributeId attributeId, ClusterId clusterId, const EmberAfAttributeMetadata * attributeMetadata,uint8_t * buffer)
  {
+    //Call WriteProperty of warper if exists
    if(delegate!=NULL) return delegate->WriteProperty(attributeId, clusterId, attributeMetadata, buffer);
+
+   //Check (clusterId,attributeId) is available or not
     if(this->attributePropertyAdapters.find(make_pair(clusterId,attributeId)) == this->attributePropertyAdapters.end())
     {
         printf("\n\n[WARNING WriteProperty] toanstt: key not existed in the map %d \n\n", (int)attributeId);
         return EMBER_ZCL_STATUS_DEPRECATED82;
     }
+
+    
     AttributePropertyAdapter* apt = this->attributePropertyAdapters[make_pair(clusterId,attributeId)];
-    //TimeManager::GetInstance()->RecordTime(TimeRecordType::RECEIVE_COMMAND_WRITE_FROM_CHIPTOOL, echoClassCode, instanceCode, apt->echonetPropertyId,(unsigned short)clusterId, attributeId,(unsigned int)buffer[0] );
+    //Check the coresponding SET property is available or not
     if(this->SET_properties.find(apt->echonetPropertyId) == this->SET_properties.end())
     {
         printf("\n\n[WARNING WriteProperty] toanstt: key not existed in SET_properties %d \n\n", (int)attributeId);
         return EMBER_ZCL_STATUS_DEPRECATED82;
     }
-     
-    //printf("CCCCCCCCCCCCCCCCCCCCCC WriteProperty\n");
-    //check in the map first
+    
+    //Check dictionary
     vector<unsigned char> newData = {0x00};
     if(apt->mapValueMatter2Echonet.find({*buffer}) != apt->mapValueMatter2Echonet.end())
     {
@@ -649,7 +609,7 @@ EmberAfAttributeMetadata* EchonetEndpoint::GenerateBridgedDeviceBasicAttrs(Ember
     }
 
 
-    
+    //Convert data
     if(apt->matterDataType == ZAP_TYPE(INT8U)) 
     {
         uint8_t val_uint8_t = *buffer;
@@ -686,7 +646,6 @@ EmberAfAttributeMetadata* EchonetEndpoint::GenerateBridgedDeviceBasicAttrs(Ember
         if(apt->valueMultiplierForEchonetValue!=0) val_int = (int)((float)val_int*1.0f/apt->valueMultiplierForEchonetValue);
         newData = {(unsigned char)(val_int)};
     } 
-    //printf("\n\n\n\n hex= %d ->  %s ; eoj = %s \n\n\n\n ",(unsigned int)*buffer,newData.c_str(),apt->echonetPropertyId.c_str() );
     
     SetGET(apt->echonetPropertyId,newData );
     return EMBER_ZCL_STATUS_SUCCESS;
@@ -737,10 +696,6 @@ AttributePropertyAdapter* EchonetEndpoint::AddPresetEchonetAdapter_ModeSelect_De
     this->attributePropertyAdapters.insert({make_pair(ModeSelect::Id,apt->matterAttributeId),apt} );
     return apt;
 }
-// AttributePropertyAdapter* EchonetEndpoint::AddPresetEchonetAdapter_TemperatureMeasurement(string echoId=)
-// {
-
-// }
 
 void EchonetEndpoint::InsertGETProperty(unsigned char c,EchoProperty* ep)
 {
@@ -761,8 +716,6 @@ void EchonetEndpoint::InsertGETProperty(unsigned char c,EchoProperty* ep)
     {
         
         GET_properties.insert({c,{ep->edt,""}});   
-        //printf("\nhere 1 len=%d d=%d \n", (int)GET_properties[c].echonetValue.size(), (int)ep->edt.size()) ;
-        //std::count << this << endl;
     }
     else 
     {
@@ -812,6 +765,16 @@ bool EchonetEndpoint::HealthCheck()
     //GetDeviceObjecpt()
     return true;
 }
+
+
+
+/*
+-----------------------------------------------------------------------------
+-------------------Write all mapping rules to JSON files---------------------
+-----------------------------------------------------------------------------
+*/
+
+
 Json::Value EchonetEndpoint::ToJson()
 {
     Json::Value json;
@@ -895,7 +858,6 @@ string EchonetEndpoint::PropertiesPairsInfoToString()
         stream << ConvertEchonetValueToHexString(it->second.echonetValue);
         stream << " ";
     }
-            //stream << "0x" << std::hex << (unsigned char)it->first;
     stream << "\n SET: ";
     for (it = SET_properties.begin(); it != SET_properties.end(); it++)
     {

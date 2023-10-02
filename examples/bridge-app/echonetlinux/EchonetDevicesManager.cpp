@@ -8,7 +8,6 @@
 #include <json/writer.h>
 #include <string>
 
-
 using namespace chip;
 using namespace chip::app;
 using namespace chip::Credentials;
@@ -18,25 +17,13 @@ using namespace chip::DeviceLayer;
 using namespace chip::app::Clusters;
 using namespace std;
 
-// std::string ihouse_curtains[4]
-//       = { "192.168.2.157", "192.168.2.158", "192.168.2.183","192.168.2.184" };
-//     std::string ihouse_windows[10]
-//       = { "192.168.2.159", "192.168.2.160", "192.168.2.161","192.168.2.162",
-//       "192.168.2.163", "192.168.2.164", "192.168.2.165","192.168.2.166", "192.168.2.167","192.168.2.168" };
-//bool IsiHouseSpecialSwitches(string addr, unsigned short classCode);
-
 EchonetDevicesManager::EchonetDevicesManager()
 {
-    //this->ip = ip_;
-    //this->broadcastAddress = broadcastAddress_;
-    //this->devices = new std::vector<EchonetDevice*>();
-
+    
 }
 
 void * FindEchonetDevices_Thread(void * context)
 {
-    //usleep(10 * 1000);
-    
     EchonetDevicesManager *manager = (EchonetDevicesManager *)context;
     
     shared_ptr<Echo::EventListener> eventListener(new MyEventListener());
@@ -48,10 +35,11 @@ void * FindEchonetDevices_Thread(void * context)
     
     TimeManager::GetInstance()->RecordTime(TimeRecordType::APP_BEGIN_SEND_MULTI_CAST_5D);
 
-    //manager->AddiHouseSpecialSwitches();
+    //Start openechonet
 	Echo::start(profile, devices);
 
 	while(true) {
+        //Interval request all avaible echonetLITE endpoints.
 		NodeProfile::Getter(NodeProfile::ECHO_CLASS_CODE
 				, NodeProfile::INSTANCE_CODE
 				, EchoSocket::MULTICAST_ADDRESS).reqGetSelfNodeInstanceListS().send();
@@ -92,12 +80,12 @@ void MyEventListener::onNewDeviceObject(std::shared_ptr<DeviceObject> device)
 {
     TimeManager::GetInstance()->RecordTime(TimeRecordType::FOUND_AN_ECHONET_ENDPOINT, device->getEchoClassCode(), device->getInstanceCode());
 
-    if(device.get()->getEchoClassCode() == 0x05FF) {
+    if(device.get()->getEchoClassCode() == 0x05FF) { // Found a controller
         cout << "Controller found." << endl;
         device.get()->setReceiver(shared_ptr<EchoObject::Receiver>(new MyControllerReceiver()));
         device.get()->get().reqGetOperationStatus().reqGetInstallationLocation().send();
     } 
-    else //if(device.get()->getEchoClassCode() == 0x0290)
+    else 
     {
         
 
@@ -106,8 +94,8 @@ void MyEventListener::onNewDeviceObject(std::shared_ptr<DeviceObject> device)
         EchonetDevicesManager::GetInstance()->AddDeviceObject(device, id);
 
         device.get()->setReceiver(shared_ptr<EchoObject::Receiver>(new EchonetControllerReceiver()));
+        // Request to get all SET property Map 
         device.get()->get().reqGetSetPropertyMap().send();
-        //device.get()->get().reqGetGetPropertyMap().send();
         device.get()->get().reqGetStatusChangeAnnouncementPropertyMap().send();
     } 
 }
@@ -125,6 +113,8 @@ bool EchonetControllerReceiver::onGetProperty(std::shared_ptr<EchoObject> eoj, u
 
         std::shared_ptr<DeviceObject> device = std::static_pointer_cast<DeviceObject>(eoj);
         auto setter = device.get()->get();
+
+        //Process GET properties
         for(unsigned char i :*gets )
         {
             if(property.epc==0x9f) 
@@ -137,6 +127,8 @@ bool EchonetControllerReceiver::onGetProperty(std::shared_ptr<EchoObject> eoj, u
                 eoj->addSetProperty(i);
             } 
             else if(property.epc==0x9d) eoj->addStatusChangeAnnouncementProperty(i);
+
+            //Request all Get property values
             if(property.epc==0x9f)
             {
                 if(i!= 0x9f && i != 0x9e && i != 0x9d) 
@@ -145,17 +137,17 @@ bool EchonetControllerReceiver::onGetProperty(std::shared_ptr<EchoObject> eoj, u
                 }
             }
         }
+        // If the property is 0x9e then try to get all GET properties
         if(property.epc==0x9e)
         {
             device.get()->get().reqGetGetPropertyMap().send();
             
+            //Briefly process the endpoint information
             ep->CalcEndpointType();
-            if(ep->type!=MatterDeviceEndpointType::UNKNOW 
-            //&& ! IsiHouseSpecialSwitches(eoj->getNode()->getAddress(), eoj->getClassCode()
-            
-            )
+
+            if(ep->type!=MatterDeviceEndpointType::UNKNOW )
             {
-                //printf("\n\n\n\n\n MMMMMMMMMMMMMMMMMMMMMMM %s %d \n\n\n\n\n",eoj->getNode()->getAddress().c_str(),eoj->getClassCode() );
+                //Process to the echonetLITE endpoint to manager if the endpoint is valid
                 EchonetDevicesManager::GetInstance()->onAEchonetEndpointAddedDelegate(ep);
             }
             else 
@@ -330,46 +322,4 @@ void EchonetDevicesManager::PrintEchonetDevicesSummary()
 }
 
 
-// void EchonetDevicesManager::AddiHouseSpecialSwitches()
-// {
-//     return;
-//     //map<pair<string,unsigned int>, EchonetEndpoint*> endpoints_ihouse;
-    
-      
-//     for(int i =0; i < 4; i++)
-//     {
-
-//         pair<string,unsigned int> id = make_pair(ihouse_curtains[i],0x05fd*256+1);
-//         pair<string,unsigned int> id2 = make_pair(ihouse_curtains[i],0x05fd*256+2);
-
-//         EchonetEndpoint* echonetEndpoint_ = new EchonetEndpoint_IHouseWindowCovering(ihouse_curtains[i] ,id); 
-
-//         EchonetDevicesManager::GetInstance()->AddDeviceObject(echonetEndpoint_, id);
-//         EchonetDevicesManager::GetInstance()->AddDeviceObject(echonetEndpoint_, id2);
-
-//         EchonetEndpoint* ep = GetEchonetEndpointById(id);
-        
-//         ep->type = MatterDeviceEndpointType::WINDOW_COVERING_IHOUSE;
-//         ep->CreateMatterDeviceEndpointOBJ();
-        
-
-
-//         EchonetDevicesManager::GetInstance()->onAEchonetEndpointAddedDelegate(ep);
-
-        
-//     }
-// }
-// bool IsiHouseSpecialSwitches(string addr, unsigned short classCode)
-// {
-//     //return false;
-//     for(int i =0; i < 4; i++)
-//     {
-//         if(addr.compare(ihouse_curtains[i]) ==0 ) return true;
-//     }
-//     for(int i =0; i < 10; i++)
-//     {
-//         if(addr.compare(ihouse_windows[i]) ==0 ) return true;
-//     }
-//     return false;
-// }
 #endif

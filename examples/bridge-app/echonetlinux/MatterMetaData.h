@@ -260,59 +260,6 @@ constexpr CommandId colorControlIncomingCommands[] = {
     kInvalidCommandId,
 };
 
-// DECLARE_DYNAMIC_CLUSTER_LIST_BEGIN(bridgedLightClusters)
-//     DECLARE_DYNAMIC_CLUSTER(OnOff::Id, onOffAttrs, onOffIncomingCommands, nullptr),
-//     DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs, nullptr, nullptr),
-//     DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs2, nullptr,nullptr) 
-// DECLARE_DYNAMIC_CLUSTER_LIST_END;
-// DECLARE_DYNAMIC_ENDPOINT(bridgedLightEndpoint, bridgedLightClusters); 
-//EmberAfEndpointType bridgedLightEndpoint;
-//DataVersion gLight1DataVersions[ArraySize(bridgedLightClusters)]; //ArraySize(bridgedLightClusters) == 3
-//DataVersion gLight2DataVersions[ArraySize(bridgedLightClusters)]; //ArraySize(bridgedLightClusters) == 3
-
-
-// DECLARE_DYNAMIC_CLUSTER_LIST_BEGIN(bridgedDimmableLightClusters)
-//     DECLARE_DYNAMIC_CLUSTER(OnOff::Id, onOffAttrs, onOffIncomingCommands, nullptr),
-//     DECLARE_DYNAMIC_CLUSTER(LevelControl::Id, dimmableAttrs, levelControlIncomingCommands, nullptr),
-//     DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs, nullptr, nullptr),
-//     DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs2, nullptr,nullptr) 
-// DECLARE_DYNAMIC_CLUSTER_LIST_END;
-// DECLARE_DYNAMIC_ENDPOINT(bridgedDimmableLightEndpoint, bridgedDimmableLightClusters); 
-// //extern EmberAfEndpointType bridgedDimmableLightEndpoint;
-// DataVersion gDimmableLight1DataVersions[ArraySize(bridgedDimmableLightClusters)]; 
-
-
-// DECLARE_DYNAMIC_CLUSTER_LIST_BEGIN(bridgedTemperatureLightClusters)
-//     DECLARE_DYNAMIC_CLUSTER(OnOff::Id, onOffAttrs, onOffIncomingCommands, nullptr),
-//     DECLARE_DYNAMIC_CLUSTER(LevelControl::Id, dimmableAttrs, levelControlIncomingCommands, nullptr),
-//     DECLARE_DYNAMIC_CLUSTER(ColorControl::Id, colorControlAttrs , colorControlIncomingCommands, nullptr),
-//     DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs, nullptr, nullptr),
-//     DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs2, nullptr,nullptr) 
-// DECLARE_DYNAMIC_CLUSTER_LIST_END;
-// DECLARE_DYNAMIC_ENDPOINT(bridgedTemperatureLightEndpoint, bridgedTemperatureLightClusters); 
-// //extern EmberAfEndpointType bridgedTemperatureLightEndpoint;
-// DataVersion gColorTemperatureLight1DataVersions[ArraySize(bridgedTemperatureLightClusters)]; 
-
-
-// DeviceOnOff Light1("Light 1", "Office");
-// DeviceOnOff Light2("Light 2", "Office");
-
-//DeviceTempSensor TempSensor1("TempSensor 1", "Office", minMeasuredValue, maxMeasuredValue, initialMeasuredValue);
-//DeviceTempSensor TempSensor2("TempSensor 2", "Office", minMeasuredValue, maxMeasuredValue, initialMeasuredValue);
-
-//DeviceTempSensor ComposedTempSensor1("Composed TempSensor 1", "Bedroom", minMeasuredValue, maxMeasuredValue, initialMeasuredValue);
-//DeviceTempSensor ComposedTempSensor2("Composed TempSensor 2", "Bedroom", minMeasuredValue, maxMeasuredValue, initialMeasuredValue);
-
-// Declare Bridged endpoints used for Action clusters
-// DataVersion gActionLight1DataVersions[ArraySize(bridgedLightClusters)]; //ArraySize(bridgedLightClusters) == 3
-// DataVersion gActionLight2DataVersions[ArraySize(bridgedLightClusters)]; //ArraySize(bridgedLightClusters) == 3
-// DataVersion gActionLight3DataVersions[ArraySize(bridgedLightClusters)]; //ArraySize(bridgedLightClusters) == 3
-// DataVersion gActionLight4DataVersions[ArraySize(bridgedLightClusters)]; //ArraySize(bridgedLightClusters) == 3
-
-// DeviceOnOff ActionLight1("Action Light 1", "Room 1");
-// DeviceOnOff ActionLight2("Action Light 2", "Room 1");
-// DeviceOnOff ActionLight3("Action Light 3", "Room 2");
-// DeviceOnOff ActionLight4("Action Light 4", "Room 2");
 
 Room room1("Room 1", 0xE001, Actions::EndpointListTypeEnum::kRoom, true);
 Room room2("Room 2", 0xE002, Actions::EndpointListTypeEnum::kRoom, true);
@@ -322,67 +269,6 @@ Action action1(0x1001, "Room 1 On", Actions::ActionTypeEnum::kAutomation, 0xE001
 Action action2(0x1002, "Turn On Room 2", Actions::ActionTypeEnum::kAutomation, 0xE002, 0x01, Actions::ActionStateEnum::kInactive,true);
 Action action3(0x1003, "Turn Off Room 1", Actions::ActionTypeEnum::kAutomation, 0xE003, 0x01, Actions::ActionStateEnum::kInactive,false);
 
-// ---------------------------------------------------------------------------
-//
-// POWER SOURCE ENDPOINT: contains the following clusters:
-//   - Power Source
-//   - Descriptor
-//   - Bridged Device Basic Information
-
-// DECLARE_DYNAMIC_ATTRIBUTE_LIST_BEGIN(powerSourceAttrs)
-// DECLARE_DYNAMIC_ATTRIBUTE(PowerSource::Attributes::BatChargeLevel::Id, ENUM8, 1, 0),
-//     DECLARE_DYNAMIC_ATTRIBUTE(PowerSource::Attributes::Order::Id, INT8U, 1, 0),
-//     DECLARE_DYNAMIC_ATTRIBUTE(PowerSource::Attributes::Status::Id, ENUM8, 1, 0),
-//     DECLARE_DYNAMIC_ATTRIBUTE(PowerSource::Attributes::Description::Id, CHAR_STRING, 32, 0), DECLARE_DYNAMIC_ATTRIBUTE_LIST_END();
-
-// DECLARE_DYNAMIC_CLUSTER_LIST_BEGIN(bridgedPowerSourceClusters)
-// DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs, nullptr, nullptr),
-//     DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs2, nullptr, nullptr),
-//     DECLARE_DYNAMIC_CLUSTER(PowerSource::Id, powerSourceAttrs, nullptr, nullptr), DECLARE_DYNAMIC_CLUSTER_LIST_END;
-
-// DECLARE_DYNAMIC_ENDPOINT(bridgedPowerSourceEndpoint, bridgedPowerSourceClusters);
-
-// DECLARE_DYNAMIC_ATTRIBUTE_LIST_BEGIN(tempSensorAttrs)
-// DECLARE_DYNAMIC_ATTRIBUTE(TemperatureMeasurement::Attributes::MeasuredValue::Id, INT16S, 2, 0),        /* Measured Value */
-//     DECLARE_DYNAMIC_ATTRIBUTE(TemperatureMeasurement::Attributes::MinMeasuredValue::Id, INT16S, 2, 0), /* Min Measured Value */
-//     DECLARE_DYNAMIC_ATTRIBUTE(TemperatureMeasurement::Attributes::MaxMeasuredValue::Id, INT16S, 2, 0), /* Max Measured Value */
-//     DECLARE_DYNAMIC_ATTRIBUTE(TemperatureMeasurement::Attributes::FeatureMap::Id, BITMAP32, 4, 0),     /* FeatureMap */
-//     DECLARE_DYNAMIC_ATTRIBUTE_LIST_END();
-
-// // ---------------------------------------------------------------------------
-// //
-// // TEMPERATURE SENSOR ENDPOINT: contains the following clusters:
-// //   - Temperature measurement
-// //   - Descriptor
-// //   - Bridged Device Basic Information
-// DECLARE_DYNAMIC_CLUSTER_LIST_BEGIN(bridgedTempSensorClusters)
-// DECLARE_DYNAMIC_CLUSTER(TemperatureMeasurement::Id, tempSensorAttrs, nullptr, nullptr),
-//     DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs, nullptr, nullptr),
-//     DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs2, nullptr, nullptr),
-//     DECLARE_DYNAMIC_CLUSTER_LIST_END;
-
-// Declare Bridged Light endpoint
-//DECLARE_DYNAMIC_ENDPOINT(bridgedTempSensorEndpoint, bridgedTempSensorClusters);
-//DataVersion gTempSensor1DataVersions[ArraySize(bridgedTempSensorClusters)];
-//DataVersion gTempSensor2DataVersions[ArraySize(bridgedTempSensorClusters)];
-
-// ---------------------------------------------------------------------------
-//
-// COMPOSED DEVICE ENDPOINT: contains the following clusters:
-//   - Descriptor
-//   - Bridged Device Basic Information
-
-// Composed Device Configuration
-//DECLARE_DYNAMIC_CLUSTER_LIST_BEGIN(bridgedComposedDeviceClusters)
-//DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs, nullptr, nullptr),
-    //DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs2, nullptr, nullptr),
-  //  DECLARE_DYNAMIC_CLUSTER_LIST_END;
-
-//DECLARE_DYNAMIC_ENDPOINT(bridgedComposedDeviceEndpoint, bridgedComposedDeviceClusters);
-//DataVersion gComposedDeviceDataVersions[ArraySize(bridgedComposedDeviceClusters)];
-//DataVersion gComposedTempSensor1DataVersions[ArraySize(bridgedTempSensorClusters)];
-//DataVersion gComposedTempSensor2DataVersions[ArraySize(bridgedTempSensorClusters)];
-//DataVersion gComposedPowerSourceDataVersions[ArraySize(bridgedPowerSourceClusters)];
 
 } // namespace
 #endif

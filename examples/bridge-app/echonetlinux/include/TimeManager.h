@@ -1,3 +1,10 @@
+ /*
+ * Author: nmtoan91
+ * Date:   2023-10-02
+ *
+ * Description:
+ * This class supports log time event into file
+ */
 #pragma once
 #ifndef TIMEMANAGER_H
 #define TIMEMANAGER_H

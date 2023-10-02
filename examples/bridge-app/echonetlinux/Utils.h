@@ -1,3 +1,11 @@
+ /*
+ * Author: nmtoan91
+ * Date:   2023-10-02
+ *
+ * Description:
+ * This class store the the struct for the mapping rule
+ */
+ 
 #pragma once
 #ifndef UTILS_H
 #define UTILS_H

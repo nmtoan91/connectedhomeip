@@ -35,7 +35,7 @@ executable("chip-bridge-app") {
     "EchonetSelectModeSupportedModes.cpp",
     "EchonetWindowCoveringDelegate.cpp",
     "EchonetWindowCoveringDelegate_IHouse.cpp",
-    "MatterMetaData.cpp",
+    
     "TimeManager.cpp",
     "Utils.cpp",
     "include/Device.h",

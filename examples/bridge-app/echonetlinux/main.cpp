@@ -123,7 +123,6 @@ int AddDeviceEndpoint(Device * dev, EmberAfEndpointType * ep, const Span<const E
                       const Span<DataVersion> & dataVersionStorage, chip::EndpointId parentEndpointId = chip::kInvalidEndpointId)
 {
     uint16_t index = 0;
-    //printf("\n\n %s \n\n", ep!=NULL?"OK":"FAIL");
     while (index < CHIP_DEVICE_CONFIG_DYNAMIC_ENDPOINT_COUNT)
     {
         if (nullptr == gDevices[index])
@@ -256,7 +255,8 @@ void HandleDeviceStatusChanged(Device * dev, Device::Changed_t itemChangedMask)
     }
 }
 
-
+// For better performance, we use dedicated function for return the bridged information
+// These data only request once when adding the echonetLITE endpoint.
 EmberAfStatus HandleReadBridgedDeviceBasicAttribute(Device * dev, chip::AttributeId attributeId, uint8_t * buffer,
                                                     uint16_t maxReadLength)
 {
@@ -291,24 +291,12 @@ EmberAfStatus HandleReadBridgedDeviceBasicAttribute(Device * dev, chip::Attribut
         EchonetEndpoint* info = (EchonetEndpoint*)(dev->echonetEndpointInfoPointer);
         MutableByteSpan zclNameSpan(buffer, maxReadLength);
         MakeZclCharString(zclNameSpan,ConvertToString(info->GET_properties[Map_MatterAttribute_To_EPC[attributeId]].echonetValue).c_str());
-        // printf("\n\n OOOO len=%d attributeId=%d epc=0x%02x  str=%s\n\n", 
-        // (int)info->GET_properties[Map_MatterAttribute_To_EPC[attributeId]].echonetValue.size(),
-        // attributeId, Map_MatterAttribute_To_EPC[attributeId],
-        // ConvertToString(info->GET_properties[Map_MatterAttribute_To_EPC[attributeId]].echonetValue).c_str());
     }
     else if (attributeId == VendorID::Id || attributeId == PartNumber::Id || attributeId == SerialNumber::Id )
     {
         EchonetEndpoint* info = (EchonetEndpoint*)(dev->echonetEndpointInfoPointer);
        uint32_t val =  ConvertToUnsignedInt(info->GET_properties[Map_MatterAttribute_To_EPC[attributeId]].echonetValue);
-        //printf("\n\n\n\n<< %s %s >>\n\n\n\n", valStr.c_str(), valStr.compare("")==0?"NULL":"NOTNULL");
-     
-        // if(IsAUnsignedIntNumber(valStr))
-        //     val = stoi(valStr);
-        // else
-        //     printf("\nTOANSTT ERROR: Cannot convert \"%s\" to number\n\n", valStr.c_str() );
 
-        //if(val==0) val = 1025;
-        //printf("\n\n\n\n %d \n\n\n\n", val);
         memcpy(buffer, &val, sizeof(val));
         
     }
@@ -327,13 +315,8 @@ EmberAfStatus HandleReadDeviceGeneralAttribute(Device * dev, ClusterId clusterId
     ChipLogProgress(DeviceLayer, "\n HandleReadDeviceGeneralAttribute: device=0x%04x%02x clusterId=%d(0x%02x)   attrId=%d(0x%02x), maxReadLength=%d", echonetEndpoint->echoClassCode, echonetEndpoint->instanceCode, clusterId,clusterId,attributeId,attributeId, maxReadLength);
     
     
-    
-    int ret;
-    //if(echonetEndpoint->type == MatterDeviceEndpointType::WINDOW_COVERING_IHOUSE ||  
-    //echonetEndpoint->type == MatterDeviceEndpointType::MODESELECT_IHOUSE)
-     //ret = echonetEndpoint->ReadProperty_iHouseSwitch(clusterId,attributeId,buffer,maxReadLength );
-    //else 
-    ret = echonetEndpoint->ReadProperty(clusterId,attributeId,buffer,maxReadLength );
+    //Try to read and convert value from echonetLITE endpoint 
+    int ret= echonetEndpoint->ReadProperty(clusterId,attributeId,buffer,maxReadLength );
     
     if(ret != 0 )
     {
@@ -378,12 +361,8 @@ EmberAfStatus HandleWriteDeviceGeneralAttribute(Device * dev,ClusterId clusterId
     
     TimeManager::GetInstance()->RecordTime(TimeRecordType::START_COMMAND_WRITE_FROM_CHIPTOOL, echonetEndpoint->echoClassCode, echonetEndpoint->instanceCode, 0,(unsigned short)clusterId, attributeId,(unsigned int)buffer[0] );
 
-    EmberAfStatus ret;
-    //if(echonetEndpoint->type == MatterDeviceEndpointType::WINDOW_COVERING_IHOUSE ||  
-    //echonetEndpoint->type == MatterDeviceEndpointType::MODESELECT_IHOUSE)
-        //ret = echonetEndpoint->WriteProperty_iHouseSwitch(attributeId,clusterId,NULL,buffer);
-    //else 
-    ret = echonetEndpoint->WriteProperty(attributeId,clusterId,NULL,buffer);
+    //Try to convert and write value to echonetLITE endpoint 
+    EmberAfStatus ret = echonetEndpoint->WriteProperty(attributeId,clusterId,NULL,buffer);
 
     TimeManager::GetInstance()->RecordTime(TimeRecordType::END_COMMAND_WRITE_FROM_CHIPTOOL, echonetEndpoint->echoClassCode, echonetEndpoint->instanceCode, 0,(unsigned short)clusterId, attributeId,(unsigned int)buffer[0] );
     if(ret != 0 )
@@ -402,7 +381,7 @@ EmberAfStatus emberAfExternalAttributeWriteCallback(EndpointId endpoint, Cluster
 
     
 
-    printf("\n\n\n\n\n\nCCCCCCCCCCCCCCCCCCCC emberAfExternalAttributeWriteCallback \n \n\n\n\n\n\n\n");
+    printf("\n emberAfExternalAttributeWriteCallback \n ");
 
     
 
@@ -415,15 +394,7 @@ EmberAfStatus emberAfExternalAttributeWriteCallback(EndpointId endpoint, Cluster
     if (endpointIndex < CHIP_DEVICE_CONFIG_DYNAMIC_ENDPOINT_COUNT)
     {
         Device * dev = gDevices[endpointIndex];
-        
-        // if ((dev->IsReachable()) && (clusterId == ModeSelect::Id))
-        // {
-        //     ret = HandleWriteDeviceModeSelectAttribute(static_cast<DeviceSelectMode *>(dev),clusterId, attributeMetadata->attributeId, buffer);
-        // }
-        // else 
-        {
-            ret = HandleWriteDeviceGeneralAttribute(dev,clusterId, attributeMetadata->attributeId, buffer);
-        }
+        ret = HandleWriteDeviceGeneralAttribute(dev,clusterId, attributeMetadata->attributeId, buffer);
     }
     
     return ret;
@@ -433,7 +404,7 @@ EmberAfStatus emberAfExternalAttributeWriteCallback(EndpointId endpoint, Cluster
 
 void runOnOffRoomAction(Room * room, bool actionOn, EndpointId endpointId, uint16_t actionID, uint32_t invokeID, bool hasInvokeID)
 {
-    printf("\n\n\n\n\n\nCCCCCCCCCCCCCCCCCCCC\n \n\n\n\n\n\n\n");
+    
     if (hasInvokeID)
     {
         Actions::Events::StateChanged::Type event{ actionID, invokeID, Actions::ActionStateEnum::kActive };
@@ -441,8 +412,6 @@ void runOnOffRoomAction(Room * room, bool actionOn, EndpointId endpointId, uint1
         chip::app::LogEvent(event, endpointId, eventNumber);
     }
 
-    // Check and run the action for ActionLight1 - ActionLight4
-    
 
     if (hasInvokeID)
     {
@@ -455,7 +424,6 @@ void runOnOffRoomAction(Room * room, bool actionOn, EndpointId endpointId, uint1
 bool emberAfActionsClusterInstantActionCallback(app::CommandHandler * commandObj, const app::ConcreteCommandPath & commandPath,
                                                 const Actions::Commands::InstantAction::DecodableType & commandData)
 {
-    printf("\n\n\n\n\n\nCCCCCCCCCCCCCCCCCCCC\n \n\n\n\n\n\n\n");
     bool hasInvokeID      = false;
     uint32_t invokeID     = 0;
     EndpointId endpointID = commandPath.mEndpointId;
@@ -546,8 +514,8 @@ bool kbhit()
     return byteswaiting > 0;
 }
 
-const int16_t oneDegree = 100;
 
+// Runtime controlling commands, for reset, show infomation,...
 void * bridge_polling_thread(void * context)
 {
     while (true)
@@ -700,20 +668,21 @@ void * bridge_polling_thread(void * context)
     return nullptr;
 }
 
-
+//Delegate called when a valid echonetLITE endpoint is added
 int OnAEchonetDeviceAdded(EchonetEndpoint *echonetEndpointInfo)
 {
-    
-
     if(echonetEndpointInfo->device!=NULL)
     {
-
         if(echonetEndpointInfo->emberAfEndpointType==NULL) printf("\n\n [WARNING ] emberAfEndpointType is NULL \n\n");
         AddDeviceEndpoint(echonetEndpointInfo->device, echonetEndpointInfo->emberAfEndpointType, echonetEndpointInfo->deviceTypeList ,echonetEndpointInfo->dataVersionStorage, 1);
         uint16_t endpointId = echonetEndpointInfo->device->GetEndpointId();
+
+        //For ModeSelect cluster
         StaticSupportedModesManager::instance.AddEchonetSupportedOptionsByEndpoint(endpointId,echonetEndpointInfo->echonetOptionType );
+
         printf("EchonetEndpoint Added index = %d  optiontype=%d \n",  endpointId,echonetEndpointInfo->echonetOptionType);
 
+        //For window covering, we need call extra Matter delegate when receving comission
         if(echonetEndpointInfo->type == MatterDeviceEndpointType::WINDOW_COVERING)
         {
             EchonetWindowCoveringDelegate* delegate = new EchonetWindowCoveringDelegate(echonetEndpointInfo);
@@ -726,11 +695,7 @@ int OnAEchonetDeviceAdded(EchonetEndpoint *echonetEndpointInfo)
             delegate2->SetEndpoint(endpointId);
             chip::app::Clusters::WindowCovering::SetDefaultDelegate(endpointId,delegate2); 
         }
-        //printf("\n\n\n\n\n\n\n\n\n\n\n\nccccccccccccccccccccccccccccccccccc 2\n\n\n\n");
-
-
-        //SetDefaultDelegate(3,NULL);  
-    } else printf("\n\n\n\n\n\n\n\n\n\n\n\n[ERRROR] ccccccccccccccccccccccccccccccccccc\n\n\n\n");
+    } else printf("[ERRROR]\n");
  
     
     return 0;
@@ -741,9 +706,11 @@ int main(int argc, char * argv[])
 
     TimeManager::GetInstance()->RecordTime(TimeRecordType::APP_START);
 
+    //Initialize EchonetDevicesManager instance
     EchonetDevicesManager::instance = new EchonetDevicesManager();
     EchonetDevicesManager* test1 = EchonetDevicesManager::GetInstance();
     test1->SetCallBackFunctions(&OnAEchonetDeviceAdded);
+    //Start thread to start OpenEchonet
     test1->FindEchonetDevices();
 
     memset(gDevices, 0, sizeof(gDevices));
@@ -771,7 +738,6 @@ int main(int argc, char * argv[])
     gFirstDynamicEndpointId = static_cast<chip::EndpointId>(
         static_cast<int>(emberAfEndpointFromIndex(static_cast<uint16_t>(emberAfFixedEndpointCount() - 1))) + 1);
     gCurrentEndpointId = gFirstDynamicEndpointId;
-    //gCurrentEndpointId = 11;
     emberAfEndpointEnableDisable(emberAfEndpointFromIndex(static_cast<uint16_t>(emberAfFixedEndpointCount() - 1)), false);
 
     

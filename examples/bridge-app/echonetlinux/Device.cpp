@@ -35,11 +35,6 @@ Device::Device(const char * szDeviceName, std::string szLocation)
     mLocation   = szLocation;
     mReachable  = false;
     mEndpointId = 0;
-
-    // vendorName = "NOT_ASSIGNED";
-    // productName = "NOT_ASSIGNED";
-    // softwareVersionString = "NOT_ASSIGNED";
-    // manufacturingDate = "NOT_ASSIGNED";
 }
 
 bool Device::IsReachable()

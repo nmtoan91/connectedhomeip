@@ -1,3 +1,11 @@
+ /*
+ * Author: nmtoan91
+ * Date:   2023-10-02
+ *
+ * Description:
+ * This file defines some tipical rules to convert echonetLITE options into Matter's Mode Select configs.
+ */
+
 #include <app/util/config.h>
 #include <EchonetSelectModeSupportedModes.h>
 
@@ -12,7 +20,6 @@ using ModeOptionStructType = Structs::ModeOptionStruct::Type;
 using SemanticTag          = Structs::SemanticTagStruct::Type;
 template <typename T>
 using List               = app::DataModel::List<T>;
-//using storage_value_type = const ModeOptionStructType;
 namespace {
 Structs::ModeOptionStruct::Type buildModeOptionStruct(const char * label, uint8_t mode,
                                                       const List<const SemanticTag> & semanticTags)
@@ -53,8 +60,6 @@ StaticSupportedModesManager StaticSupportedModesManager::instance = StaticSuppor
 
 SupportedModesManager::ModeOptionsProvider StaticSupportedModesManager::getModeOptionsProvider(EndpointId endpointId) const
 {
-    //printf("\n\n\n\n\n 283974jkh sdkjh\n\n");
-    //for (auto & endpointSpanPair : supportedOptionsByEndpoints)
     for (auto & endpointSpanPair : echonetSupportedOptionsByEndpoint)
     {
         if (endpointSpanPair.mEndpointId == endpointId)
@@ -69,7 +74,6 @@ Status StaticSupportedModesManager::getModeOptionByMode(unsigned short endpointI
                                                         const ModeOptionStructType ** dataPtr) const
 {
     printf("\n\n getModeOptionByMode %d \n\n", endpointId );
-    //return Status::Success; //TODO for toanstt: understand this
     auto modeOptionsProvider = this->getModeOptionsProvider(endpointId);
     if (modeOptionsProvider.begin() == nullptr)
     {

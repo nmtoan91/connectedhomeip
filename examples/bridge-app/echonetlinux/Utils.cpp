@@ -324,10 +324,7 @@ extern int WriteDataToMatterBuffer(uint8_t * buffer, unsigned int val, uint16_t 
     return 0;
 }
 
-// extern std::vector<unsigned char> FastMakeVectorArray(unsigned char value)
-// {
 
-// }
 extern int ConvertToInt(vector<unsigned char> a)
 {
     long ld = a.size();
@@ -415,7 +412,7 @@ extern string ConvertUnsignedValueToHexString(unsigned char a, bool isAddPrefix)
     return s; 
 }
 
-
+//Beautify the log
 extern string GetMatterEndpointTypeName(MatterDeviceEndpointType type)
 {
     switch (type)
@@ -449,6 +446,8 @@ extern string GetMatterEndpointTypeName(MatterDeviceEndpointType type)
     }
     
 }
+
+//Beautify the log
 extern string GetEchonetEndpointTypeName(unsigned short echonetClassCode)
 {
     switch (echonetClassCode)
@@ -485,7 +484,7 @@ extern MatterDeviceEndpointType GetMatterEndpointTypeFromEchonetEndpointCode(voi
 
     std::string address = ep->address;
 
-
+    //Check if the current ip is blacklisted
     for(std::vector<std::pair<std::string,unsigned int>> ::iterator it = blackListEnpoints.begin();
     it!= blackListEnpoints.end(); it++ )
     {
@@ -495,6 +494,7 @@ extern MatterDeviceEndpointType GetMatterEndpointTypeFromEchonetEndpointCode(voi
         return MatterDeviceEndpointType::UNKNOW;
     }
 
+    //Check special endpoints in iHouse
     for(std::vector<std::pair<std::string,unsigned int>> ::iterator it = ihouseListWindowCoverings.begin();
     it!= ihouseListWindowCoverings.end(); it++ )
     {
@@ -502,9 +502,10 @@ extern MatterDeviceEndpointType GetMatterEndpointTypeFromEchonetEndpointCode(voi
             && (((unsigned int)echoClassCode<<8) + echoInstanceCode ) == it->second
         ) 
         return MatterDeviceEndpointType::ONOFF_LIGHT_SWITCH_IHOUSE;
-        //return MatterDeviceEndpointType::WINDOW_COVERING_IHOUSE;
+        
     }
 
+    //Check special endpoints in iHouse
     for(std::vector<std::pair<std::string,unsigned int>> ::iterator it = ihouseListWindows.begin();
     it!= ihouseListWindows.end(); it++ )
     {
@@ -516,7 +517,7 @@ extern MatterDeviceEndpointType GetMatterEndpointTypeFromEchonetEndpointCode(voi
 
 
     
-
+    // Convert EchonetLITE device id to Matter device ID
     switch (echoClassCode)
     {
     case 0x0290: case 0x0291:

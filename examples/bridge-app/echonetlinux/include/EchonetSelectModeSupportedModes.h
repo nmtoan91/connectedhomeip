@@ -31,14 +31,10 @@ namespace app {
 namespace Clusters {
 namespace ModeSelect {
 
-/**
- * This implementation statically defines the options.
- */
 
 class StaticSupportedModesManager : public chip::app::Clusters::ModeSelect::SupportedModesManager
 {
     using ModeOptionStructType = Structs::ModeOptionStruct::Type;
-    //using storage_value_type   = const ModeOptionStructType;
 
     struct EndpointSpanPair
     {
@@ -48,16 +44,12 @@ class StaticSupportedModesManager : public chip::app::Clusters::ModeSelect::Supp
         EndpointSpanPair(const EndpointId aEndpointId, const Span<const ModeOptionStructType> && aSpan) :
             mEndpointId(aEndpointId), mSpan(aSpan)
         {}
-        // EndpointSpanPair(const EndpointId aEndpointId, const Span<const ModeOptionStructType>  aSpan) :
-        //     mEndpointId(aEndpointId), mSpan(aSpan)
-        // {}
         EndpointSpanPair() : mEndpointId(0), mSpan(Span<const ModeOptionStructType>()) {}
     };
 
     static const ModeOptionStructType echonetOpenCloseStopOptions[];
     static const ModeOptionStructType echonetLightColorOptions[];
     static const ModeOptionStructType echonetPowerSavingOptions[];
-    //static const EndpointSpanPair supportedOptionsByEndpoints[EMBER_AF_MODE_SELECT_CLUSTER_SERVER_ENDPOINT_COUNT];
     
 public:
 //toanstt
@@ -76,7 +68,6 @@ public:
     static inline const StaticSupportedModesManager & getStaticSupportedModesManagerInstance() { return instance; }
     //toanstt
     void AddEchonetSupportedOptionsByEndpoint(EndpointId endpointId,EchonetOptionType echonetOptopnType);
-    //void AddEchonetSupportedOptionsByEndpoint(EndpointId endpointId,const vector<ModeSelect::Structs::ModeOptionStruct::Type> selectModeOptions);
     
 
 };

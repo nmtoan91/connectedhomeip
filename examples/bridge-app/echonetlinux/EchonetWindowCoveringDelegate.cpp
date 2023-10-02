@@ -16,23 +16,16 @@ CHIP_ERROR EchonetWindowCoveringDelegate::HandleMovement(WindowCoveringType type
 {
     printf("\n\n\n[[[[[[[[[[[HandleMovement %d p=%d]]]]]]]]]]]]]\n\n\n\n\n\n",(int)type,openPercent);
 
-    
-    
-
     if(openPercent>50)
     {
         echonetEndpoint->SetGET(0xE0, {0x41});
     } else echonetEndpoint->SetGET(0xE0, {0x42});
-
-
-
 
     return CHIP_NO_ERROR; 
 }
 CHIP_ERROR EchonetWindowCoveringDelegate::HandleStopMotion()
 {
     printf("\n\n\n[[[[[[[[[[[HandleStopMotion]]]]]]]]]]]]]\n\n\n\n\n\n");
-    //EchonetEndpoint* echonetEndpoint  = this->echonetEndpoint;
     echonetEndpoint->SetGET(0xE0, {0x43});
 
     return CHIP_NO_ERROR;
