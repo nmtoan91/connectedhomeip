@@ -648,14 +648,14 @@ bool emberAfWindowCoveringClusterUpOrOpenCallback(app::CommandHandler * commandO
     Delegate * delegate = GetDelegate(endpoint);
     if (delegate)
     {
-        if (HasFeature(endpoint, Feature::kPositionAwareLift))
+        if (HasFeature(endpoint, Feature::kPositionAwareLift)||true)
         {
-            LogErrorOnFailure(delegate->HandleMovement(WindowCoveringType::Lift));
+            LogErrorOnFailure(delegate->HandleMovement(WindowCoveringType::Lift,100));
         }
 
-        if (HasFeature(endpoint, Feature::kPositionAwareTilt))
+        if (HasFeature(endpoint, Feature::kPositionAwareTilt)||true)
         {
-            LogErrorOnFailure(delegate->HandleMovement(WindowCoveringType::Tilt));
+            LogErrorOnFailure(delegate->HandleMovement(WindowCoveringType::Tilt,100));
         }
     }
     else
@@ -699,14 +699,14 @@ bool emberAfWindowCoveringClusterDownOrCloseCallback(app::CommandHandler * comma
     Delegate * delegate = GetDelegate(endpoint);
     if (delegate)
     {
-        if (HasFeature(endpoint, Feature::kPositionAwareLift))
+        if (HasFeature(endpoint, Feature::kPositionAwareLift)||true)
         {
-            LogErrorOnFailure(delegate->HandleMovement(WindowCoveringType::Lift));
+            LogErrorOnFailure(delegate->HandleMovement(WindowCoveringType::Lift,0));
         }
 
-        if (HasFeature(endpoint, Feature::kPositionAwareTilt))
+        if (HasFeature(endpoint, Feature::kPositionAwareTilt)||true)
         {
-            LogErrorOnFailure(delegate->HandleMovement(WindowCoveringType::Tilt));
+            LogErrorOnFailure(delegate->HandleMovement(WindowCoveringType::Tilt,0));
         }
     }
     else
@@ -802,7 +802,7 @@ bool emberAfWindowCoveringClusterGoToLiftValueCallback(app::CommandHandler * com
         Delegate * delegate = GetDelegate(endpoint);
         if (delegate)
         {
-            LogErrorOnFailure(delegate->HandleMovement(WindowCoveringType::Lift));
+            LogErrorOnFailure(delegate->HandleMovement(WindowCoveringType::Lift,liftValue));
         }
         else
         {
@@ -846,7 +846,7 @@ bool emberAfWindowCoveringClusterGoToLiftPercentageCallback(app::CommandHandler 
             Delegate * delegate = GetDelegate(endpoint);
             if (delegate)
             {
-                LogErrorOnFailure(delegate->HandleMovement(WindowCoveringType::Lift));
+                LogErrorOnFailure(delegate->HandleMovement(WindowCoveringType::Lift,percent100ths));
             }
             else
             {
@@ -894,7 +894,7 @@ bool emberAfWindowCoveringClusterGoToTiltValueCallback(app::CommandHandler * com
         Delegate * delegate = GetDelegate(endpoint);
         if (delegate)
         {
-            LogErrorOnFailure(delegate->HandleMovement(WindowCoveringType::Tilt));
+            LogErrorOnFailure(delegate->HandleMovement(WindowCoveringType::Tilt,tiltValue));
         }
         else
         {
@@ -938,7 +938,7 @@ bool emberAfWindowCoveringClusterGoToTiltPercentageCallback(app::CommandHandler 
             Delegate * delegate = GetDelegate(endpoint);
             if (delegate)
             {
-                LogErrorOnFailure(delegate->HandleMovement(WindowCoveringType::Tilt));
+                LogErrorOnFailure(delegate->HandleMovement(WindowCoveringType::Tilt,percent100ths));
             }
             else
             {
