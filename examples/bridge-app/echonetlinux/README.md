@@ -1,8 +1,6 @@
-# Important notes from toanstt
-
-1.  Copy zap files in bridge-common project
+# Important notes to sync
+1.  Copy and replace zap files in bridge-common project
 2.  In file src/app/clusters/window-covering-server/window-covering-server.cpp
-
         1. #ifndef EMBER_AF_WINDOW_COVERING_CLUSTER_SERVER_ENDPOINT_COUNT #define
            EMBER_AF_WINDOW_COVERING_CLUSTER_SERVER_ENDPOINT_COUNT (0) #endif
         2. Correct HasFeature() function (bug from the SDK):
@@ -10,7 +8,7 @@
            emberAfWindowCoveringClusterDownOrCloseCallback() if
            (HasFeature(endpoint, Feature::kPositionAwareLift) || true)
 
-            ```cpp
+    ```cpp
                  if (delegate)
             {
              if (HasFeature(endpoint, Feature::kPositionAwareLift)|| true)
@@ -23,8 +21,9 @@
                  LogErrorOnFailure(delegate->HandleMovement(WindowCoveringType::Tilt,100));
              }
             }
-            ```
-            ```cpp
+    ```
+
+    ```cpp
 
     if (delegate) { if (HasFeature(endpoint, Feature::kPositionAwareLift)||
     true) {
@@ -35,7 +34,7 @@
                 LogErrorOnFailure(delegate->HandleMovement(WindowCoveringType::Tilt,0));
             }
         }
-            ```
+    ```
 
 3.  In file src/app/clusters/window-covering-server/window-covering-delegate.h
     add int openPercent variable virtual CHIP_ERROR
@@ -58,11 +57,11 @@
 
 
 
-# Manually edit the zap files
+# Tips to manually edit the zap files
 ## bridge-app.matter
-1. Search for "endpoint 0"
-2. Search for "endpoint 1"
-3. Search for "endpoint 2"
+1. Search for "endpoint 0" in source .matter file,. 
+2. Search for "endpoint 1" in the target .matter file. Put the content under the "endpoint 1" tag.
+Sometime the desired infomation is listed near "endpoint 2".
 ## bridge-app.zap
 1. Search for keyword. For example "Window Covering"
 2. Put it under "endpointTypes.clusters". Note: COPY TWO OF THEM 
