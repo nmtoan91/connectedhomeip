@@ -31,6 +31,7 @@ using namespace chip::app::Clusters;
 using namespace std;
 
 bool STATIC_CONFIG_IS_FAST_COMISSION_WRITE = false;
+bool STATIC_CONFIG_IS_FAST_COMISSION_READ = false;
 
 std::vector<std::pair<std::string,unsigned int>> blackListEnpoints = {
     make_pair("192.168.2.157", 0x05fd02),
@@ -567,6 +568,23 @@ extern MatterDeviceEndpointType GetMatterEndpointTypeFromEchonetEndpointCode(voi
     TimeManager::GetInstance()->RecordTime(TimeRecordType::PROCESSED_AN_ECHONET_ENDPOINT, echoClassCode, ep->instanceCode,0,0,0, (unsigned int) type  );
     return type;
 }
-
+extern int ProceseParameters(int argc, char * argv[])
+{
+    int processedCount =0;
+    for(int i =1; i < argc; i++)
+    {
+        if(strcmp(argv[i],"-fastread")==0)
+        {
+            processedCount++;
+            STATIC_CONFIG_IS_FAST_COMISSION_READ = true;
+        }
+        if(strcmp(argv[i],"-fastwrite")==0)
+        {
+            processedCount++;
+            STATIC_CONFIG_IS_FAST_COMISSION_WRITE = true;
+        }
+    }
+    return processedCount;
+}
 
 #endif

@@ -430,16 +430,19 @@ EmberAfAttributeMetadata* EchonetEndpoint::GenerateBridgedDeviceBasicAttrs(Ember
     currentWaitingPropertyId = apt->echonetPropertyId;
     GetDeviceObject()->get().reqGetProperty(currentWaitingPropertyId).send();
     TimeManager::GetInstance()->RecordTime(TimeRecordType::START_SEND_READ_COMMAND_TO_ECHONET_DEVICE, echoClassCode, instanceCode, apt->echonetPropertyId,(unsigned short)clusterId, attributeId,(unsigned int)buffer[0]);
-    for(int i =0; i < 500; i++)
+    if (STATIC_CONFIG_IS_FAST_COMISSION_READ== false)
     {
-        if(i%50==0)
-        printf("[ReadProperty] Waiting for response (sleeping 50ms) PropertyId=0x%02x \n",currentWaitingPropertyId );
-        if(currentWaitingPropertyId  == 0xFF) 
+        for(int i =0; i < 500; i++)
         {
-            TimeManager::GetInstance()->RecordTime(TimeRecordType::END_SEND_READ_COMMAND_TO_ECHONET_DEVICE, echoClassCode,instanceCode,currentWaitingPropertyId ,eoj_pair.second>>8,eoj_pair.second%256, ConvertToUnsignedInt(this->GET_properties[apt->echonetPropertyId].echonetValue) );
-            break;
+            if(i%50==0)
+            printf("[ReadProperty] Waiting for response (sleeping 50ms) PropertyId=0x%02x \n",currentWaitingPropertyId );
+            if(currentWaitingPropertyId  == 0xFF) 
+            {
+                TimeManager::GetInstance()->RecordTime(TimeRecordType::END_SEND_READ_COMMAND_TO_ECHONET_DEVICE, echoClassCode,instanceCode,currentWaitingPropertyId ,eoj_pair.second>>8,eoj_pair.second%256, ConvertToUnsignedInt(this->GET_properties[apt->echonetPropertyId].echonetValue) );
+                break;
+            }
+            usleep(10 * 1000); //sleep 10 miliseconds
         }
-        usleep(10 * 1000); //sleep 10 miliseconds
     }
 
     

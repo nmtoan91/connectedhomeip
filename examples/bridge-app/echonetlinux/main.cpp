@@ -715,6 +715,14 @@ int main(int argc, char * argv[])
 
     memset(gDevices, 0, sizeof(gDevices));
 
+    printf("\n\n %d \n\n",argc);
+
+
+    
+    ProceseParameters(argc, argv);
+    argc =1;
+    argv[argc] = NULL;
+
 
     if (ChipLinuxAppInit(argc, argv) != 0)
     {

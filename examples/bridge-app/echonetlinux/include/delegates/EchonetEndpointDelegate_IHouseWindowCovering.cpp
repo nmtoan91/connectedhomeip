@@ -22,15 +22,18 @@ int EchonetEndpointDelegate_IHouseWindowCovering::ReadProperty(chip::ClusterId c
     if(device_ == nullptr) return 1;
 
     device_->get().reqGetProperty(ep->currentWaitingPropertyId).send();
-    for(int i =0; i < 500; i++)
+    if (STATIC_CONFIG_IS_FAST_COMISSION_READ== false)
     {
-        if(i%50==0)
-        printf("[ReadProperty ihouse] Waiting for response 0x%02x (sleeping 50ms)\n",ep->currentWaitingPropertyId);
-        if(ep->currentWaitingPropertyId  == 0xFF) 
+        for(int i =0; i < 500; i++)
         {
-            break;
+            if(i%50==0)
+            printf("[ReadProperty ihouse] Waiting for response 0x%02x (sleeping 50ms)\n",ep->currentWaitingPropertyId);
+            if(ep->currentWaitingPropertyId  == 0xFF) 
+            {
+                break;
+            }
+            usleep(10 * 1000); 
         }
-        usleep(10 * 1000); 
     }
     vector<unsigned char> echonetValue = ep->GET_properties[0x80].echonetValue;
     if(echonetValue.size()>0)

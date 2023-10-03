@@ -19,6 +19,8 @@
 //#include "EchonetEndpoint.h"
 using namespace std;
 extern bool STATIC_CONFIG_IS_FAST_COMISSION_WRITE;
+extern bool STATIC_CONFIG_IS_FAST_COMISSION_READ;
+
 extern map<unsigned char, string>   Map_ZCL_DATA_TYPE_TO_NAME;
 extern map<unsigned char, uint32_t>   Map_EPC_To_MatterAttribute; // econet property code
 extern map<uint32_t,unsigned char>   Map_MatterAttribute_To_EPC ;
@@ -116,4 +118,5 @@ extern string ConvertUnsignedValueToHexString(unsigned short a, bool isAddPrefix
 extern string ConvertUnsignedValueToHexString(unsigned char a, bool isAddPrefix= true);
 extern string GetMatterEndpointTypeName(MatterDeviceEndpointType type);
 extern string GetEchonetEndpointTypeName(unsigned short echonetClassCode);
+extern int ProceseParameters(int argc, char * argv[]);
 #endif
