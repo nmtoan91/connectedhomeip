@@ -72,7 +72,7 @@ class EchonetEndpoint
         map<unsigned char,PropertyValues> GET_properties; 
         map<unsigned char,PropertyValues> SET_properties;
         map<unsigned char,PropertyValues> INF_properties;
-
+        vector<unsigned char> intervalRequestingGETproperties;
         map<pair<chip::ClusterId,chip::AttributeId>,AttributePropertyAdapter*> attributePropertyAdapters; 
         EchonetEndpointDelegate* delegate;
 
@@ -89,9 +89,12 @@ class EchonetEndpoint
         vector<unsigned char> GetGET(unsigned char epc)     {    return GET_properties[epc].echonetValue;    };  
         virtual EmberAfStatus SetGET(unsigned char epc, vector<unsigned char> value);
         EmberAfAttributeMetadata* GenerateBridgedDeviceBasicAttrs(EmberAfAttributeMetadata* onOffAttrs, EmberAfAttributeMetadata* descriptorAttrs, const unsigned int* onOffIncomingCommands);
+        void RequestGETPropertyData_Asynchronous(unsigned char epc);
+        void RequestGETPropertiesData_Asynchronous(); 
         virtual int ReadProperty(chip::ClusterId clusterId,chip::AttributeId attributeId, uint8_t * buffer, uint16_t maxReadLength);
         virtual EmberAfStatus WriteProperty(chip::AttributeId attributeId, ClusterId clusterId, const EmberAfAttributeMetadata * attributeMetadata,uint8_t * buffer); 
 
+        AttributePropertyAdapter* CreateDeviceEchonetAdapter(chip::ClusterId matterClusterId_,  chip::AttributeId matterAttributeId_,unsigned char echonetPropertyId_,       uint16_t matterDataType_ = ZAP_TYPE(INT8U),uint16_t matterDataLength_=1, uint16_t echonetDataType_ =ZAP_TYPE(INT8U), uint16_t echonetDataLength_=1);
         //Preset rules
         AttributePropertyAdapter* AddPresetEchonetAdapter_OnOff(unsigned char echoId=0x80);
         AttributePropertyAdapter* AddPresetEchonetAdapter_LevelControl(unsigned char echoId=0xB0,float scale=2.54f);

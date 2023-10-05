@@ -11,6 +11,14 @@ The project was based on the project example/bridge-app/linux
     make
 ```
 
+# Parameters
+| Parameter | Description |
+| --- | --- |
+| -asyncread | Asynchronous read |
+| -asyncwrite | Asynchronous write |
+| -get_interval <t> | Set get interval time <t>; Disable by setting <t> =0 |
+
+
 # Runtime commands
 | Command | Description |
 | --- | --- |
@@ -22,6 +30,7 @@ The project was based on the project example/bridge-app/linux
 | h | Show echonetLITE endpoints|
 | j | Show mapped addresses|
 | j | Show add addresses|
+| c | Show current configs|
 
 
 

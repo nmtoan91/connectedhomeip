@@ -22,7 +22,7 @@ int EchonetEndpointDelegate_IHouseWindowCovering::ReadProperty(chip::ClusterId c
     if(device_ == nullptr) return 1;
 
     device_->get().reqGetProperty(ep->currentWaitingPropertyId).send();
-    if (STATIC_CONFIG_IS_FAST_COMISSION_READ== false)
+    if (STATIC_CONFIG_IS_ASNCHRONOUS_COMISSION_READ== false)
     {
         for(int i =0; i < 500; i++)
         {
@@ -81,7 +81,7 @@ EmberAfStatus EchonetEndpointDelegate_IHouseWindowCovering::SetGET(unsigned char
     ep->currentWaitingTID = eFrame.getTID();
     TimeManager::GetInstance()->RecordTime(TimeRecordType::START_SEND_WRITE_COMMAND_TO_ECHONET_DEVICE, ep->echoClassCode,ep->instanceCode,epc ,ep->eoj_pair.second>>8,ep->eoj_pair.second%256, ConvertToUnsignedInt(value) );
 
-    if (STATIC_CONFIG_IS_FAST_COMISSION_WRITE== false)
+    if (STATIC_CONFIG_IS_ASNCHRONOUS_COMISSION_WRITE== false)
     {
         for(int i =0; i < 500; i++)
         {

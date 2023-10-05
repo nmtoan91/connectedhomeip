@@ -37,6 +37,8 @@ class AttributePropertyAdapter {
         echonetDataType = echonetDataType_;
         echonetDataLength = echonetDataLength_;
 
+        
+
     };
     void SetDefaultValue(const char* str)
     {

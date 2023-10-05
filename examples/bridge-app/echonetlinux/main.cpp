@@ -657,6 +657,14 @@ void * bridge_polling_thread(void * context)
                 printf("=========nNode=%d nDevices=%d nMapped=%d nSkipped=%d =========================================\n\n",(int)nodes.size(),countechoDevices,nMapped,nSkipped);
 
             }
+            else if(ch == 'c')
+            {
+                printf("\n\n============Current configs============\n");
+                printf("ASNCHRONOUS_COMISSION_WRITE\t\t: %s\n",STATIC_CONFIG_IS_ASNCHRONOUS_COMISSION_WRITE==true?"TRUE":"FALSE"  );
+                printf("ASNCHRONOUS_COMISSION_READ\t\t: %s\n",STATIC_CONFIG_IS_ASNCHRONOUS_COMISSION_READ==true?"TRUE":"FALSE"  );
+                printf("REQUEST_GET_INTERVAL\t\t: %d\n",STATIC_CONFIG_REQUEST_GET_INTERVAL  );
+                printf("=======================================\n\n");
+            }
             continue;
         }
 
@@ -703,15 +711,19 @@ int OnAEchonetDeviceAdded(EchonetEndpoint *echonetEndpointInfo)
 
 int main(int argc, char * argv[])
 {
+    ProceseParameters(argc, argv);
+    argc =1;
+    argv[argc] = NULL;
+
 
     TimeManager::GetInstance()->RecordTime(TimeRecordType::APP_START);
 
     //Initialize EchonetDevicesManager instance
     EchonetDevicesManager::instance = new EchonetDevicesManager();
-    EchonetDevicesManager* test1 = EchonetDevicesManager::GetInstance();
-    test1->SetCallBackFunctions(&OnAEchonetDeviceAdded);
+    EchonetDevicesManager* manager = EchonetDevicesManager::GetInstance();
+    manager->SetCallBackFunctions(&OnAEchonetDeviceAdded);
     //Start thread to start OpenEchonet
-    test1->FindEchonetDevices();
+    manager->FindEchonetDevices();
 
     memset(gDevices, 0, sizeof(gDevices));
 
@@ -719,9 +731,7 @@ int main(int argc, char * argv[])
 
 
     
-    ProceseParameters(argc, argv);
-    argc =1;
-    argv[argc] = NULL;
+    
 
 
     if (ChipLinuxAppInit(argc, argv) != 0)

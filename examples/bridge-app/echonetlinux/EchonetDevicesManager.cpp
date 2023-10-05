@@ -38,14 +38,33 @@ void * FindEchonetDevices_Thread(void * context)
     //Start openechonet
 	Echo::start(profile, devices);
 
-	while(true) {
-        //Interval request all avaible echonetLITE endpoints.
-		NodeProfile::Getter(NodeProfile::ECHO_CLASS_CODE
-				, NodeProfile::INSTANCE_CODE
-				, EchoSocket::MULTICAST_ADDRESS).reqGetSelfNodeInstanceListS().send();
+    int threadholdRequestAllDevices = 10000;
+    int threadholdRequestGetData = STATIC_CONFIG_REQUEST_GET_INTERVAL;
+    int commutativeRequestAllDevices =0;
+    int commutativeGetData =0;
 
-        printf("[TOANSTT] Requesting NodeInstanceListS \n\n");
-		sleep(10000);
+    NodeProfile::Getter(NodeProfile::ECHO_CLASS_CODE, NodeProfile::INSTANCE_CODE, EchoSocket::MULTICAST_ADDRESS).reqGetSelfNodeInstanceListS().send();
+    //test only
+    //threadholdRequestGetData = 3;
+
+	while(true) {
+		sleep(1);
+        commutativeRequestAllDevices+=1;
+        commutativeGetData+=1;
+        if(commutativeRequestAllDevices>=threadholdRequestAllDevices)
+        {
+            printf("Triggering request all EchonetLITE node instance list \n");
+            commutativeRequestAllDevices=0;
+            NodeProfile::Getter(NodeProfile::ECHO_CLASS_CODE, NodeProfile::INSTANCE_CODE, EchoSocket::MULTICAST_ADDRESS).reqGetSelfNodeInstanceListS().send();
+        }
+        if(threadholdRequestGetData > 0 && commutativeGetData>=threadholdRequestGetData )
+        {
+            commutativeGetData=0;
+            printf("Triggering Interval request data from EchonetLITE devices\n");
+            manager->ProactiveIntervalRequestDataFromEchonetDevices();
+
+        }
+
 	}
     manager->PrintDevicesSummary();
     
@@ -320,6 +339,14 @@ void EchonetDevicesManager::PrintEchonetDevicesSummary()
     }
     printf("===========================================\n");
 }
-
+void EchonetDevicesManager::ProactiveIntervalRequestDataFromEchonetDevices()
+{
+    map<pair<string,unsigned int>, EchonetEndpoint*>::iterator it;
+    for (it = endpoints.begin(); it != endpoints.end(); it++)
+    {
+        EchonetEndpoint* echonetEndpoint = it->second;
+        echonetEndpoint->RequestGETPropertiesData_Asynchronous();
+    }
+}
 
 #endif

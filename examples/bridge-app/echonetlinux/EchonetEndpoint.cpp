@@ -46,10 +46,12 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
     {
     case  MatterDeviceEndpointType::ONOFF_LIGHT:
         this->device = new DeviceEchonetAdapter(("LIGHT " + this->GetName()).c_str(),"myroom");
-        
         this->emberAfEndpointType = &bridgedLightEndpoint_;
         this->deviceTypeList = Span<const EmberAfDeviceType>(gBridgedOnOffDeviceTypes_);
         this->dataVersionStorage = Span<DataVersion>(gLightDataVersions_);
+        //intervalRequestingGETproperties.push_back(0x80);
+
+        //intervalRequestingGETproperties.insert(intervalRequestingGETproperties.end(), { 0x80 });
         AddPresetEchonetAdapter_OnOff();
         break;
     case  MatterDeviceEndpointType::ONOFF_LIGHT_SWITCH:
@@ -91,7 +93,7 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         this->deviceTypeList = Span<const EmberAfDeviceType>(gBridgedTempSensorDeviceTypes_);
         this->dataVersionStorage = Span<DataVersion>(gTempSensorDataVersions_);
 
-        apt = new AttributePropertyAdapter(TemperatureMeasurement::Id,TemperatureMeasurement::Attributes::MeasuredValue::Id,0xE0,
+        apt = CreateDeviceEchonetAdapter(TemperatureMeasurement::Id,TemperatureMeasurement::Attributes::MeasuredValue::Id,0xE0,
         ZAP_TYPE(INT16S), 2,ZAP_TYPE(INT16S) );
 
         if(this->type == MatterDeviceEndpointType::TEMPERATURE_SENSOR)
@@ -106,7 +108,7 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         this->deviceTypeList = Span<const EmberAfDeviceType>(gBridgedIlluminanceSensorDeviceTypes_);
         this->dataVersionStorage = Span<DataVersion>(gIlluminanceSensorDataVersions_);
 
-        apt = new AttributePropertyAdapter(IlluminanceMeasurement::Id,IlluminanceMeasurement::Attributes::MeasuredValue::Id,0xE0,
+        apt = CreateDeviceEchonetAdapter(IlluminanceMeasurement::Id,IlluminanceMeasurement::Attributes::MeasuredValue::Id,0xE0,
         ZAP_TYPE(INT16U), 2,ZAP_TYPE(INT16U ),2);
         this->attributePropertyAdapters.insert({make_pair(IlluminanceMeasurement::Id,apt->matterAttributeId),apt} );
 
@@ -119,7 +121,7 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         this->deviceTypeList = Span<const EmberAfDeviceType>(gBridgedHumiditySensorDeviceTypes_);
         this->dataVersionStorage = Span<DataVersion>(gHumiditySensorDataVersions_);
 
-        apt = new AttributePropertyAdapter(RelativeHumidityMeasurement::Id,RelativeHumidityMeasurement::Attributes::MeasuredValue::Id,0xE0,
+        apt = CreateDeviceEchonetAdapter(RelativeHumidityMeasurement::Id,RelativeHumidityMeasurement::Attributes::MeasuredValue::Id,0xE0,
         ZAP_TYPE(INT8U), 1,ZAP_TYPE(INT8U ));
         apt->valueMultiplierForEchonetValue = 10;
         this->attributePropertyAdapters.insert({make_pair(apt->matterClusterId,apt->matterAttributeId),apt} );
@@ -132,7 +134,7 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         this->dataVersionStorage = Span<DataVersion>(gFlowSensorDataVersions_);
 
         //toanstt: quick fix 
-        apt = new AttributePropertyAdapter(FlowMeasurement::Id,FlowMeasurement::Attributes::MeasuredValue::Id,0xE2,
+        apt = CreateDeviceEchonetAdapter(FlowMeasurement::Id,FlowMeasurement::Attributes::MeasuredValue::Id,0xE2,
         ZAP_TYPE(INT16U), 2,ZAP_TYPE(INT32U ), 4);
         this->attributePropertyAdapters.insert({make_pair(apt->matterClusterId,apt->matterAttributeId),apt} );
         break;
@@ -143,7 +145,7 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         this->deviceTypeList = Span<const EmberAfDeviceType>(gBridgedFlowElectricSensorDeviceTypes_);
         this->dataVersionStorage = Span<DataVersion>(gFlowSensorElectricDataVersions_);
 
-        apt = new AttributePropertyAdapter(FlowMeasurement::Id,FlowMeasurement::Attributes::MeasuredValue::Id,0xE0,
+        apt = CreateDeviceEchonetAdapter(FlowMeasurement::Id,FlowMeasurement::Attributes::MeasuredValue::Id,0xE0,
         ZAP_TYPE(INT16U), 2,ZAP_TYPE(INT32U ), 4);
         apt->valueMultiplierForEchonetValue = 0.001f;
         this->attributePropertyAdapters.insert({make_pair(apt->matterClusterId,apt->matterAttributeId),apt} );
@@ -157,7 +159,7 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         this->deviceTypeList = Span<const EmberAfDeviceType>(gBridgedPressureBatterySensorDeviceTypes_);
         this->dataVersionStorage = Span<DataVersion>(gPressureBatterySensorDataVersions_);
 
-        apt = new AttributePropertyAdapter(PressureMeasurement::Id,PressureMeasurement::Attributes::MeasuredValue::Id,0xA2,
+        apt = CreateDeviceEchonetAdapter(PressureMeasurement::Id,PressureMeasurement::Attributes::MeasuredValue::Id,0xA2,
         ZAP_TYPE(INT16S), 2,ZAP_TYPE(INT32U ), 4);
         this->attributePropertyAdapters.insert({make_pair(apt->matterClusterId,apt->matterAttributeId),apt} );
 
@@ -170,7 +172,7 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         this->deviceTypeList = Span<const EmberAfDeviceType>(gBridgedOccupancyDeviceTypes_);
         this->dataVersionStorage = Span<DataVersion>(gOccupancySensorDataVersions_);
 
-        apt = new AttributePropertyAdapter(OccupancySensing::Id,OccupancySensing::Attributes::Occupancy::Id,0xB1,
+        apt = CreateDeviceEchonetAdapter(OccupancySensing::Id,OccupancySensing::Attributes::Occupancy::Id,0xB1,
         ZAP_TYPE(BITMAP8), 1, ZAP_TYPE(ENUM8),1 );
 
         apt->AddPairOfmapValue({0x41},{1}); 
@@ -188,7 +190,7 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         this->deviceTypeList = Span<const EmberAfDeviceType>(gBridgedOccupancyDeviceTypes_);
         this->dataVersionStorage = Span<DataVersion>(gOccupancySensorDataVersions_);
 
-        apt = new AttributePropertyAdapter(OccupancySensing::Id,OccupancySensing::Attributes::Occupancy::Id,0xB1,
+        apt = CreateDeviceEchonetAdapter(OccupancySensing::Id,OccupancySensing::Attributes::Occupancy::Id,0xB1,
         ZAP_TYPE(BITMAP8), 1, ZAP_TYPE(ENUM8) );
         this->attributePropertyAdapters.insert({make_pair(OccupancySensing::Id,apt->matterAttributeId),apt} );
 
@@ -203,7 +205,7 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         AddPresetEchonetAdapter_ModeSelect_Description("WINDOW COVERING mode select");
         AddPresetEchonetAdapter_ModeSelect();
 
-        apt = new AttributePropertyAdapter(WindowCovering::Id,WindowCovering::Attributes::CurrentPositionLift::Id ,0xE0, 
+        apt = CreateDeviceEchonetAdapter(WindowCovering::Id,WindowCovering::Attributes::CurrentPositionLift::Id ,0xE0, 
         ZAP_TYPE(INT8U), 1, ZAP_TYPE(INT8U));
         apt->AddPairOfmapValue({0x41},{100}); 
         apt->AddPairOfmapValue({0x42},{0}); 
@@ -220,7 +222,7 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         AddPresetEchonetAdapter_ModeSelect_Description("WINDOW COVERING mode select");
         AddPresetEchonetAdapter_ModeSelect();
 
-        apt = new AttributePropertyAdapter(WindowCovering::Id,WindowCovering::Attributes::CurrentPositionLift::Id ,0xE0, 
+        apt = CreateDeviceEchonetAdapter(WindowCovering::Id,WindowCovering::Attributes::CurrentPositionLift::Id ,0xE0, 
         ZAP_TYPE(INT8U), 1, ZAP_TYPE(INT8U));
         apt->AddPairOfmapValue({0x41},{100}); 
         apt->AddPairOfmapValue({0x42},{0}); 
@@ -266,7 +268,7 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         this->dataVersionStorage = Span<DataVersion>(heatingColingDataVersions_);
 
         AddPresetEchonetAdapter_OnOff();
-        apt = new AttributePropertyAdapter(Thermostat::Id,Thermostat::Attributes::SystemMode::Id ,0xB0, 
+        apt = CreateDeviceEchonetAdapter(Thermostat::Id,Thermostat::Attributes::SystemMode::Id ,0xB0, 
         ZAP_TYPE(INT8U), 1, ZAP_TYPE(INT8U));
         apt->AddPairOfmapValue({0x40},{9}); //Other -> Sleep
         apt->AddPairOfmapValue({0x41},{1}); //auto
@@ -285,14 +287,14 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
 
 
         //Measured value of roomtemperature <==> LocalTemperature (Matter)
-        apt = new AttributePropertyAdapter(Thermostat::Id,Thermostat::Attributes::LocalTemperature::Id  ,0xBB,
+        apt = CreateDeviceEchonetAdapter(Thermostat::Id,Thermostat::Attributes::LocalTemperature::Id  ,0xBB,
         ZAP_TYPE(INT16S), 2, ZAP_TYPE(INT8S),1);
         apt->valueMultiplierForEchonetValue = 100.0f; 
         this->attributePropertyAdapters.insert({make_pair(apt->matterClusterId,apt->matterAttributeId),apt} );
 
 
         //Measured outdoor air temperature <==> OutdoorTemperature (Matter)
-        apt = new AttributePropertyAdapter(Thermostat::Id,Thermostat::Attributes::OutdoorTemperature::Id  ,0xBE,
+        apt = CreateDeviceEchonetAdapter(Thermostat::Id,Thermostat::Attributes::OutdoorTemperature::Id  ,0xBE,
         ZAP_TYPE(INT16S), 2, ZAP_TYPE(INT8S),1);
         apt->valueMultiplierForEchonetValue = 100.0f; 
         this->attributePropertyAdapters.insert({make_pair(apt->matterClusterId,apt->matterAttributeId),apt} );
@@ -303,7 +305,7 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         AddPresetEchonetAdapter_LevelControl(0xB3, 1);
 
         //Fan control
-        apt = new AttributePropertyAdapter(FanControl::Id,FanControl::Attributes::FanMode::Id  ,0xA0,
+        apt = CreateDeviceEchonetAdapter(FanControl::Id,FanControl::Attributes::FanMode::Id  ,0xA0,
         ZAP_TYPE(ENUM8), 1, ZAP_TYPE(ENUM8),1);
         apt->AddPairOfmapValue({0x41},{5});
         apt->AddPairOfmapValue({0x31},{0});
@@ -322,7 +324,7 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
 
 
         //Fan contorl percent setting
-        apt = new AttributePropertyAdapter(FanControl::Id,FanControl::Attributes::PercentSetting::Id  ,0xEE,
+        apt = CreateDeviceEchonetAdapter(FanControl::Id,FanControl::Attributes::PercentSetting::Id  ,0xEE,
         ZAP_TYPE(ENUM8), 1, ZAP_TYPE(ENUM8),1);
  
         apt->defaultValue = (uint8_t *)malloc(1);
@@ -375,7 +377,7 @@ EmberAfAttributeMetadata* EchonetEndpoint::GenerateBridgedDeviceBasicAttrs(Ember
     currentWaitingTID = eFrame.getTID();
     TimeManager::GetInstance()->RecordTime(TimeRecordType::START_SEND_WRITE_COMMAND_TO_ECHONET_DEVICE, echoClassCode,instanceCode,epc ,eoj_pair.second>>8,eoj_pair.second%256, ConvertToUnsignedInt(value) );
 
-    if (STATIC_CONFIG_IS_FAST_COMISSION_WRITE== false)
+    if (STATIC_CONFIG_IS_ASNCHRONOUS_COMISSION_WRITE== false)
     {
         for(int i =0; i < 500; i++)
         {
@@ -391,6 +393,31 @@ EmberAfAttributeMetadata* EchonetEndpoint::GenerateBridgedDeviceBasicAttrs(Ember
     
     GET_properties[epc].echonetValue = value;
     return errorCode;
+ }
+void EchonetEndpoint::RequestGETPropertiesData_Asynchronous()
+{
+    //RequestGETPropertyData_Asynchronous(0x80);
+
+    auto setter = GetDeviceObject()->get();
+    //map<unsigned char,PropertyValues>::iterator it;
+    //for (it = SET_properties.begin(); it != SET_properties.end(); it++)
+    
+    // {
+    //     printf("bb %d \n", it->first);
+    //     setter.reqGetProperty(it->first);
+    // }
+    for(vector<unsigned char>::iterator iter = intervalRequestingGETproperties.begin(); iter < intervalRequestingGETproperties.end(); iter++)
+    {
+        setter.reqGetProperty(*iter);
+    }
+    setter.send();
+    
+}
+ void EchonetEndpoint::RequestGETPropertyData_Asynchronous(unsigned char epc)
+ {
+    GetDeviceObject()->get().reqGetProperty(epc).send();
+
+
  }
  int EchonetEndpoint::ReadProperty(chip::ClusterId clusterId,chip::AttributeId attributeId, uint8_t * buffer, uint16_t maxReadLength)
  {
@@ -430,7 +457,7 @@ EmberAfAttributeMetadata* EchonetEndpoint::GenerateBridgedDeviceBasicAttrs(Ember
     currentWaitingPropertyId = apt->echonetPropertyId;
     GetDeviceObject()->get().reqGetProperty(currentWaitingPropertyId).send();
     TimeManager::GetInstance()->RecordTime(TimeRecordType::START_SEND_READ_COMMAND_TO_ECHONET_DEVICE, echoClassCode, instanceCode, apt->echonetPropertyId,(unsigned short)clusterId, attributeId,(unsigned int)buffer[0]);
-    if (STATIC_CONFIG_IS_FAST_COMISSION_READ== false)
+    if (STATIC_CONFIG_IS_ASNCHRONOUS_COMISSION_READ== false)
     {
         for(int i =0; i < 500; i++)
         {
@@ -654,7 +681,19 @@ EmberAfAttributeMetadata* EchonetEndpoint::GenerateBridgedDeviceBasicAttrs(Ember
     return EMBER_ZCL_STATUS_SUCCESS;
  }
 
-
+AttributePropertyAdapter* EchonetEndpoint::CreateDeviceEchonetAdapter(
+    chip::ClusterId matterClusterId_,
+  chip::AttributeId matterAttributeId_,
+  unsigned char echonetPropertyId_,       
+  uint16_t matterDataType_ ,
+  uint16_t matterDataLength_, 
+  uint16_t echonetDataType_ , 
+  uint16_t echonetDataLength_)
+{
+    AttributePropertyAdapter* apt = new AttributePropertyAdapter(matterClusterId_,matterAttributeId_,echonetPropertyId_,matterDataType_,matterDataLength_,echonetDataType_,echonetDataLength_);
+    intervalRequestingGETproperties.push_back(echonetPropertyId_);
+    return apt;
+}
 Structs::ModeOptionStruct::Type toanBuildModeOptionStruct(const char * label, uint8_t mode,
                                                       const List<const Structs::SemanticTagStruct::Type> & semanticTags)
 {
@@ -667,34 +706,41 @@ Structs::ModeOptionStruct::Type toanBuildModeOptionStruct(const char * label, ui
 
 AttributePropertyAdapter* EchonetEndpoint::AddPresetEchonetAdapter_OnOff(unsigned char echoId)
 {
-    AttributePropertyAdapter*apt = new AttributePropertyAdapter(OnOff::Id,OnOff::Attributes::OnOff::Id,echoId,
+    
+    AttributePropertyAdapter*apt = CreateDeviceEchonetAdapter(OnOff::Id,OnOff::Attributes::OnOff::Id,echoId,
     ZAP_TYPE(BOOLEAN), 1,ZAP_TYPE(INT8U) );
     apt->mapValueEchonet2Matter.insert({{0x30},{1}});
     apt->mapValueEchonet2Matter.insert({{0x31},{0}});
     apt->mapValueMatter2Echonet.insert({{1},{0x30}});
     apt->mapValueMatter2Echonet.insert({{0},{0x31}});
     this->attributePropertyAdapters.insert({make_pair(OnOff::Id,apt->matterAttributeId),apt} );
+
+    //intervalRequestingGETproperties.push_back(echoId);
     return apt;
 }
 AttributePropertyAdapter* EchonetEndpoint::AddPresetEchonetAdapter_LevelControl(unsigned char echoId,float scale)
 {
-    AttributePropertyAdapter*apt = new AttributePropertyAdapter(LevelControl::Id,LevelControl::Attributes::CurrentLevel::Id,echoId,
+    AttributePropertyAdapter*apt = CreateDeviceEchonetAdapter(LevelControl::Id,LevelControl::Attributes::CurrentLevel::Id,echoId,
     ZAP_TYPE(INT8U), 1,ZAP_TYPE(INT8U ),1);
     apt->valueMultiplierForEchonetValue =scale;
     this->attributePropertyAdapters.insert({make_pair(LevelControl::Id,apt->matterAttributeId),apt} );
+
+    //intervalRequestingGETproperties.push_back(echoId);
     return apt;
 }
 AttributePropertyAdapter* EchonetEndpoint::AddPresetEchonetAdapter_ModeSelect(unsigned char echoId,EchonetOptionType presetOptionTypes)
 {
-    AttributePropertyAdapter*apt = new AttributePropertyAdapter(ModeSelect::Id,ModeSelect::Attributes::CurrentMode::Id,echoId,
+    AttributePropertyAdapter*apt = CreateDeviceEchonetAdapter(ModeSelect::Id,ModeSelect::Attributes::CurrentMode::Id,echoId,
     ZAP_TYPE(INT8U), 1,ZAP_TYPE(ENUM8) );
     this->attributePropertyAdapters.insert({make_pair(ModeSelect::Id,apt->matterAttributeId),apt} );
     this->echonetOptionType = presetOptionTypes;
+
+    //intervalRequestingGETproperties.push_back(echoId);
     return apt;
 }
 AttributePropertyAdapter* EchonetEndpoint::AddPresetEchonetAdapter_ModeSelect_Description(const char* description)
 {
-    AttributePropertyAdapter*apt = new AttributePropertyAdapter(ModeSelect::Id, ModeSelect::Attributes::Description::Id,0xFF);
+    AttributePropertyAdapter*apt = CreateDeviceEchonetAdapter(ModeSelect::Id, ModeSelect::Attributes::Description::Id,0xFF);
     apt ->SetDefaultValue(description);
     this->attributePropertyAdapters.insert({make_pair(ModeSelect::Id,apt->matterAttributeId),apt} );
     return apt;

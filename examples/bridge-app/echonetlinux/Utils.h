@@ -18,8 +18,9 @@
 #include <map>
 //#include "EchonetEndpoint.h"
 using namespace std;
-extern bool STATIC_CONFIG_IS_FAST_COMISSION_WRITE;
-extern bool STATIC_CONFIG_IS_FAST_COMISSION_READ;
+extern bool STATIC_CONFIG_IS_ASNCHRONOUS_COMISSION_WRITE;
+extern bool STATIC_CONFIG_IS_ASNCHRONOUS_COMISSION_READ;
+extern int STATIC_CONFIG_REQUEST_GET_INTERVAL;
 
 extern map<unsigned char, string>   Map_ZCL_DATA_TYPE_TO_NAME;
 extern map<unsigned char, uint32_t>   Map_EPC_To_MatterAttribute; // econet property code

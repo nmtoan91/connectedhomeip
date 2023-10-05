@@ -215,6 +215,7 @@ class EchonetDevicesManager
 		void RemoveAnEchonetEndpoint(EchonetEndpoint* e);
 		void WriteAllAdapterInfoToTextFile(string filaname="out/0_adapters.json");
 		void PrintEchonetDevicesSummary();
+		void ProactiveIntervalRequestDataFromEchonetDevices();
 };
 
 
