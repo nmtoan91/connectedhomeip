@@ -51,7 +51,7 @@ public:
     // unsigned int partNumber;
     // unsigned int serialNumber;
 //end toanstt
-    static const int kDeviceNameSize = 32;
+    static const int kDeviceNameSize = 64;
 
     enum Changed_t
     {

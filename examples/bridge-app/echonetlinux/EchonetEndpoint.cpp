@@ -861,8 +861,8 @@ string EchonetEndpoint::GetName()
 {
     std::stringstream stream;
     stream << replace_first(address,".","") << " ";
-    stream << ConvertUnsignedValueToHexString(echoClassCode);
-    stream << ConvertUnsignedValueToHexString(instanceCode,false);
+    stream << ConvertUnsignedValueToHexString(echoClassCode);// << " ";
+    stream << ConvertUnsignedValueToHexString(instanceCode,false);// << " " << instanceCode;
     std::string result( stream.str() );
     string s = stream.str();
   return s;

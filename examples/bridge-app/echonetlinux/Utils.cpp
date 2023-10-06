@@ -33,6 +33,7 @@ using namespace std;
 bool STATIC_CONFIG_IS_ASNCHRONOUS_COMISSION_WRITE = false;
 bool STATIC_CONFIG_IS_ASNCHRONOUS_COMISSION_READ = false;
 int STATIC_CONFIG_REQUEST_GET_INTERVAL =0;
+int STATIC_CONFIG_ECHONET_CLASSCODE_FILTER=-1;
 
 std::vector<std::pair<std::string,unsigned int>> blackListEnpoints = {
     make_pair("192.168.2.157", 0x05fd02),
@@ -54,6 +55,11 @@ std::vector<std::pair<std::string,unsigned int>> blackListEnpoints = {
     make_pair("192.168.2.178", 0x05fd02),
     make_pair("192.168.2.179", 0x05fd02),
     make_pair("192.168.2.180", 0x05fd02),
+
+    make_pair("192.168.2.153", 0x05fd02),
+    make_pair("192.168.2.156", 0x05fd02),
+    make_pair("192.168.2.148", 0x05fd02),
+
 };
 
 std::vector<std::pair<std::string,unsigned int>> ihouseListWindowCoverings = {
@@ -486,6 +492,18 @@ extern MatterDeviceEndpointType GetMatterEndpointTypeFromEchonetEndpointCode(voi
 
     std::string address = ep->address;
 
+
+    if(STATIC_CONFIG_ECHONET_CLASSCODE_FILTER >0)
+    {
+        if(echoClassCode!=STATIC_CONFIG_ECHONET_CLASSCODE_FILTER)
+        {
+            TimeManager::GetInstance()->RecordTime(TimeRecordType::PROCESSED_AN_ECHONET_ENDPOINT, echoClassCode, ep->instanceCode,0,0,0, (unsigned int) MatterDeviceEndpointType::UNKNOW  );
+            return MatterDeviceEndpointType::UNKNOW;
+
+        }
+    }
+
+
     //Check if the current ip is blacklisted
     for(std::vector<std::pair<std::string,unsigned int>> ::iterator it = blackListEnpoints.begin();
     it!= blackListEnpoints.end(); it++ )
@@ -520,6 +538,8 @@ extern MatterDeviceEndpointType GetMatterEndpointTypeFromEchonetEndpointCode(voi
 
     
     // Convert EchonetLITE device id to Matter device ID
+    
+
     switch (echoClassCode)
     {
     case 0x0290: case 0x0291:
@@ -574,21 +594,36 @@ extern int ProceseParameters(int argc, char * argv[])
     int processedCount =0;
     for(int i =1; i < argc; i++)
     {
+        bool isOK = false;
         if(strcmp(argv[i],"-asyncread")==0)
         {
+            isOK = true;
             processedCount++;
             STATIC_CONFIG_IS_ASNCHRONOUS_COMISSION_READ = true;
         }
-        if(strcmp(argv[i],"-asyncwrite")==0)
+        else if(strcmp(argv[i],"-asyncwrite")==0)
         {
+            isOK = true;
             processedCount++;
             STATIC_CONFIG_IS_ASNCHRONOUS_COMISSION_WRITE = true;
         }
-        if(strcmp(argv[i],"-get_interval")==0)
+        else if(strcmp(argv[i],"-get_interval")==0)
         {
+            isOK = true;
             processedCount+=2;
             i++;
             STATIC_CONFIG_REQUEST_GET_INTERVAL = atoi(argv[i]);
+        }
+        else if(strcmp(argv[i],"-classcode_filter")==0)
+        {
+            isOK = true;
+            processedCount+=2;
+            i++;
+            STATIC_CONFIG_ECHONET_CLASSCODE_FILTER = atoi(argv[i]);
+        }
+        if(!isOK)
+        {
+            printf("[WARNING] Cannot understand the parameter: %s \n", argv[i]);
         }
         //extern int STATIC_CONFIG_REQUEST_GET_INTERVAL;
     }

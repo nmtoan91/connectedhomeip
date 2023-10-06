@@ -21,10 +21,12 @@ using namespace std;
 extern bool STATIC_CONFIG_IS_ASNCHRONOUS_COMISSION_WRITE;
 extern bool STATIC_CONFIG_IS_ASNCHRONOUS_COMISSION_READ;
 extern int STATIC_CONFIG_REQUEST_GET_INTERVAL;
+extern int STATIC_CONFIG_ECHONET_CLASSCODE_FILTER;
 
 extern map<unsigned char, string>   Map_ZCL_DATA_TYPE_TO_NAME;
 extern map<unsigned char, uint32_t>   Map_EPC_To_MatterAttribute; // econet property code
 extern map<uint32_t,unsigned char>   Map_MatterAttribute_To_EPC ;
+
 //extern map<uint32_t,uint32_t>  Map_EOJ_To_MatterEndpoint;  //econet object 
 //extern map<uint32_t,uint32_t>  Map_MatterEndpoint_To_EOJ;  //econet object 
 

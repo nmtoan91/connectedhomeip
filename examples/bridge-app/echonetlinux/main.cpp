@@ -663,6 +663,7 @@ void * bridge_polling_thread(void * context)
                 printf("ASNCHRONOUS_COMISSION_WRITE\t\t: %s\n",STATIC_CONFIG_IS_ASNCHRONOUS_COMISSION_WRITE==true?"TRUE":"FALSE"  );
                 printf("ASNCHRONOUS_COMISSION_READ\t\t: %s\n",STATIC_CONFIG_IS_ASNCHRONOUS_COMISSION_READ==true?"TRUE":"FALSE"  );
                 printf("REQUEST_GET_INTERVAL\t\t: %d\n",STATIC_CONFIG_REQUEST_GET_INTERVAL  );
+                printf("STATIC_CONFIG_ECHONET_CLASSCODE_FILTER\t\t: %d\n",STATIC_CONFIG_ECHONET_CLASSCODE_FILTER  );
                 printf("=======================================\n\n");
             }
             continue;
