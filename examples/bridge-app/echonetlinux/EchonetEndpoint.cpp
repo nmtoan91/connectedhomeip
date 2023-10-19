@@ -14,6 +14,8 @@
 #include "include/delegates/EchonetEndpointDelegate_IHouseWindow.h"
 #include "include/delegates/EchonetEndpointDelegate_IHouseSwitch.h"
 
+#include <ctime>
+#include <chrono>
 
 using namespace chip;
 using namespace chip::app;
@@ -35,6 +37,7 @@ EchonetEndpoint::EchonetEndpoint(string address_,pair<string,unsigned int>& eoj_
     instanceCode =  (unsigned char)(eoj_pair_.second%256);
     delegate = NULL;
     device= NULL;
+    lasttimeAlive = std::chrono::system_clock::now();
 }
 
 // This is the core function to establish the mapping rules
@@ -748,6 +751,8 @@ AttributePropertyAdapter* EchonetEndpoint::AddPresetEchonetAdapter_ModeSelect_De
 
 void EchonetEndpoint::InsertGETProperty(unsigned char c,EchoProperty* ep)
 {
+
+    lasttimeAlive = std::chrono::system_clock::now();
     unsigned int clusterId =0;
     unsigned int attributeId =0;
     map<pair<chip::ClusterId,chip::AttributeId>,AttributePropertyAdapter*>::iterator it;

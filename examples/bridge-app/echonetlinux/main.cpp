@@ -171,7 +171,7 @@ int RemoveDeviceEndpoint(Device * dev)
             DeviceLayer::StackLock lock;
             EndpointId ep   = emberAfClearDynamicEndpoint(index);
             gDevices[index] = nullptr;
-            ChipLogProgress(DeviceLayer, "Removed device %s from dynamic endpoint %d (index=%d)", dev->GetName(), ep, index);
+            ChipLogProgress(DeviceLayer, "Removed device %s from dynamic endpoint %d (index=%d)",dev==nullptr?"NONAME":dev->GetName(), ep, index);
             // Silence complaints about unused ep when progress logging
             // disabled.
             UNUSED_VAR(ep);
@@ -664,6 +664,8 @@ void * bridge_polling_thread(void * context)
                 printf("ASNCHRONOUS_COMISSION_READ\t\t: %s\n",STATIC_CONFIG_IS_ASNCHRONOUS_COMISSION_READ==true?"TRUE":"FALSE"  );
                 printf("REQUEST_GET_INTERVAL\t\t: %d\n",STATIC_CONFIG_REQUEST_GET_INTERVAL  );
                 printf("STATIC_CONFIG_ECHONET_CLASSCODE_FILTER\t\t: %d\n",STATIC_CONFIG_ECHONET_CLASSCODE_FILTER  );
+                printf("STATIC_CONFIG_DEVICE_TIMEOUT_SECONDS\t\t: %d\n",STATIC_CONFIG_DEVICE_TIMEOUT_SECONDS  );
+                
                 printf("=======================================\n\n");
             }
             continue;
@@ -709,7 +711,12 @@ int OnAEchonetDeviceAdded(EchonetEndpoint *echonetEndpointInfo)
     
     return 0;
 }
-
+//Delegate called when a valid echonetLITE endpoint is removed
+int OnAEchonetDeviceRemoved(EchonetEndpoint *echonetEndpointInfo)
+{
+    RemoveDeviceEndpoint(echonetEndpointInfo->device);
+    return 0;
+}
 int main(int argc, char * argv[])
 {
     ProceseParameters(argc, argv);
@@ -722,7 +729,7 @@ int main(int argc, char * argv[])
     //Initialize EchonetDevicesManager instance
     EchonetDevicesManager::instance = new EchonetDevicesManager();
     EchonetDevicesManager* manager = EchonetDevicesManager::GetInstance();
-    manager->SetCallBackFunctions(&OnAEchonetDeviceAdded);
+    manager->SetCallBackFunctions(&OnAEchonetDeviceAdded,&OnAEchonetDeviceRemoved);
     //Start thread to start OpenEchonet
     manager->FindEchonetDevices();
 

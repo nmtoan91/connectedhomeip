@@ -3,6 +3,7 @@
 #include"EchonetDevicesManager.h"
 #include "Device.h"
 #include <string>
+#include <vector>
 #include <json/value.h>
 #include <fstream>
 #include <json/writer.h>
@@ -39,14 +40,19 @@ void * FindEchonetDevices_Thread(void * context)
 	Echo::start(profile, devices);
 
     int threadholdRequestAllDevices = 10000;
+    //int threadholdRequestAllDevices = 15;
     int threadholdRequestGetData = STATIC_CONFIG_REQUEST_GET_INTERVAL;
     int commutativeRequestAllDevices =0;
     int commutativeGetData =0;
 
     NodeProfile::Getter(NodeProfile::ECHO_CLASS_CODE, NodeProfile::INSTANCE_CODE, EchoSocket::MULTICAST_ADDRESS).reqGetSelfNodeInstanceListS().send();
     //test only
-    //threadholdRequestGetData = 3;
+    //STATIC_CONFIG_REQUEST_GET_INTERVAL = 10;
+    //threadholdRequestGetData = STATIC_CONFIG_REQUEST_GET_INTERVAL;
+    //end test
 
+
+    STATIC_CONFIG_DEVICE_TIMEOUT_SECONDS =  threadholdRequestGetData*3;
 	while(true) {
 		sleep(1);
         commutativeRequestAllDevices+=1;
@@ -62,9 +68,7 @@ void * FindEchonetDevices_Thread(void * context)
             commutativeGetData=0;
             printf("Triggering Interval request data from EchonetLITE devices\n");
             manager->ProactiveIntervalRequestDataFromEchonetDevices();
-
         }
-
 	}
     manager->PrintDevicesSummary();
     
@@ -106,12 +110,9 @@ void MyEventListener::onNewDeviceObject(std::shared_ptr<DeviceObject> device)
     } 
     else 
     {
-        
-
         printf("NNNN onNewDeviceObject ip=%s instance=0x%04x-%02x \n", device.get()->getNode()->getAddress().c_str(),  device->getEchoClassCode(), device->getInstanceCode());
         pair<string,unsigned int> id = make_pair(device.get()->getNode()->getAddress(),(unsigned int)device.get()->getEchoClassCode()*256+device.get()->getInstanceCode() );
         EchonetDevicesManager::GetInstance()->AddDeviceObject(device, id);
-
         device.get()->setReceiver(shared_ptr<EchoObject::Receiver>(new EchonetControllerReceiver()));
         // Request to get all SET property Map 
         device.get()->get().reqGetSetPropertyMap().send();
@@ -175,23 +176,18 @@ bool EchonetControllerReceiver::onGetProperty(std::shared_ptr<EchoObject> eoj, u
         if(property.epc==0x9f && ep->type!=MatterDeviceEndpointType::UNKNOW) 
         {
             setter.send();
-            
-            
-            
         }
         //printf("\n");
     } else 
     {
-        //myMutex_.lock();
         //TimeManager::GetInstance()->RecordTime(TimeRecordType::RECEIVE_ECHONET_PROPERTY_VALUE,eoj->getEchoClassCode(),eoj->getInstanceCode(), property.epc,0,0, ConvertToUnsignedInt(property.edt) );
         printf("TTTT onGetProperty object=0x%04x-%02x epc=0x%02x len=%d tid=%d esv=0x%02x epc=0x%02x edt=%s\n", eoj->getEchoClassCode(), eoj->getInstanceCode(),
         property.epc, (int)property.edt.size(),tid,esv,property.epc,ConvertEchonetValueToHexString(property.edt).c_str());
         auto id = make_pair( eoj->getNode()->getAddress()  , (unsigned int) eoj.get()->getEchoClassCode()*256+eoj.get()->getInstanceCode());
-        EchonetDevicesManager::GetInstance()->AddEchonetGetAttributeValue(id,property);
+        EchonetDevicesManager::GetInstance()->AddEchonetGetAttributeValue(id,property,eoj);
 
     } 
 
-    //myMutex_.unlock();
     return success;
 
 }
@@ -226,21 +222,29 @@ void EchonetDevicesManager::AddDeviceObject(shared_ptr<DeviceObject> deviceObjec
     EchonetEndpoint* echonetEndpoint = new EchonetEndpoint(deviceObject->getNode()->getAddress() ,id);
     this->endpoints.insert({id,echonetEndpoint });
 }
-void EchonetDevicesManager::AddDeviceObject(EchonetEndpoint* echonetEndpoint_,pair<string,unsigned int>& id )
-{
-    //EchonetEndpoint* echonetEndpoint = new EchonetEndpoint(address ,id);
-    this->endpoints.insert({id,echonetEndpoint_ });
-}
+// void EchonetDevicesManager::AddDeviceObject(EchonetEndpoint* echonetEndpoint_,pair<string,unsigned int>& id )
+// {
+//     //EchonetEndpoint* echonetEndpoint = new EchonetEndpoint(address ,id);
+//     this->endpoints.insert({id,echonetEndpoint_ });
+// }
 EchonetEndpoint* EchonetDevicesManager::GetEchonetEndpointById(pair<string,unsigned int> id)
 {
     if(endpoints.find(id)==endpoints.end()) return NULL;
     return endpoints[id];
 }
-void EchonetDevicesManager::AddEchonetGetAttributeValue(pair<string,unsigned int>& id, EchoProperty& echoProperty)
+void EchonetDevicesManager::AddEchonetGetAttributeValue(pair<string,unsigned int>& id, EchoProperty& echoProperty,std::shared_ptr<EchoObject> eoj)
 {
     if(endpoints.find(id) == endpoints.end())
     {
-        printf("\n\n\n\n TOANSTT NOT IMPLEMENTED YET\n\n\n\n");
+        printf("\n\n\n\n [UNKNOW DEVICE] 0x%04x%02x : TRY TO GET ALL DATA AGAIN \n\n\n\n",(unsigned short) (id.second>>8), (unsigned char)( id.second%256) );
+        std::shared_ptr<DeviceObject> device = std::static_pointer_cast<DeviceObject>(eoj);
+        EchonetDevicesManager::GetInstance()->AddDeviceObject(device, id);
+
+
+        device.get()->setReceiver(shared_ptr<EchoObject::Receiver>(new EchonetControllerReceiver()));
+         // Request to get all SET property Map 
+        device.get()->get().reqGetSetPropertyMap().send();
+        device.get()->get().reqGetStatusChangeAnnouncementPropertyMap().send();
     }
     else 
     {
@@ -342,11 +346,48 @@ void EchonetDevicesManager::PrintEchonetDevicesSummary()
 void EchonetDevicesManager::ProactiveIntervalRequestDataFromEchonetDevices()
 {
     map<pair<string,unsigned int>, EchonetEndpoint*>::iterator it;
+    auto currentTime = std::chrono::system_clock::now();
+    vector<pair<string,unsigned int>> shallDeleteEndpoints;
     for (it = endpoints.begin(); it != endpoints.end(); it++)
     {
         EchonetEndpoint* echonetEndpoint = it->second;
         echonetEndpoint->RequestGETPropertiesData_Asynchronous();
+
+        std::chrono::duration<double> elapsed_seconds = currentTime- echonetEndpoint->lasttimeAlive;
+
+        
+        if(STATIC_CONFIG_DEVICE_TIMEOUT_SECONDS>0 &&  elapsed_seconds.count() >STATIC_CONFIG_DEVICE_TIMEOUT_SECONDS)
+        {
+            printf("\nTrying to remove device %s:0x%04x%02x due to inactive for %f seconds\n",it->first.first.c_str(),  (unsigned short)(it->first.second>>8),(unsigned char)(it->first.second%256),  elapsed_seconds.count() );
+            shallDeleteEndpoints.push_back(echonetEndpoint->eoj_pair);
+        }
     }
+    for (vector<pair<string,unsigned int>>::iterator it2 = shallDeleteEndpoints.begin(); it2 != shallDeleteEndpoints.end(); it2++)
+    {
+        RemoveDeviceObject(*it2);
+    }
+}
+
+
+void EchonetDevicesManager::RemoveDeviceObject(pair<string,unsigned int>& id)
+{
+       EchonetEndpoint* echonetEndpoint = GetEchonetEndpointById(id) ;
+       onAEchonetEndpointRemovedDelegate(echonetEndpoint);
+
+       endpoints.erase(id);
+       delete echonetEndpoint;
+
+       shared_ptr<EchoNode> node = Echo::getNode( id.first );
+       if(node == nullptr) 
+        {
+            printf("\n\n\n\n [ERROR] Cannot GetDeviceObject: No node with ip = \"%s\"\n\n\n\n\n", id.first.c_str());
+            return;
+        }
+        //void removeDevice(unsigned short echoClassCode, unsigned char echoInstanceCode);
+        node->removeDevice((unsigned short)(id.second>>8),(unsigned char) (id.second%256) );
+
+
+
 }
 
 #endif

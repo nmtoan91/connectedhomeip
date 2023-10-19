@@ -79,7 +79,6 @@ protected:
 
 class EchonetControllerReceiver : public DeviceObject::Receiver {
 public:
-	mutex myMutex_;
 	EchonetControllerReceiver(){}
 	virtual ~EchonetControllerReceiver(){}
 protected:
@@ -185,6 +184,7 @@ protected:
 
 
 typedef int (*OnAEchonetEndpointAddedDelegate) (EchonetEndpoint *echonetEndpointInfo);
+typedef int (*OnAEchonetEndpointRemovedDelegate) (EchonetEndpoint *echonetEndpointInfo);
 class EchonetDevicesManager
 {
     private:
@@ -194,28 +194,32 @@ class EchonetDevicesManager
         //std::vector<EchonetDevice*> devices;
         map<pair<string,unsigned int>, EchonetEndpoint*> endpoints;
         OnAEchonetEndpointAddedDelegate onAEchonetEndpointAddedDelegate;
-
+		OnAEchonetEndpointRemovedDelegate onAEchonetEndpointRemovedDelegate;
         
     public:
         EchonetDevicesManager();
         int numDevices;
-        void SetCallBackFunctions(OnAEchonetEndpointAddedDelegate onAEchonetEndpointAddedDelegate_)
+        void SetCallBackFunctions(OnAEchonetEndpointAddedDelegate onAEchonetEndpointAddedDelegate_,
+		OnAEchonetEndpointRemovedDelegate onAEchonetEndpointRemovecDelegate_)
         {
             this->onAEchonetEndpointAddedDelegate = onAEchonetEndpointAddedDelegate_;
+			this->onAEchonetEndpointRemovedDelegate = onAEchonetEndpointRemovecDelegate_;
         } 
         void FindEchonetDevices();
         void PrintDevicesSummary();
         static EchonetDevicesManager* GetInstance(){ return instance;};
         void OnFoundEchoObject(std::shared_ptr<EchoObject> eoj);
-		void AddEchonetGetAttributeValue(pair<string,unsigned int>& id, EchoProperty& echoProperty);
+		void AddEchonetGetAttributeValue(pair<string,unsigned int>& id, EchoProperty& echoProperty,std::shared_ptr<EchoObject> eoj);
 		void AddDeviceObject(std::shared_ptr<DeviceObject> deviceObject,pair<string,unsigned int>& id );
-		void AddDeviceObject(EchonetEndpoint* echonetEndpoint_,pair<string,unsigned int>& id );
+		//void AddDeviceObject(EchonetEndpoint* echonetEndpoint_,pair<string,unsigned int>& id );
 		EchonetEndpoint* GetEchonetEndpointById(pair<string,unsigned int> id);
 		void CheckStartupDone();
 		void RemoveAnEchonetEndpoint(EchonetEndpoint* e);
 		void WriteAllAdapterInfoToTextFile(string filaname="out/0_adapters.json");
 		void PrintEchonetDevicesSummary();
 		void ProactiveIntervalRequestDataFromEchonetDevices();
+		void RemoveDeviceObject(pair<string,unsigned int>& id);
+
 };
 
 

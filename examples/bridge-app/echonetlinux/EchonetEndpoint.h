@@ -76,8 +76,10 @@ class EchonetEndpoint
         map<pair<chip::ClusterId,chip::AttributeId>,AttributePropertyAdapter*> attributePropertyAdapters; 
         EchonetEndpointDelegate* delegate;
 
+        std::chrono::_V2::system_clock::time_point lasttimeAlive;
         unsigned short currentWaitingTID =0xFFFF;
         unsigned char currentWaitingPropertyId = 0xFF;
+
         bool isStartupDone = false;
     private:
         mutex GET_properties_mutex;
