@@ -52,7 +52,7 @@ void * FindEchonetDevices_Thread(void * context)
     //end test
 
 
-    STATIC_CONFIG_DEVICE_TIMEOUT_SECONDS =  threadholdRequestGetData*3;
+    STATIC_CONFIG_DEVICE_TIMEOUT_SECONDS =  threadholdRequestGetData*30;
 	while(true) {
 		sleep(1);
         commutativeRequestAllDevices+=1;
