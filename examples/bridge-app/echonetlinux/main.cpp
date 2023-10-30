@@ -535,7 +535,7 @@ void * bridge_polling_thread(void * context)
             }
             else if(ch == 'e')
             {
-                printf("\n\n\n================ List of endpoints ===============\n");
+                printf("\n\n\n================ List of current Matter endpoints ===============\n");
                 for(int i =0; i < CHIP_DEVICE_CONFIG_DYNAMIC_ENDPOINT_COUNT; i++)
                 {
                     if(gDevices[i]!=NULL)
@@ -546,9 +546,9 @@ void * bridge_polling_thread(void * context)
                 }
                 printf("==================================================\n\n");
             }
-            else if(ch == 'f')
+            else if(ch == 'F')
             {
-                printf("\n\n\n================ List of endpoints ===============\n");
+                printf("\n\n\n================ List of current Matter endpoints (detail) ===============\n");
                 for(int i =0; i < CHIP_DEVICE_CONFIG_DYNAMIC_ENDPOINT_COUNT; i++)
                 {
                     if(gDevices[i]!=NULL)
@@ -562,7 +562,7 @@ void * bridge_polling_thread(void * context)
                 }
                 printf("==================================================\n\n");
             }
-           else if(ch == 'g')
+           else if(ch == 'f')
             {
                 printf("\n\n\n================ List of endpoints ===============\n");
                 int counte =0;
@@ -577,6 +577,35 @@ void * bridge_polling_thread(void * context)
                         counte++;
                     }
                 }
+                printf("======================count=%d============================\n\n",(int)counte);
+            }
+            else if(ch == 'g')
+            {
+                printf("\n\n\n================ List of all echonetLITE enpoints ===============\n");
+                int counte =0;
+                char t[128];
+                map<pair<string,unsigned int>, EchonetEndpoint*>::iterator it;
+                for (it = EchonetDevicesManager::GetInstance()->endpoints.begin(); it != EchonetDevicesManager::GetInstance()->endpoints.end(); it++)
+                {
+                    EchonetEndpoint *ep = it->second;
+                    counte++;
+
+                    int matterEPID = -1;
+                    for(int i =0; i < CHIP_DEVICE_CONFIG_DYNAMIC_ENDPOINT_COUNT; i++)
+                    if(gDevices[i]!=NULL && (EchonetEndpoint *)(gDevices[i]->echonetEndpointInfoPointer) == ep )
+                    {
+                        matterEPID = (int)gDevices[i]->GetEndpointId();
+                        break;
+                    }
+
+                    sprintf(t," %s: 0x%06x \n status=%s  type=\"%s\"  epId=%d  \n", it->first.first.c_str(),it->first.second, ep->isAddedToMatter?"ADDED":"NONE" , GetMatterEndpointTypeName(ep->type).c_str(),matterEPID  );
+                    //printf("%s",t);
+                    
+                    printf("%s data:%s \n",t,ep->PropertiesPairsInfoToString().c_str() ) ;
+
+                    
+                }
+
                 printf("======================count=%d============================\n\n",(int)counte);
             }
             else if(ch == 'h')
@@ -604,7 +633,7 @@ void * bridge_polling_thread(void * context)
                 int nMapped =0;
                 int nSkipped = 0;
                 //nEP = 0;
-                printf("\n\n============Print OpenEcho Summary============\n");
+                printf("\n\n============Print OpenEcho Summary (detail) ============\n");
                 std::vector<std::shared_ptr<EchoNode> > nodes = Echo::getNodes();
                 for(int it = 0;it <  (int)nodes.size(); it++ )
                 {

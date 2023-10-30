@@ -30,8 +30,8 @@ using namespace chip::DeviceLayer;
 using namespace chip::app::Clusters;
 using namespace std;
 
-bool STATIC_CONFIG_IS_ASNCHRONOUS_COMISSION_WRITE = false;
-bool STATIC_CONFIG_IS_ASNCHRONOUS_COMISSION_READ = false;
+bool STATIC_CONFIG_IS_ASNCHRONOUS_COMISSION_WRITE = true;
+bool STATIC_CONFIG_IS_ASNCHRONOUS_COMISSION_READ = true;
 int STATIC_CONFIG_REQUEST_GET_INTERVAL =120;
 int STATIC_CONFIG_ECHONET_CLASSCODE_FILTER=-1;
 int STATIC_CONFIG_DEVICE_TIMEOUT_SECONDS = 5;
@@ -600,13 +600,13 @@ extern int ProceseParameters(int argc, char * argv[])
         {
             isOK = true;
             processedCount++;
-            STATIC_CONFIG_IS_ASNCHRONOUS_COMISSION_READ = true;
+            STATIC_CONFIG_IS_ASNCHRONOUS_COMISSION_READ = !STATIC_CONFIG_IS_ASNCHRONOUS_COMISSION_READ;
         }
         else if(strcmp(argv[i],"-asyncwrite")==0)
         {
             isOK = true;
             processedCount++;
-            STATIC_CONFIG_IS_ASNCHRONOUS_COMISSION_WRITE = true;
+            STATIC_CONFIG_IS_ASNCHRONOUS_COMISSION_WRITE = !STATIC_CONFIG_IS_ASNCHRONOUS_COMISSION_WRITE;
         }
         else if(strcmp(argv[i],"-get_interval")==0)
         {

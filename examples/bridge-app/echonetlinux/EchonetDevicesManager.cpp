@@ -40,7 +40,7 @@ void * FindEchonetDevices_Thread(void * context)
 	Echo::start(profile, devices);
 
     int threadholdRequestAllDevices = 10000;
-    //int threadholdRequestAllDevices = 15;
+    //int threadholdRequestAllDevices = 7;
     int threadholdRequestGetData = STATIC_CONFIG_REQUEST_GET_INTERVAL;
     int commutativeRequestAllDevices =0;
     int commutativeGetData =0;
@@ -52,7 +52,9 @@ void * FindEchonetDevices_Thread(void * context)
     //end test
 
 
-    STATIC_CONFIG_DEVICE_TIMEOUT_SECONDS =  threadholdRequestGetData*30000000;
+    STATIC_CONFIG_DEVICE_TIMEOUT_SECONDS =  threadholdRequestGetData*3000;
+    //threadholdRequestGetData = 5;
+    //STATIC_CONFIG_DEVICE_TIMEOUT_SECONDS =4;
 	while(true) {
 		sleep(1);
         commutativeRequestAllDevices+=1;
@@ -161,17 +163,8 @@ bool EchonetControllerReceiver::onGetProperty(std::shared_ptr<EchoObject> eoj, u
         if(property.epc==0x9e)
         {
             device.get()->get().reqGetGetPropertyMap().send();
-            
             //Briefly process the endpoint information
-            ep->CalcEndpointType();
-
-            if(ep->type!=MatterEchonetLITECombineEndpointType::UNKNOW )
-            {
-                //Process to the echonetLITE endpoint to manager if the endpoint is valid
-                EchonetDevicesManager::GetInstance()->onAEchonetEndpointAddedDelegate(ep);
-            }
-            else 
-                printf("[INFO] SKip getting data for device id 0x%04x%02x\n", eoj->getEchoClassCode(), eoj->getInstanceCode());
+            ep->type = GetMatterEndpointTypeFromEchonetEndpointCode(ep);
         }
         if(property.epc==0x9f && ep->type!=MatterEchonetLITECombineEndpointType::UNKNOW) 
         {
@@ -184,8 +177,19 @@ bool EchonetControllerReceiver::onGetProperty(std::shared_ptr<EchoObject> eoj, u
         printf("TTTT onGetProperty object=0x%04x-%02x epc=0x%02x len=%d tid=%d esv=0x%02x epc=0x%02x edt=%s\n", eoj->getEchoClassCode(), eoj->getInstanceCode(),
         property.epc, (int)property.edt.size(),tid,esv,property.epc,ConvertEchonetValueToHexString(property.edt).c_str());
         auto id = make_pair( eoj->getNode()->getAddress()  , (unsigned int) eoj.get()->getEchoClassCode()*256+eoj.get()->getInstanceCode());
+        if(ep->type!=MatterEchonetLITECombineEndpointType::UNKNOW )
+        {
+            if(!ep->isAddedToMatter)
+            {
+                ep->CalcEndpointType();
+                //Process to the echonetLITE endpoint to manager if the endpoint is valid
+                EchonetDevicesManager::GetInstance()->onAEchonetEndpointAddedDelegate(ep);
+                ep->isAddedToMatter = true;
+            }
+        }
+        else 
+            printf("[INFO] SKip getting data for device id 0x%04x%02x\n", eoj->getEchoClassCode(), eoj->getInstanceCode());
         EchonetDevicesManager::GetInstance()->AddEchonetGetAttributeValue(id,property,eoj);
-
     } 
 
     return success;
@@ -236,15 +240,16 @@ void EchonetDevicesManager::AddEchonetGetAttributeValue(pair<string,unsigned int
 {
     if(endpoints.find(id) == endpoints.end())
     {
-        printf("\n\n\n\n [UNKNOW DEVICE] 0x%04x%02x : TRY TO GET ALL DATA AGAIN \n\n\n\n",(unsigned short) (id.second>>8), (unsigned char)( id.second%256) );
-        std::shared_ptr<DeviceObject> device = std::static_pointer_cast<DeviceObject>(eoj);
-        EchonetDevicesManager::GetInstance()->AddDeviceObject(device, id);
+        printf("\n\n\n\n [UNKNOW ERROR]\n\n\n\n");
+        // printf("\n\n\n\n [UNKNOW DEVICE] 0x%04x%02x : TRY TO GET ALL DATA AGAIN \n\n\n\n",(unsigned short) (id.second>>8), (unsigned char)( id.second%256) );
+        // std::shared_ptr<DeviceObject> device = std::static_pointer_cast<DeviceObject>(eoj);
+        // EchonetDevicesManager::GetInstance()->AddDeviceObject(device, id);
 
 
-        device.get()->setReceiver(shared_ptr<EchoObject::Receiver>(new EchonetControllerReceiver()));
-         // Request to get all SET property Map 
-        device.get()->get().reqGetSetPropertyMap().send();
-        device.get()->get().reqGetStatusChangeAnnouncementPropertyMap().send();
+        // device.get()->setReceiver(shared_ptr<EchoObject::Receiver>(new EchonetControllerReceiver()));
+        //  // Request to get all SET property Map 
+        // device.get()->get().reqGetSetPropertyMap().send();
+        // device.get()->get().reqGetStatusChangeAnnouncementPropertyMap().send();
     }
     else 
     {
@@ -337,9 +342,9 @@ void EchonetDevicesManager::PrintEchonetDevicesSummary()
     printf("\n\n============Print MyDeviceManager Summary============\n");
     for (it = endpoints.begin(); it != endpoints.end(); it++)
     {
-        
         sprintf(t," %s: 0x%06x \n", it->first.first.c_str(),it->first.second );
         printf("%s",t);
+
     }
     printf("===========================================\n");
 }
@@ -356,7 +361,9 @@ void EchonetDevicesManager::ProactiveIntervalRequestDataFromEchonetDevices()
         std::chrono::duration<double> elapsed_seconds = currentTime- echonetEndpoint->lasttimeAlive;
 
         
-        if(STATIC_CONFIG_DEVICE_TIMEOUT_SECONDS>0 &&  elapsed_seconds.count() >STATIC_CONFIG_DEVICE_TIMEOUT_SECONDS)
+        if(STATIC_CONFIG_DEVICE_TIMEOUT_SECONDS>0 &&  elapsed_seconds.count() > STATIC_CONFIG_DEVICE_TIMEOUT_SECONDS
+        && echonetEndpoint->isAddedToMatter == true
+        )
         {
             printf("\nTrying to remove device %s:0x%04x%02x due to inactive for %f seconds\n",it->first.first.c_str(),  (unsigned short)(it->first.second>>8),(unsigned char)(it->first.second%256),  elapsed_seconds.count() );
             shallDeleteEndpoints.push_back(echonetEndpoint->eoj_pair);

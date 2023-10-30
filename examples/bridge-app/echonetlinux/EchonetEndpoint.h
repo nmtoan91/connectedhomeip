@@ -82,6 +82,7 @@ class EchonetEndpoint
         unsigned char currentWaitingPropertyId = 0xFF;
 
         bool isStartupDone = false;
+        bool isAddedToMatter = false;
     private:
         mutex GET_properties_mutex;
     public:
