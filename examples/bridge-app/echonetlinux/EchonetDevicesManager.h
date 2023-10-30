@@ -195,7 +195,9 @@ class EchonetDevicesManager
         map<pair<string,unsigned int>, EchonetEndpoint*> endpoints;
         OnAEchonetEndpointAddedDelegate onAEchonetEndpointAddedDelegate;
 		OnAEchonetEndpointRemovedDelegate onAEchonetEndpointRemovedDelegate;
-        
+    public:
+		bool isNeedToBroadcastDiscoverImmediately = false;
+
     public:
         EchonetDevicesManager();
         int numDevices;

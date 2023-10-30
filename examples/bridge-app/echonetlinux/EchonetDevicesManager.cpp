@@ -59,8 +59,9 @@ void * FindEchonetDevices_Thread(void * context)
 		sleep(1);
         commutativeRequestAllDevices+=1;
         commutativeGetData+=1;
-        if(commutativeRequestAllDevices>=threadholdRequestAllDevices)
+        if(manager->isNeedToBroadcastDiscoverImmediately || commutativeRequestAllDevices>=threadholdRequestAllDevices)
         {
+            manager->isNeedToBroadcastDiscoverImmediately = false;
             printf("Triggering request all EchonetLITE node instance list \n");
             commutativeRequestAllDevices=0;
             NodeProfile::Getter(NodeProfile::ECHO_CLASS_CODE, NodeProfile::INSTANCE_CODE, EchoSocket::MULTICAST_ADDRESS).reqGetSelfNodeInstanceListS().send();

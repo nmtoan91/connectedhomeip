@@ -697,6 +697,10 @@ void * bridge_polling_thread(void * context)
                 
                 printf("=======================================\n\n");
             }
+            else if(ch == 'b')
+            {
+                EchonetDevicesManager::GetInstance()->isNeedToBroadcastDiscoverImmediately = true;
+            }
             continue;
         }
 
