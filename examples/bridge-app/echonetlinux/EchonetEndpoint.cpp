@@ -47,7 +47,7 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
     this->device = NULL;
     switch (this->type)
     {
-    case  MatterDeviceEndpointType::ONOFF_LIGHT:
+    case  MatterEchonetLITECombineEndpointType::ONOFF_LIGHT:
         this->device = new DeviceEchonetAdapter(("LIGHT " + this->GetName()).c_str(),"myroom");
         this->emberAfEndpointType = &bridgedLightEndpoint_;
         this->deviceTypeList = Span<const EmberAfDeviceType>(gBridgedOnOffDeviceTypes_);
@@ -57,7 +57,7 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         //intervalRequestingGETproperties.insert(intervalRequestingGETproperties.end(), { 0x80 });
         AddPresetEchonetAdapter_OnOff();
         break;
-    case  MatterDeviceEndpointType::ONOFF_LIGHT_SWITCH:
+    case  MatterEchonetLITECombineEndpointType::ONOFF_LIGHT_SWITCH:
     
         //this->device = new DeviceEchonetAdapter("ONOFF LIGHT SWITCH","myroom");
         this->device = new DeviceEchonetAdapter(("ONOFF SWITCH " + this->GetName()).c_str(),"myroom");
@@ -66,7 +66,7 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         this->dataVersionStorage = Span<DataVersion>(gLightDataSwitchVersions_);
         AddPresetEchonetAdapter_OnOff();
         break;
-    case MatterDeviceEndpointType::DIMMABLE_LIGHT:
+    case MatterEchonetLITECombineEndpointType::DIMMABLE_LIGHT:
         this->device = new DeviceEchonetAdapter(("DIMMABLE LIGHT " + this->GetName()).c_str(),"myroom");
         
         this->emberAfEndpointType = &bridgedDimmableLightEndpoint_;
@@ -75,7 +75,7 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         AddPresetEchonetAdapter_OnOff();
         AddPresetEchonetAdapter_LevelControl();
         break;
-    case  MatterDeviceEndpointType::COLOR_TEMPERATURE_LIGHT:
+    case  MatterEchonetLITECombineEndpointType::COLOR_TEMPERATURE_LIGHT:
     
         this->device = new DeviceEchonetAdapter(("COLOR TEMPERATURE LIGHT " + this->GetName()).c_str(),"myroom");
         this->emberAfEndpointType = &bridgedTemperatureLightEndpoint_;
@@ -87,9 +87,9 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         AddPresetEchonetAdapter_ModeSelect_Description("Change light mode");
 
         break;
-    case MatterDeviceEndpointType::TEMPERATURE_SENSOR:
-    case MatterDeviceEndpointType::TEMPERATURE_SENSOR_CO2: 
-        this->device = new DeviceEchonetAdapter((type==MatterDeviceEndpointType::TEMPERATURE_SENSOR?"TEMPERATURE SENSOR "+ this->GetName():"CO2 SENSOR"+ this->GetName()).c_str(), "myroom");
+    case MatterEchonetLITECombineEndpointType::TEMPERATURE_SENSOR:
+    case MatterEchonetLITECombineEndpointType::TEMPERATURE_SENSOR_CO2: 
+        this->device = new DeviceEchonetAdapter((type==MatterEchonetLITECombineEndpointType::TEMPERATURE_SENSOR?"TEMPERATURE SENSOR "+ this->GetName():"CO2 SENSOR"+ this->GetName()).c_str(), "myroom");
         
 
         this->emberAfEndpointType = &bridgedTempSensorEndpoint_;
@@ -99,13 +99,13 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         apt = CreateDeviceEchonetAdapter(TemperatureMeasurement::Id,TemperatureMeasurement::Attributes::MeasuredValue::Id,0xE0,
         ZAP_TYPE(INT16S), 2,ZAP_TYPE(INT16S) );
 
-        if(this->type == MatterDeviceEndpointType::TEMPERATURE_SENSOR)
+        if(this->type == MatterEchonetLITECombineEndpointType::TEMPERATURE_SENSOR)
             apt->valueMultiplierForEchonetValue = 10;
 
 
         this->attributePropertyAdapters.insert({make_pair(TemperatureMeasurement::Id,apt->matterAttributeId),apt} );
         break;
-    case MatterDeviceEndpointType::ILLUMINANCE_SENSOR: 
+    case MatterEchonetLITECombineEndpointType::ILLUMINANCE_SENSOR: 
         this->device = new  DeviceEchonetAdapter(("ILLUMINANCE SENSOR " + this->GetName()).c_str(),"myroom");
         this->emberAfEndpointType = &bridgedIlluminanceSensorEndpoint_;
         this->deviceTypeList = Span<const EmberAfDeviceType>(gBridgedIlluminanceSensorDeviceTypes_);
@@ -118,7 +118,7 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         break;
 
 
-    case MatterDeviceEndpointType::HUMIDITY_SENSOR: 
+    case MatterEchonetLITECombineEndpointType::HUMIDITY_SENSOR: 
         this->device = new  DeviceEchonetAdapter(("HUMIDITY SENSOR " + this->GetName()).c_str(),"myroom");
         this->emberAfEndpointType = &bridgedHumiditySensorEndpoint_;
         this->deviceTypeList = Span<const EmberAfDeviceType>(gBridgedHumiditySensorDeviceTypes_);
@@ -130,7 +130,7 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         this->attributePropertyAdapters.insert({make_pair(apt->matterClusterId,apt->matterAttributeId),apt} );
         break;
    
-    case MatterDeviceEndpointType::FLOW_SENSOR: 
+    case MatterEchonetLITECombineEndpointType::FLOW_SENSOR: 
         this->device = new  DeviceEchonetAdapter(("FLOW SENSOR " + this->GetName()).c_str(),"myroom");
         this->emberAfEndpointType = &bridgedFlowSensorEndpoint_;
         this->deviceTypeList = Span<const EmberAfDeviceType>(gBridgedFlowSensorDeviceTypes_);
@@ -142,7 +142,7 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         this->attributePropertyAdapters.insert({make_pair(apt->matterClusterId,apt->matterAttributeId),apt} );
         break;
 
-    case MatterDeviceEndpointType::FLOW_SENSOR_for_ELECTRIC_ENERGY_SENSOR: 
+    case MatterEchonetLITECombineEndpointType::FLOW_SENSOR_for_ELECTRIC_ENERGY_SENSOR: 
         this->device = new  DeviceEchonetAdapter(("ELECTRIC ENERGY SENSOR " + this->GetName()).c_str(),"myroom");
         this->emberAfEndpointType = &bridgedFlowSensorElectricEndpoint_;
         this->deviceTypeList = Span<const EmberAfDeviceType>(gBridgedFlowElectricSensorDeviceTypes_);
@@ -155,7 +155,7 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
 
         break;
 
-    case MatterDeviceEndpointType::PRESSURE_SENSOR_for_STORAGE_BATTERY: 
+    case MatterEchonetLITECombineEndpointType::PRESSURE_SENSOR_for_STORAGE_BATTERY: 
         this->device = new  DeviceEchonetAdapter(("PRESSURE SENSOR bat " + this->GetName()).c_str(),"myroom");
 
         this->emberAfEndpointType = &bridgedPressureBatterySensorEndpoint_;
@@ -168,7 +168,7 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
 
         break;
 
-    case MatterDeviceEndpointType::OCCUPANCY_SENSOR:
+    case MatterEchonetLITECombineEndpointType::OCCUPANCY_SENSOR:
         this->device = new  DeviceEchonetAdapter (("OCCUPANCY SENSOR "+ this->GetName()).c_str(),"myroom");
 
         this->emberAfEndpointType = &bridgedOccupancySensorEndpoint_;
@@ -186,7 +186,7 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
 
         break;
 
-    case MatterDeviceEndpointType::OCCUPANCY_SENSOR_EMGERGENCY_BUTTON:
+    case MatterEchonetLITECombineEndpointType::OCCUPANCY_SENSOR_EMGERGENCY_BUTTON:
         this->device = new  DeviceEchonetAdapter (("EMGERGENCY BUTTON occusensor"+ this->GetName()).c_str(),"myroom");
 
         this->emberAfEndpointType = &bridgedOccupancySensorEndpoint_;
@@ -198,7 +198,7 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         this->attributePropertyAdapters.insert({make_pair(OccupancySensing::Id,apt->matterAttributeId),apt} );
 
         break;
-    case MatterDeviceEndpointType::WINDOW_COVERING:
+    case MatterEchonetLITECombineEndpointType::WINDOW_COVERING:
         this->device = new  DeviceWindowCovering (("WINDOW COVERING " + this->GetName()).c_str(),"myroom");
         this->emberAfEndpointType = &windowCoveringEndpoint_;
         this->deviceTypeList = Span<const EmberAfDeviceType>(gBridgedWindowCoveringDeviceTypes_);
@@ -215,7 +215,7 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         apt->AddPairOfmapValue({0x43},{101}); 
         this->attributePropertyAdapters.insert({make_pair(WindowCovering::Id,apt->matterAttributeId),apt} );
         break;
-    case MatterDeviceEndpointType::WINDOW_COVERING_IHOUSE:
+    case MatterEchonetLITECombineEndpointType::WINDOW_COVERING_IHOUSE:
         this->device = new  DeviceWindowCovering (("WINDOW COVERING i " + this->GetName()).c_str(),"myroom");
         this->emberAfEndpointType = &windowCoveringEndpoint_;
         this->deviceTypeList = Span<const EmberAfDeviceType>(gBridgedWindowCoveringDeviceTypes_);
@@ -237,8 +237,8 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         break;
 
 
-    case MatterDeviceEndpointType::WINDOW:
-    case MatterDeviceEndpointType::MODESELECT:
+    case MatterEchonetLITECombineEndpointType::WINDOW:
+    case MatterEchonetLITECombineEndpointType::MODESELECT:
         //test
         this->device = new  DeviceEchonetAdapter (("GENERIC WINDOW " + this->GetName()).c_str(),"myroom");
         this->emberAfEndpointType = &bridgedGenericEndpoint_;
@@ -249,7 +249,7 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         AddPresetEchonetAdapter_ModeSelect_Description("WINDOW COVERING mode select");
         AddPresetEchonetAdapter_ModeSelect();
         break;
-    case MatterDeviceEndpointType::MODESELECT_IHOUSE:
+    case MatterEchonetLITECombineEndpointType::MODESELECT_IHOUSE:
         //test
         this->device = new  DeviceEchonetAdapter (("GENERIC WINDOW i " + this->GetName()).c_str(),"myroom");
         this->emberAfEndpointType = &bridgedGenericEndpoint_;
@@ -264,7 +264,7 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
 
         break;
 
-    case MatterDeviceEndpointType::HEATING_COOLING_UNIT:
+    case MatterEchonetLITECombineEndpointType::HEATING_COOLING_UNIT:
         this->device = new  DeviceEchonetAdapter (("HEATING COOLING UNIT " + this->GetName()).c_str(),"myroom");
         this->emberAfEndpointType = &heatingColingEndpoint_;
         this->deviceTypeList = Span<const EmberAfDeviceType>(gHeatingCoolingDeviceTypes_);
@@ -339,7 +339,7 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
 
         break;
 
-    case  MatterDeviceEndpointType::ONOFF_LIGHT_SWITCH_IHOUSE:
+    case  MatterEchonetLITECombineEndpointType::ONOFF_LIGHT_SWITCH_IHOUSE:
         this->device = new DeviceEchonetAdapter(("ONOFF SWITCH i " + this->GetName()).c_str(),"myroom");
         this->emberAfEndpointType = &bridgedLightSwitchEndpoint_;
         this->deviceTypeList = Span<const EmberAfDeviceType>(gBridgedOnOffSwitchDeviceTypes_);

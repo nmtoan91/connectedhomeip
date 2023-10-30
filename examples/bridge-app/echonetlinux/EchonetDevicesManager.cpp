@@ -165,7 +165,7 @@ bool EchonetControllerReceiver::onGetProperty(std::shared_ptr<EchoObject> eoj, u
             //Briefly process the endpoint information
             ep->CalcEndpointType();
 
-            if(ep->type!=MatterDeviceEndpointType::UNKNOW )
+            if(ep->type!=MatterEchonetLITECombineEndpointType::UNKNOW )
             {
                 //Process to the echonetLITE endpoint to manager if the endpoint is valid
                 EchonetDevicesManager::GetInstance()->onAEchonetEndpointAddedDelegate(ep);
@@ -173,7 +173,7 @@ bool EchonetControllerReceiver::onGetProperty(std::shared_ptr<EchoObject> eoj, u
             else 
                 printf("[INFO] SKip getting data for device id 0x%04x%02x\n", eoj->getEchoClassCode(), eoj->getInstanceCode());
         }
-        if(property.epc==0x9f && ep->type!=MatterDeviceEndpointType::UNKNOW) 
+        if(property.epc==0x9f && ep->type!=MatterEchonetLITECombineEndpointType::UNKNOW) 
         {
             setter.send();
         }
@@ -285,7 +285,7 @@ void EchonetDevicesManager::CheckStartupDone()
     for (it = endpoints.begin(); it != endpoints.end(); it++)
     {
        if(it->second->isStartupDone) count++;
-       if(it->second->type != MatterDeviceEndpointType::UNKNOW ) countValidEndpoint++; //0x30783009
+       if(it->second->type != MatterEchonetLITECombineEndpointType::UNKNOW ) countValidEndpoint++; //0x30783009
        //else printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n 88888888888888888888 %d  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",(int)it->second->type);
 
        printf("%d ", it->second->type);
@@ -319,7 +319,7 @@ void EchonetDevicesManager::WriteAllAdapterInfoToTextFile(string filename)
     int i=0;
     for (it = endpoints.begin(); it != endpoints.end(); it++)
     {
-        if(it->second->type != MatterDeviceEndpointType::UNKNOW)
+        if(it->second->type != MatterEchonetLITECombineEndpointType::UNKNOW)
         {
             listEndpoints[i++] = it->second->ToJson();
         }

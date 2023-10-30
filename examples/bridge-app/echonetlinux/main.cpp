@@ -694,13 +694,13 @@ int OnAEchonetDeviceAdded(EchonetEndpoint *echonetEndpointInfo)
         printf("EchonetEndpoint Added index = %d  optiontype=%d \n",  endpointId,echonetEndpointInfo->echonetOptionType);
 
         //For window covering, we need call extra Matter delegate when receving comission
-        if(echonetEndpointInfo->type == MatterDeviceEndpointType::WINDOW_COVERING)
+        if(echonetEndpointInfo->type == MatterEchonetLITECombineEndpointType::WINDOW_COVERING)
         {
             EchonetWindowCoveringDelegate* delegate = new EchonetWindowCoveringDelegate(echonetEndpointInfo);
             delegate->SetEndpoint(endpointId);
             chip::app::Clusters::WindowCovering::SetDefaultDelegate(endpointId,delegate); 
         }
-        else if(echonetEndpointInfo->type == MatterDeviceEndpointType::WINDOW_COVERING_IHOUSE)
+        else if(echonetEndpointInfo->type == MatterEchonetLITECombineEndpointType::WINDOW_COVERING_IHOUSE)
         {
             EchonetWindowCoveringDelegate_IHouse* delegate2 = new EchonetWindowCoveringDelegate_IHouse(echonetEndpointInfo);
             delegate2->SetEndpoint(endpointId);

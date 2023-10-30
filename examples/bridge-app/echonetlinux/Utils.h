@@ -34,8 +34,8 @@ extern map<uint32_t,unsigned char>   Map_MatterAttribute_To_EPC ;
 extern vector<string> locationDictionary;//[] = {"NA","Living Room","Dinning Room","Kitchen","Bathroom","Lavatory","Washroom/changing room","Passageway","Room","Stairway","Front door","Storeroom","Garden/perimeter ","Garage","Veranda/balcony","Others"};
 extern string bufferDictionaryCode;
 
-
-enum MatterDeviceEndpointType
+//MatterEchonetLITECombineEndpointType
+enum MatterEchonetLITECombineEndpointType
 {
     UNKNOW=0,
     ONOFF_LIGHT = 0x0100,
@@ -100,8 +100,8 @@ extern unsigned char Hex1ByteToUnSignedInt(const std::string& hex);
 extern short Hex2ByteToSignedInt(const std::string& hex);
 extern unsigned short Hex2ByteToUnSignedInt(const std::string& hex);
 extern void TurnTheLight_Test2(string& ip, string& endpoint,bool isOn);
-extern MatterDeviceEndpointType GetMatterEndpointTypeFromEchonetEndpointCode(void* ehonetEndpoint);
-//extern MatterDeviceEndpointType GetMatterEndpointTypeFromEchonetCodes(unsigned short echoClassCode, unsigned char instanceCode);
+extern MatterEchonetLITECombineEndpointType GetMatterEndpointTypeFromEchonetEndpointCode(void* ehonetEndpoint);
+//extern MatterEchonetLITECombineEndpointType GetMatterEndpointTypeFromEchonetCodes(unsigned short echoClassCode, unsigned char instanceCode);
 extern int WriteDataToMatterBuffer(uint8_t * buffer, unsigned int val, uint16_t matterDataType, uint16_t matterDataLength); 
 
 extern std::string IntToHex( unsigned int i );
@@ -120,7 +120,7 @@ extern string ConvertEchonetValueToHexString(vector<unsigned char> a);
 extern string ConvertUnsignedValueToHexString(unsigned int a, bool isAddPrefix= true);
 extern string ConvertUnsignedValueToHexString(unsigned short a, bool isAddPrefix= true);
 extern string ConvertUnsignedValueToHexString(unsigned char a, bool isAddPrefix= true);
-extern string GetMatterEndpointTypeName(MatterDeviceEndpointType type);
+extern string GetMatterEndpointTypeName(MatterEchonetLITECombineEndpointType type);
 extern string GetEchonetEndpointTypeName(unsigned short echonetClassCode);
 extern int ProceseParameters(int argc, char * argv[]);
 #endif

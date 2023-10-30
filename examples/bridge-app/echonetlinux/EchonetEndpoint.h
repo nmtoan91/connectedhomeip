@@ -59,7 +59,7 @@ class EchonetEndpoint
         unsigned short echoClassCode;
         unsigned char instanceCode;
         pair<string,unsigned int> eoj_pair;
-        MatterDeviceEndpointType type;
+        MatterEchonetLITECombineEndpointType type;
 
         Device* device;
         EmberAfEndpointType* emberAfEndpointType;
@@ -77,6 +77,7 @@ class EchonetEndpoint
         EchonetEndpointDelegate* delegate;
 
         std::chrono::_V2::system_clock::time_point lasttimeAlive;
+        
         unsigned short currentWaitingTID =0xFFFF;
         unsigned char currentWaitingPropertyId = 0xFF;
 

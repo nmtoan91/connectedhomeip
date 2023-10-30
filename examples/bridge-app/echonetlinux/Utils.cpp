@@ -270,7 +270,7 @@ bool IsSupportedEPC(shared_ptr<std::set<unsigned char> > m, unsigned char key)
 
 
 
-// extern MatterDeviceEndpointType GetMatterEndpointTypeFromEchonetCodes(unsigned short echoClassCode, unsigned char instanceCode)
+// extern MatterEchonetLITECombineEndpointType GetMatterEndpointTypeFromEchonetCodes(unsigned short echoClassCode, unsigned char instanceCode)
 // {
     
 // }
@@ -422,32 +422,32 @@ extern string ConvertUnsignedValueToHexString(unsigned char a, bool isAddPrefix)
 }
 
 //Beautify the log
-extern string GetMatterEndpointTypeName(MatterDeviceEndpointType type)
+extern string GetMatterEndpointTypeName(MatterEchonetLITECombineEndpointType type)
 {
     switch (type)
     {
-    case MatterDeviceEndpointType::UNKNOW: return "UNKNOW";
-    case MatterDeviceEndpointType::ONOFF_LIGHT: return "ONOFF LIGHT";
-    case MatterDeviceEndpointType::DIMMABLE_LIGHT: return "DIMMABLE LIGHT";
-    case MatterDeviceEndpointType::COLOR_TEMPERATURE_LIGHT: return "COLOR TEMPERATURE LIGHT";
-    case MatterDeviceEndpointType::TEMPERATURE_SENSOR: return "TEMPERATURE SENSOR";
-    case MatterDeviceEndpointType::WINDOW_COVERING: return "WINDOW COVERING";
-    case MatterDeviceEndpointType::MODESELECT: return "MODESELECT";
-    case MatterDeviceEndpointType::WINDOW: return "WINDOW";
-    case MatterDeviceEndpointType::ILLUMINANCE_SENSOR: return "ILLUMINANCE SENSOR";
-    case MatterDeviceEndpointType::HUMIDITY_SENSOR: return "HUMIDITY SENSOR";
-    case MatterDeviceEndpointType::FLOW_SENSOR: return "FLOW SENSOR";
-    case MatterDeviceEndpointType::FLOW_SENSOR_for_ELECTRIC_ENERGY_SENSOR: return "FLOW_SENSOR_for_ELECTRIC_ENERGY_SENSOR";
-    //case MatterDeviceEndpointType::OCCUPANCY_SENSOR_EMGERGENCY_BUTTON: return "OCCUPANCY_SENSOR_EMGERGENCY_BUTTON";
-    case MatterDeviceEndpointType::OCCUPANCY_SENSOR: return "OCCUPANCY SENSOR";
-    //case MatterDeviceEndpointType::TEMPERATURE_SENSOR_CO2: return "TEMPERATURE_SENSOR_CO2";
-    case MatterDeviceEndpointType::HEATING_COOLING_UNIT: return "HEATING COOLING UNIT";
-    case MatterDeviceEndpointType::ONOFF_LIGHT_SWITCH: return "ONOFF LIGHT SWITCH";
-    case MatterDeviceEndpointType::PRESSURE_SENSOR_for_STORAGE_BATTERY: return "PRESSURE SENSOR for STORAGE BATTERY";
-    // case MatterDeviceEndpointType::UNKNOW: return "UNKNOW";
-    // case MatterDeviceEndpointType::UNKNOW: return "UNKNOW";
-    // case MatterDeviceEndpointType::UNKNOW: return "UNKNOW";
-    // case MatterDeviceEndpointType::UNKNOW: return "UNKNOW";
+    case MatterEchonetLITECombineEndpointType::UNKNOW: return "UNKNOW";
+    case MatterEchonetLITECombineEndpointType::ONOFF_LIGHT: return "ONOFF LIGHT";
+    case MatterEchonetLITECombineEndpointType::DIMMABLE_LIGHT: return "DIMMABLE LIGHT";
+    case MatterEchonetLITECombineEndpointType::COLOR_TEMPERATURE_LIGHT: return "COLOR TEMPERATURE LIGHT";
+    case MatterEchonetLITECombineEndpointType::TEMPERATURE_SENSOR: return "TEMPERATURE SENSOR";
+    case MatterEchonetLITECombineEndpointType::WINDOW_COVERING: return "WINDOW COVERING";
+    case MatterEchonetLITECombineEndpointType::MODESELECT: return "MODESELECT";
+    case MatterEchonetLITECombineEndpointType::WINDOW: return "WINDOW";
+    case MatterEchonetLITECombineEndpointType::ILLUMINANCE_SENSOR: return "ILLUMINANCE SENSOR";
+    case MatterEchonetLITECombineEndpointType::HUMIDITY_SENSOR: return "HUMIDITY SENSOR";
+    case MatterEchonetLITECombineEndpointType::FLOW_SENSOR: return "FLOW SENSOR";
+    case MatterEchonetLITECombineEndpointType::FLOW_SENSOR_for_ELECTRIC_ENERGY_SENSOR: return "FLOW_SENSOR_for_ELECTRIC_ENERGY_SENSOR";
+    //case MatterEchonetLITECombineEndpointType::OCCUPANCY_SENSOR_EMGERGENCY_BUTTON: return "OCCUPANCY_SENSOR_EMGERGENCY_BUTTON";
+    case MatterEchonetLITECombineEndpointType::OCCUPANCY_SENSOR: return "OCCUPANCY SENSOR";
+    //case MatterEchonetLITECombineEndpointType::TEMPERATURE_SENSOR_CO2: return "TEMPERATURE_SENSOR_CO2";
+    case MatterEchonetLITECombineEndpointType::HEATING_COOLING_UNIT: return "HEATING COOLING UNIT";
+    case MatterEchonetLITECombineEndpointType::ONOFF_LIGHT_SWITCH: return "ONOFF LIGHT SWITCH";
+    case MatterEchonetLITECombineEndpointType::PRESSURE_SENSOR_for_STORAGE_BATTERY: return "PRESSURE SENSOR for STORAGE BATTERY";
+    // case MatterEchonetLITECombineEndpointType::UNKNOW: return "UNKNOW";
+    // case MatterEchonetLITECombineEndpointType::UNKNOW: return "UNKNOW";
+    // case MatterEchonetLITECombineEndpointType::UNKNOW: return "UNKNOW";
+    // case MatterEchonetLITECombineEndpointType::UNKNOW: return "UNKNOW";
     default: 
        char buf[16];
        sprintf(buf,"%d",(int)type);
@@ -483,13 +483,13 @@ extern string GetEchonetEndpointTypeName(unsigned short echonetClassCode)
     }
 }
 
-extern MatterDeviceEndpointType GetMatterEndpointTypeFromEchonetEndpointCode(void* echonetEndpoint_)
+extern MatterEchonetLITECombineEndpointType GetMatterEndpointTypeFromEchonetEndpointCode(void* echonetEndpoint_)
 {
     EchonetEndpoint*ep =(EchonetEndpoint*)echonetEndpoint_;
     unsigned short echoClassCode= ep->echoClassCode;
     unsigned char echoInstanceCode = ep->instanceCode;
     shared_ptr<DeviceObject> openDevice = ep->GetDeviceObject();
-    MatterDeviceEndpointType type = MatterDeviceEndpointType::UNKNOW;
+    MatterEchonetLITECombineEndpointType type = MatterEchonetLITECombineEndpointType::UNKNOW;
 
     std::string address = ep->address;
 
@@ -498,8 +498,8 @@ extern MatterDeviceEndpointType GetMatterEndpointTypeFromEchonetEndpointCode(voi
     {
         if(echoClassCode!=STATIC_CONFIG_ECHONET_CLASSCODE_FILTER)
         {
-            TimeManager::GetInstance()->RecordTime(TimeRecordType::PROCESSED_AN_ECHONET_ENDPOINT, echoClassCode, ep->instanceCode,0,0,0, (unsigned int) MatterDeviceEndpointType::UNKNOW  );
-            return MatterDeviceEndpointType::UNKNOW;
+            TimeManager::GetInstance()->RecordTime(TimeRecordType::PROCESSED_AN_ECHONET_ENDPOINT, echoClassCode, ep->instanceCode,0,0,0, (unsigned int) MatterEchonetLITECombineEndpointType::UNKNOW  );
+            return MatterEchonetLITECombineEndpointType::UNKNOW;
 
         }
     }
@@ -512,7 +512,7 @@ extern MatterDeviceEndpointType GetMatterEndpointTypeFromEchonetEndpointCode(voi
         if(address.compare(it->first) == 0 
             && (((unsigned int)echoClassCode<<8) + echoInstanceCode ) == it->second
         ) 
-        return MatterDeviceEndpointType::UNKNOW;
+        return MatterEchonetLITECombineEndpointType::UNKNOW;
     }
 
     //Check special endpoints in iHouse
@@ -522,7 +522,7 @@ extern MatterDeviceEndpointType GetMatterEndpointTypeFromEchonetEndpointCode(voi
         if(address.compare(it->first) == 0 
             && (((unsigned int)echoClassCode<<8) + echoInstanceCode ) == it->second
         ) 
-        return MatterDeviceEndpointType::ONOFF_LIGHT_SWITCH_IHOUSE;
+        return MatterEchonetLITECombineEndpointType::ONOFF_LIGHT_SWITCH_IHOUSE;
         
     }
 
@@ -533,7 +533,7 @@ extern MatterDeviceEndpointType GetMatterEndpointTypeFromEchonetEndpointCode(voi
         if(address.compare(it->first) == 0 
             && (((unsigned int)echoClassCode<<8) + echoInstanceCode ) == it->second
         ) 
-        return MatterDeviceEndpointType::ONOFF_LIGHT_SWITCH_IHOUSE;
+        return MatterEchonetLITECombineEndpointType::ONOFF_LIGHT_SWITCH_IHOUSE;
     }
 
 
@@ -547,41 +547,41 @@ extern MatterDeviceEndpointType GetMatterEndpointTypeFromEchonetEndpointCode(voi
         if(IsSupportedEPC(openDevice->getSetProperties(), 0xB0))
             {
                 if(IsSupportedEPC(openDevice->getSetProperties(), 0xB1))
-                    type= MatterDeviceEndpointType::COLOR_TEMPERATURE_LIGHT;
+                    type= MatterEchonetLITECombineEndpointType::COLOR_TEMPERATURE_LIGHT;
                 else
-                    type= MatterDeviceEndpointType::DIMMABLE_LIGHT;
+                    type= MatterEchonetLITECombineEndpointType::DIMMABLE_LIGHT;
             }
             else 
             {
-                type= MatterDeviceEndpointType::ONOFF_LIGHT;
+                type= MatterEchonetLITECombineEndpointType::ONOFF_LIGHT;
             }
         break;
-    case 0x0011: type= MatterDeviceEndpointType::TEMPERATURE_SENSOR; break;
-     case 0x000D:  type= MatterDeviceEndpointType::ILLUMINANCE_SENSOR; break;
+    case 0x0011: type= MatterEchonetLITECombineEndpointType::TEMPERATURE_SENSOR; break;
+     case 0x000D:  type= MatterEchonetLITECombineEndpointType::ILLUMINANCE_SENSOR; break;
 
-    ////////case 0x001B: return MatterDeviceEndpointType::TEMPERATURE_SENSOR_CO2; // ====> TEMPERATURE_SENSOR
-    case 0x001B: type= MatterDeviceEndpointType::TEMPERATURE_SENSOR_CO2; break;// ====> TEMPERATURE_SENSOR
-    ////////case 0x0003: return MatterDeviceEndpointType::OCCUPANCY_SENSOR_EMGERGENCY_BUTTON;
-     case 0x0003: type= MatterDeviceEndpointType::OCCUPANCY_SENSOR_EMGERGENCY_BUTTON; break;//EMGERGENCY_BUTTON
-     case 0x0007: type= MatterDeviceEndpointType::OCCUPANCY_SENSOR;break;
-     case 0x0012: type= MatterDeviceEndpointType::HUMIDITY_SENSOR;break;
-    case 0x0025: type= MatterDeviceEndpointType::FLOW_SENSOR ;break;
-    case 0x0022: type= MatterDeviceEndpointType::FLOW_SENSOR_for_ELECTRIC_ENERGY_SENSOR ;break;
+    ////////case 0x001B: return MatterEchonetLITECombineEndpointType::TEMPERATURE_SENSOR_CO2; // ====> TEMPERATURE_SENSOR
+    case 0x001B: type= MatterEchonetLITECombineEndpointType::TEMPERATURE_SENSOR_CO2; break;// ====> TEMPERATURE_SENSOR
+    ////////case 0x0003: return MatterEchonetLITECombineEndpointType::OCCUPANCY_SENSOR_EMGERGENCY_BUTTON;
+     case 0x0003: type= MatterEchonetLITECombineEndpointType::OCCUPANCY_SENSOR_EMGERGENCY_BUTTON; break;//EMGERGENCY_BUTTON
+     case 0x0007: type= MatterEchonetLITECombineEndpointType::OCCUPANCY_SENSOR;break;
+     case 0x0012: type= MatterEchonetLITECombineEndpointType::HUMIDITY_SENSOR;break;
+    case 0x0025: type= MatterEchonetLITECombineEndpointType::FLOW_SENSOR ;break;
+    case 0x0022: type= MatterEchonetLITECombineEndpointType::FLOW_SENSOR_for_ELECTRIC_ENERGY_SENSOR ;break;
     
     case 0x0262: 
-        type= MatterDeviceEndpointType::WINDOW_COVERING; //01
+        type= MatterEchonetLITECombineEndpointType::WINDOW_COVERING; //01
         break;
     break;
     case 0x0265:
-        type= MatterDeviceEndpointType::WINDOW; //03
+        type= MatterEchonetLITECombineEndpointType::WINDOW; //03
         break;
     break; 
-    case 0x0130: type= MatterDeviceEndpointType::HEATING_COOLING_UNIT;
+    case 0x0130: type= MatterEchonetLITECombineEndpointType::HEATING_COOLING_UNIT;
         break;
-    case 0x05fd: type= MatterDeviceEndpointType::ONOFF_LIGHT_SWITCH;
+    case 0x05fd: type= MatterEchonetLITECombineEndpointType::ONOFF_LIGHT_SWITCH;
        break;
 
-    // case 0x027d: type= MatterDeviceEndpointType::PRESSURE_SENSOR_for_STORAGE_BATTERY ;break;
+    // case 0x027d: type= MatterEchonetLITECombineEndpointType::PRESSURE_SENSOR_for_STORAGE_BATTERY ;break;
 
     default:
         break;
