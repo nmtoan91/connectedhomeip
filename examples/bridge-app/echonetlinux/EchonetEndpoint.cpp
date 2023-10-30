@@ -447,7 +447,7 @@ void EchonetEndpoint::RequestGETPropertiesData_Asynchronous()
             } else
             {
                 if(maxReadLength>1) printf("\n[TOANSTT TODO HERE: Extend this case \n");
-                *((unsigned char*)buffer) = (unsigned char)(apt->defaultValue[0]);
+                //*((unsigned char*)buffer) = (unsigned char)(apt->defaultValue[0]);
             }
             return 0;
         } else printf("\n\n[WARNING ReadProperty] apt->defaultValue is NULL  clusterId=0x%02x attributeId=0x%02x echonetPropertyId=0x%02x\n\n",clusterId,attributeId,apt->echonetPropertyId);

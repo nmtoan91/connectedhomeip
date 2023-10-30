@@ -56,6 +56,7 @@ TimeManager::~TimeManager()
 }
 void TimeManager::RecordTime(TimeRecordType timeRecordType_,unsigned short echoClassCode_, unsigned char echoInstanceCode_,unsigned char epc_,  unsigned int mattterClusterId_, unsigned int mattterAtributeId_, unsigned int value_)
 {
+    return; //temporary disable time manager
     TimeRecordItem *item = new TimeRecordItem{timeRecordType_,echoClassCode_,echoInstanceCode_, epc_,mattterAtributeId_,mattterClusterId_,value_};
     //item->time = std::chrono::system_clock::now();
     //item->time = std::time(NULL);  
