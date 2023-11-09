@@ -533,6 +533,30 @@ void * bridge_polling_thread(void * context)
                 printf("\n\n ==================== Perform Exit ======== \n ");
                 exit(0);
             }
+            else if (ch == 'P')
+            {
+                printf("\n\n ==================== Perform Pairing mode ======== \n ");
+                if (ConnectivityMgr().IsBLEAdvertisingEnabled())
+                {
+                    ConnectivityMgr().SetBLEAdvertisingEnabled(false);
+                    printf("Stopped BLE Advertising!\n");
+                }
+                else
+                {
+                    ConnectivityMgr().SetBLEAdvertisingEnabled(true);
+                    ConnectivityMgr().SetBLEAdvertisingMode(ConnectivityMgr().kFastAdvertising);
+
+                    // if (chip::Server::GetInstance().GetCommissioningWindowManager().OpenBasicCommissioningWindow() == CHIP_NO_ERROR)
+                    // {
+                    //     printf("Started BLE Advertising!\n");
+                    // }
+                    // else
+                    // {
+                    //     printf("OpenBasicCommissioningWindow() failed\n");
+                    // }
+                }
+
+            }
             else if(ch == 'e')
             {
                 printf("\n\n\n================ List of current Matter endpoints ===============\n");
