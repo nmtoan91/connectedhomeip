@@ -444,6 +444,8 @@ extern string GetMatterEndpointTypeName(MatterEchonetLITECombineEndpointType typ
     case MatterEchonetLITECombineEndpointType::HEATING_COOLING_UNIT: return "HEATING COOLING UNIT";
     case MatterEchonetLITECombineEndpointType::ONOFF_LIGHT_SWITCH: return "ONOFF LIGHT SWITCH";
     case MatterEchonetLITECombineEndpointType::PRESSURE_SENSOR_for_STORAGE_BATTERY: return "PRESSURE SENSOR for STORAGE BATTERY";
+    case MatterEchonetLITECombineEndpointType::ONOFF_LIGHT_SWITCH_IHOUSE: return "ONOFF SWITCH (ihouse)";
+    
     // case MatterEchonetLITECombineEndpointType::UNKNOW: return "UNKNOW";
     // case MatterEchonetLITECombineEndpointType::UNKNOW: return "UNKNOW";
     // case MatterEchonetLITECombineEndpointType::UNKNOW: return "UNKNOW";
