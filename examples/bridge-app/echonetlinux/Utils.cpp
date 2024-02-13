@@ -616,7 +616,7 @@ extern int ProceseParameters(int argc, char * argv[])
             STATIC_CONFIG_REQUEST_GET_INTERVAL = atoi(argv[i]);
         }
         else if(strcmp(argv[i],"-classcode_filter")==0)
-        {
+        { // window 1533
             isOK = true;
             processedCount+=2;
             i++;
