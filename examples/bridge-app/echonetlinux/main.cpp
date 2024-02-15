@@ -122,6 +122,7 @@ EndpointId gFirstDynamicEndpointId;
 int AddDeviceEndpoint(Device * dev, EmberAfEndpointType * ep, const Span<const EmberAfDeviceType> & deviceTypeList,
                       const Span<DataVersion> & dataVersionStorage, chip::EndpointId parentEndpointId = chip::kInvalidEndpointId)
 {
+
     uint16_t index = 0;
     while (index < CHIP_DEVICE_CONFIG_DYNAMIC_ENDPOINT_COUNT)
     {
@@ -157,7 +158,9 @@ int AddDeviceEndpoint(Device * dev, EmberAfEndpointType * ep, const Span<const E
         index++;
     }
     ChipLogProgress(DeviceLayer, "Failed to add dynamic endpoint: No endpoints available!");
+    
     return -1;
+
 }
 
 int RemoveDeviceEndpoint(Device * dev)

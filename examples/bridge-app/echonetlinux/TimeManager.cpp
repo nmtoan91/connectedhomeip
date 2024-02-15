@@ -28,7 +28,10 @@ extern string MY_TO_STRING(TimeRecordType t)
     case TimeRecordType::END_SEND_WRITE_COMMAND_TO_ECHONET_DEVICE: return "END_SEND_WRITE_COMMAND_TO_ECHONET_DEVICE";
     case TimeRecordType::PROCESSED_AN_ECHONET_ENDPOINT: return "PROCESSED_AN_ECHONET_ENDPOINT";
     case TimeRecordType::STARTUP_COUNT_DEVICE: return "STARTUP_COUNT_DEVICE";
-
+    case TimeRecordType::START_ADD_MATTER_ENDPOINT: return "START_ADD_MATTER_ENDPOINT";
+    case TimeRecordType::END_ADD_MATTER_ENDPOINT: return "END_ADD_MATTER_ENDPOINT";
+    
+    
 
     //case TimeRecordType::APP_START: return "APP_START";
     //case TimeRecordType::APP_START: return "APP_START";

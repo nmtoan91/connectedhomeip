@@ -184,7 +184,13 @@ bool EchonetControllerReceiver::onGetProperty(std::shared_ptr<EchoObject> eoj, u
             {
                 ep->CalcEndpointType();
                 //Process to the echonetLITE endpoint to manager if the endpoint is valid
+
+                //TimeManager::GetInstance()->RecordTime(TimeRecordType::STARTUP_COUNT_DEVICE, echoClassCode,instanceCode, ep->epc,clusterId,attributeId, ConvertToUnsignedInt(ep->edt) );
+
+                TimeManager::GetInstance()->RecordTime(TimeRecordType::START_ADD_MATTER_ENDPOINT, ep->echoClassCode,ep->instanceCode, 0,0,0, 0 );
                 EchonetDevicesManager::GetInstance()->onAEchonetEndpointAddedDelegate(ep);
+                TimeManager::GetInstance()->RecordTime(TimeRecordType::END_ADD_MATTER_ENDPOINT, ep->echoClassCode,ep->instanceCode, 0,0,0,0);
+
                 ep->isAddedToMatter = true;
             }
         }
@@ -299,7 +305,8 @@ void EchonetDevicesManager::CheckStartupDone()
     printf("\nCheckStartupDone: count=%d total=%d countValidEndpoint=%d \n", count, (int)endpoints.size(), countValidEndpoint);
 
     TimeManager::GetInstance()->RecordTime(TimeRecordType::STARTUP_COUNT_DEVICE, (unsigned short)count, (unsigned char)endpoints.size(),0, 0 );
-    
+    //TimeManager::GetInstance()->RecordTime(TimeRecordType::STARTUP_COUNT_DEVICE, echoClassCode,instanceCode, ep->epc,clusterId,attributeId, ConvertToUnsignedInt(ep->edt) );
+
     if(count==countValidEndpoint )
     {
         TimeManager::GetInstance()->RecordTime(TimeRecordType::FINISH_STARTUP, 0, 0,0, 0 );

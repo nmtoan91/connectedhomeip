@@ -53,13 +53,13 @@ std::vector<std::pair<std::string,unsigned int>> blackListEnpoints = {
     make_pair("192.168.2.167", 0x05fd02),
     make_pair("192.168.2.168", 0x05fd02),
 
-    make_pair("192.168.2.178", 0x05fd02),
-    make_pair("192.168.2.179", 0x05fd02),
-    make_pair("192.168.2.180", 0x05fd02),
+    // make_pair("192.168.2.178", 0x05fd02),
+    // make_pair("192.168.2.179", 0x05fd02),
+    // make_pair("192.168.2.180", 0x05fd02),
 
-    make_pair("192.168.2.153", 0x05fd02),
-    make_pair("192.168.2.156", 0x05fd02),
-    make_pair("192.168.2.148", 0x05fd02),
+    // make_pair("192.168.2.153", 0x05fd02),
+    // make_pair("192.168.2.156", 0x05fd02),
+    // make_pair("192.168.2.148", 0x05fd02),
 
 };
 
@@ -69,9 +69,6 @@ std::vector<std::pair<std::string,unsigned int>> ihouseListWindowCoverings = {
     make_pair("192.168.2.183", 0x05fd01),
     make_pair("192.168.2.184", 0x05fd01),
 
-    // make_pair("192.168.2.178", 0x05fd01),
-    // make_pair("192.168.2.179", 0x05fd01),
-    // make_pair("192.168.2.180", 0x05fd01),
 };
 std::vector<std::pair<std::string,unsigned int>> ihouseListWindows = {
     make_pair("192.168.2.159", 0x05fd01),
