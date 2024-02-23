@@ -1,0 +1,1549 @@
+================ List of all echonetLITE enpoints ===============
+ 192.168.2.100: 0x000d01 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.100: 0x001101 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.100: 0x001201 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.101: 0x000d01 
+ status=ADDED  type="ILLUMINANCE SENSOR"  epId=58  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x00002c 8b:0x000001 8c:0x424853494630314120202020 8d:0x 8e:0x07dc0b1a e0:0x0000 e1:0x0000 
+ SET: 80:81:82:88:8a:8b:8c:8e:9d:9e:9f:e0:e1:
+ INF: 
+ 
+ 192.168.2.101: 0x001101 
+ status=ADDED  type="TEMPERATURE SENSOR"  epId=25  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x00002c 8b:0x000001 8c:0x424853494630314120202020 8d:0x 8e:0x07dc0b1a e0:0x004b ff:0x31 
+ SET: 80:81:82:88:8a:8b:8c:8e:9d:9e:9f:e0:ff:
+ INF: 
+ 
+ 192.168.2.101: 0x001201 
+ status=ADDED  type="HUMIDITY SENSOR"  epId=51  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x00002c 8b:0x000001 8c:0x424853494630314120202020 8d:0x 8e:0x07dc0b1a e0:0x3d 
+ SET: 80:81:82:88:8a:8b:8c:8e:9d:9e:9f:e0:
+ INF: 
+ 
+ 192.168.2.102: 0x000d01 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.102: 0x001101 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.102: 0x001201 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.103: 0x000d01 
+ status=ADDED  type="ILLUMINANCE SENSOR"  epId=60  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x00002c 8b:0x000001 8c:0x424853494630314120202020 8d:0x 8e:0x07dc0b1a e0:0x00bc e1:0x0000 
+ SET: 80:81:82:88:8a:8b:8c:8e:9d:9e:9f:e0:e1:
+ INF: 
+ 
+ 192.168.2.103: 0x001101 
+ status=ADDED  type="TEMPERATURE SENSOR"  epId=18  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x00002c 8b:0x000001 8c:0x424853494630314120202020 8d:0x 8e:0x07dc0b1a e0:0x0062 ff:0x31 
+ SET: 80:81:82:88:8a:8b:8c:8e:9d:9e:9f:e0:ff:
+ INF: 
+ 
+ 192.168.2.103: 0x001201 
+ status=ADDED  type="HUMIDITY SENSOR"  epId=52  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x00002c 8b:0x000001 8c:0x424853494630314120202020 8d:0x 8e:0x07dc0b1a e0:0x34 
+ SET: 80:81:82:88:8a:8b:8c:8e:9d:9e:9f:e0:
+ INF: 
+ 
+ 192.168.2.104: 0x000d01 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.104: 0x001101 
+ status=ADDED  type="TEMPERATURE SENSOR"  epId=31  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x00002c 8b:0x000001 8c:0x424853494630314120202020 8d:0x 8e:0x07dc0b1a e0:0x005d ff:0x31 
+ SET: 80:81:82:88:8a:8b:8c:8e:9d:9e:9f:e0:ff:
+ INF: 
+ 
+ 192.168.2.104: 0x001201 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.105: 0x000d01 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.105: 0x001101 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.105: 0x001201 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.106: 0x000d01 
+ status=ADDED  type="ILLUMINANCE SENSOR"  epId=59  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x00002c 8b:0x000001 8c:0x424853494630314120202020 8d:0x 8e:0x07dc0b1a e0:0x0000 e1:0x0000 
+ SET: 80:81:82:88:8a:8b:8c:8e:9d:9e:9f:e0:e1:
+ INF: 
+ 
+ 192.168.2.106: 0x001101 
+ status=ADDED  type="TEMPERATURE SENSOR"  epId=32  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x00002c 8b:0x000001 8c:0x424853494630314120202020 8d:0x 8e:0x07dc0b1a e0:0x0074 ff:0x31 
+ SET: 80:81:82:88:8a:8b:8c:8e:9d:9e:9f:e0:ff:
+ INF: 
+ 
+ 192.168.2.106: 0x001201 
+ status=ADDED  type="HUMIDITY SENSOR"  epId=56  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x00002c 8b:0x000001 8c:0x424853494630314120202020 8d:0x 8e:0x07dc0b1a e0:0x2c 
+ SET: 80:81:82:88:8a:8b:8c:8e:9d:9e:9f:e0:
+ INF: 
+ 
+ 192.168.2.107: 0x000d01 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.107: 0x001101 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.107: 0x001201 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.108: 0x000d01 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.108: 0x001101 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.108: 0x001201 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.109: 0x000d01 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.109: 0x001101 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.109: 0x001201 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.110: 0x000d01 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.110: 0x001101 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.110: 0x001201 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.111: 0x000701 
+ status=ADDED  type="OCCUPANCY SENSOR"  epId=23  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x00002c 8b:0x000001 8c:0x424853494630314120202020 8d:0x 8e:0x07dd0606 b1:0x42 f1:0x01 ff:0x31 
+ SET: 80:81:82:88:8a:8b:8c:8e:9d:9e:9f:b1:f1:ff:
+ INF: 
+ 
+ 192.168.2.111: 0x000702 
+ status=ADDED  type="OCCUPANCY SENSOR"  epId=53  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x00002c 8b:0x000001 8c:0x424853494630314120202020 8d:0x 8e:0x07dd0606 b1:0x42 
+ SET: 80:81:82:88:8a:8b:8c:8e:9d:9e:9f:b1:
+ INF: 
+ 
+ 192.168.2.112: 0x000701 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.112: 0x000702 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.112: 0x000703 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.113: 0x000701 
+ status=ADDED  type="OCCUPANCY SENSOR"  epId=22  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x00002c 8b:0x000001 8c:0x424853494630314120202020 8d:0x 8e:0x07dd0606 b1:0x42 f1:0x01 ff:0x31 
+ SET: 80:81:82:88:8a:8b:8c:8e:9d:9e:9f:b1:f1:ff:
+ INF: 
+ 
+ 192.168.2.113: 0x000702 
+ status=ADDED  type="OCCUPANCY SENSOR"  epId=50  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x00002c 8b:0x000001 8c:0x424853494630314120202020 8d:0x 8e:0x07dd0606 b1:0x42 
+ SET: 80:81:82:88:8a:8b:8c:8e:9d:9e:9f:b1:
+ INF: 
+ 
+ 192.168.2.114: 0x000701 
+ status=ADDED  type="OCCUPANCY SENSOR"  epId=27  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x00002c 8b:0x000001 8c:0x424853494630314120202020 8d:0x 8e:0x07dd0606 b1:0x42 f1:0x01 ff:0x31 
+ SET: 80:81:82:88:8a:8b:8c:8e:9d:9e:9f:b1:f1:ff:
+ INF: 
+ 
+ 192.168.2.114: 0x000702 
+ status=ADDED  type="OCCUPANCY SENSOR"  epId=55  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x00002c 8b:0x000001 8c:0x424853494630314120202020 8d:0x 8e:0x07dd0606 b1:0x42 
+ SET: 80:81:82:88:8a:8b:8c:8e:9d:9e:9f:b1:
+ INF: 
+ 
+ 192.168.2.115: 0x000701 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.115: 0x000702 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.116: 0x000701 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.116: 0x000702 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.117: 0x000701 
+ status=ADDED  type="OCCUPANCY SENSOR"  epId=34  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x00002c 8b:0x000001 8c:0x424853494630314120202020 8d:0x 8e:0x07dd0606 b1:0x42 f1:0x01 ff:0x31 
+ SET: 80:81:82:88:8a:8b:8c:8e:9d:9e:9f:b1:f1:ff:
+ INF: 
+ 
+ 192.168.2.117: 0x000702 
+ status=ADDED  type="OCCUPANCY SENSOR"  epId=57  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x00002c 8b:0x000001 8c:0x424853494630314120202020 8d:0x 8e:0x07dd0606 b1:0x42 
+ SET: 80:81:82:88:8a:8b:8c:8e:9d:9e:9f:b1:
+ INF: 
+ 
+ 192.168.2.118: 0x000701 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: b1:0x42 ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.118: 0x000702 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.119: 0x000701 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.119: 0x000702 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.120: 0x000701 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.120: 0x000702 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.121: 0x000701 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.121: 0x000702 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.122: 0x000701 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.122: 0x000702 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.124: 0x029001 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.124: 0x029002 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.125: 0x029001 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.125: 0x029002 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.126: 0x029001 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 80:0x30 ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.126: 0x029002 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 80:0x30 
+ SET: 
+ INF: 
+ 
+ 192.168.2.127: 0x029001 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.127: 0x029002 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.130: 0x029001 
+ status=ADDED  type="DIMMABLE LIGHT"  epId=26  
+ data:
+ GET: 80:0x30 81:0x00 82:0x033c6100 83:0x 88:0x42 8a:0x00001b 8b:0x000001 8c:0x4c494748542d434f4e542020 8d:0x 8e:0x07dc0605 b0:0x64 ff:0x31 
+ SET: 80:81:82:88:8a:8b:8c:8e:9d:9e:9f:b0:ff:
+ INF: 
+ 
+ 192.168.2.130: 0x029002 
+ status=ADDED  type="DIMMABLE LIGHT"  epId=49  
+ data:
+ GET: 80:0x30 81:0x00 82:0x033c6100 83:0x 88:0x42 8a:0x00001b 8b:0x000001 8c:0x4c494748542d434f4e542020 8d:0x 8e:0x07dc0605 b0:0x64 
+ SET: 80:81:82:88:8a:8b:8c:8e:9d:9e:9f:b0:
+ INF: 
+ 
+ 192.168.2.131: 0x029001 
+ status=ADDED  type="DIMMABLE LIGHT"  epId=19  
+ data:
+ GET: 80:0x31 81:0x00 82:0x033c6100 83:0x 88:0x42 8a:0x00001b 8b:0x000001 8c:0x4c494748542d434f4e542020 8d:0x 8e:0x07dc0605 b0:0x64 ff:0x31 
+ SET: 80:81:82:88:8a:8b:8c:8e:9d:9e:9f:b0:ff:
+ INF: 
+ 
+ 192.168.2.131: 0x029002 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.132: 0x029001 
+ status=ADDED  type="DIMMABLE LIGHT"  epId=24  
+ data:
+ GET: 80:0x31 81:0x00 82:0x033c6100 83:0x 88:0x42 8a:0x00001b 8b:0x000001 8c:0x4c494748542d434f4e542020 8d:0x 8e:0x07dc0605 b0:0x64 ff:0x31 
+ SET: 80:81:82:88:8a:8b:8c:8e:9d:9e:9f:b0:ff:
+ INF: 
+ 
+ 192.168.2.132: 0x029002 
+ status=ADDED  type="DIMMABLE LIGHT"  epId=46  
+ data:
+ GET: 80:0x31 81:0x00 82:0x033c6100 83:0x 88:0x42 8a:0x00001b 8b:0x000001 8c:0x4c494748542d434f4e542020 8d:0x 8e:0x07dc0605 b0:0x64 
+ SET: 80:81:82:88:8a:8b:8c:8e:9d:9e:9f:b0:
+ INF: 
+ 
+ 192.168.2.141: 0x027d01 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.142: 0x000d01 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.143: 0x002501 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.143: 0x002502 
+ status=ADDED  type="FLOW SENSOR"  epId=54  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x00002c 8b:0x000001 8c:0x424853494630314120202020 8d:0x 8e:0x07dd0606 e2:0x00000000 f0:0x42 f1:0x00000001 f2:0x0000000a f3:0x00000000 
+ SET: 80:81:82:88:8a:8b:8c:8e:9d:9e:9f:e2:f0:f1:f2:f3:
+ INF: 
+ 
+ 192.168.2.143: 0x002503 
+ status=ADDED  type="FLOW SENSOR"  epId=63  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x00002c 8b:0x000001 8c:0x424853494630314120202020 8d:0x 8e:0x07dd0606 e2:0x00000000 f0:0x42 f1:0x00000001 f2:0x0000000a f3:0x00000000 
+ SET: 80:81:82:88:8a:8b:8c:8e:9d:9e:9f:e2:f0:f1:f2:f3:
+ INF: 
+ 
+ 192.168.2.144: 0x002501 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.144: 0x002502 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: f0:0x42 
+ SET: 
+ INF: 
+ 
+ 192.168.2.144: 0x002503 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.146: 0x001301 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: b1:0x42 ff:0x31 
+ SET: 80:81:82:88:8a:8b:8c:8e:9d:9e:9f:b1:f1:f2:ff:
+ INF: 
+ 
+ 192.168.2.148: 0x05fd01 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 88:0x41 fe:0x31 ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.148: 0x05fd02 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 88:0x41 fe:0x31 ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.153: 0x05fd01 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 88:0x41 fe:0x31 ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.153: 0x05fd02 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 88:0x41 fe:0x31 ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.156: 0x05fd01 
+ status=ADDED  type="ONOFF LIGHT SWITCH"  epId=48  
+ data:
+ GET: 80:0x30 81:0x00 82:0x033c6100 83:0x 86:0x0200001b20e2 87:0x64 88:0x41 89:0x03ff 8a:0x00001b 8b:0x000001 8c:0x4e57444e4130312020202020 8d:0x 8e:0x07dd0606 e0:0x303030303030303030303030 f1:0x30 f2:0x0a f3:0x303030303030303030303030 fe:0x31 ff:0x31 
+ SET: 80:81:82:86:87:88:89:8a:8b:8c:8e:9d:9e:9f:e0:f1:f2:f3:fe:ff:
+ INF: 
+ 
+ 192.168.2.156: 0x05fd02 
+ status=ADDED  type="ONOFF LIGHT SWITCH"  epId=62  
+ data:
+ GET: 80:0x30 81:0x00 82:0x033c6100 83:0x 86:0x0200001b20e2 87:0x64 88:0x41 89:0x03ff 8a:0x00001b 8b:0x000001 8c:0x4e57444e4130312020202020 8d:0x 8e:0x07dd0606 e0:0x303030303030303030303030 f1:0x30 f2:0x0a f3:0x303030303030303030303030 fe:0x31 ff:0x31 
+ SET: 80:81:82:86:87:88:89:8a:8b:8c:8e:9d:9e:9f:e0:f1:f2:f3:fe:ff:
+ INF: 
+ 
+ 192.168.2.157: 0x05fd01 
+ status=ADDED  type="ONOFF SWITCH (ihouse)"  epId=42  
+ data:
+ GET: 80:0x31 81:0x00 82:0x033c6100 83:0x 86:0x0200001b20e2 87:0x64 88:0x41 89:0x03ff 8a:0x00001b 8b:0x000001 8c:0x4e57444e4130312020202020 8d:0x 8e:0x07dd0606 e0:0x303030303030303030303030 f1:0x31 f2:0x0a f3:0x303030303030303030303030 fe:0x31 ff:0x31 
+ SET: 80:81:82:86:87:88:89:8a:8b:8c:8e:9d:9e:9f:e0:f1:f2:f3:fe:ff:
+ INF: 
+ 
+ 192.168.2.157: 0x05fd02 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 88:0x41 fe:0x31 ff:0x31 
+ SET: 80:81:82:86:87:88:89:8a:8b:8c:8e:9d:9e:9f:e0:f1:f2:f3:fe:ff:
+ INF: 
+ 
+ 192.168.2.158: 0x05fd01 
+ status=ADDED  type="ONOFF SWITCH (ihouse)"  epId=44  
+ data:
+ GET: 80:0x31 81:0x00 82:0x033c6100 83:0x 86:0x0200001b20e2 87:0x64 88:0x41 89:0x03ff 8a:0x00001b 8b:0x000001 8c:0x4e57444e4130312020202020 8d:0x 8e:0x07dd0606 e0:0x303030303030303030303030 f1:0x31 f2:0x0a f3:0x303030303030303030303030 fe:0x31 ff:0x31 
+ SET: 80:81:82:86:87:88:89:8a:8b:8c:8e:9d:9e:9f:e0:f1:f2:f3:fe:ff:
+ INF: 
+ 
+ 192.168.2.158: 0x05fd02 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 88:0x41 fe:0x31 ff:0x31 
+ SET: 80:81:82:86:87:88:89:8a:8b:8c:8e:9d:9e:9f:e0:f1:f2:f3:fe:ff:
+ INF: 
+ 
+ 192.168.2.159: 0x05fd01 
+ status=ADDED  type="ONOFF SWITCH (ihouse)"  epId=33  
+ data:
+ GET: 80:0x30 81:0x00 82:0x033c6100 83:0x 86:0x0200001b20e2 87:0x64 88:0x41 89:0x03ff 8a:0x00001b 8b:0x000001 8c:0x4e57444e4130312020202020 8d:0x 8e:0x07dd0606 e0:0x303030303030303074657374 f1:0x30 f2:0x0a f3:0x303030303030303030303030 fe:0x31 ff:0x31 
+ SET: 80:81:82:86:87:88:89:8a:8b:8c:8e:9d:9e:9f:e0:f1:f2:f3:fe:ff:
+ INF: 
+ 
+ 192.168.2.159: 0x05fd02 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 88:0x41 fe:0x31 ff:0x31 
+ SET: 80:81:82:86:87:88:89:8a:8b:8c:8e:9d:9e:9f:e0:f1:f2:f3:fe:ff:
+ INF: 
+ 
+ 192.168.2.160: 0x05fd01 
+ status=ADDED  type="ONOFF SWITCH (ihouse)"  epId=39  
+ data:
+ GET: 80:0x31 81:0x00 82:0x033c6100 83:0x 86:0x0200001b20e2 87:0x64 88:0x41 89:0x03ff 8a:0x00001b 8b:0x000001 8c:0x4e57444e4130312020202020 8d:0x 8e:0x07dd0606 e0:0x303030303030303030303030 f1:0x31 f2:0x0a f3:0x303030303030303030303030 fe:0x31 ff:0x31 
+ SET: 80:81:82:86:87:88:89:8a:8b:8c:8e:9d:9e:9f:e0:f1:f2:f3:fe:ff:
+ INF: 
+ 
+ 192.168.2.160: 0x05fd02 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 88:0x41 fe:0x31 ff:0x31 
+ SET: 80:81:82:86:87:88:89:8a:8b:8c:8e:9d:9e:9f:e0:f1:f2:f3:fe:ff:
+ INF: 
+ 
+ 192.168.2.161: 0x05fd01 
+ status=ADDED  type="ONOFF SWITCH (ihouse)"  epId=35  
+ data:
+ GET: 80:0x31 81:0x00 82:0x033c6100 83:0x 86:0x0200001b20e2 87:0x64 88:0x41 89:0x03ff 8a:0x00001b 8b:0x000001 8c:0x4e57444e4130312020202020 8d:0x 8e:0x07dd0606 e0:0x303030303030303030303030 f1:0x31 f2:0x0a f3:0x303030303030303030303030 fe:0x31 ff:0x31 
+ SET: 80:81:82:86:87:88:89:8a:8b:8c:8e:9d:9e:9f:e0:f1:f2:f3:fe:ff:
+ INF: 
+ 
+ 192.168.2.161: 0x05fd02 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 88:0x41 fe:0x31 ff:0x31 
+ SET: 80:81:82:86:87:88:89:8a:8b:8c:8e:9d:9e:9f:e0:f1:f2:f3:fe:ff:
+ INF: 
+ 
+ 192.168.2.162: 0x05fd01 
+ status=ADDED  type="ONOFF SWITCH (ihouse)"  epId=37  
+ data:
+ GET: 80:0x31 81:0x00 82:0x033c6100 83:0x 86:0x0200001b20e2 87:0x64 88:0x41 89:0x03ff 8a:0x00001b 8b:0x000001 8c:0x4e57444e4130312020202020 8d:0x 8e:0x07dd0606 e0:0x303030303030303030303030 f1:0x31 f2:0x0a f3:0x303030303030303030303030 fe:0x31 ff:0x31 
+ SET: 80:81:82:86:87:88:89:8a:8b:8c:8e:9d:9e:9f:e0:f1:f2:f3:fe:ff:
+ INF: 
+ 
+ 192.168.2.162: 0x05fd02 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 88:0x41 fe:0x31 ff:0x31 
+ SET: 80:81:82:86:87:88:89:8a:8b:8c:8e:9d:9e:9f:e0:f1:f2:f3:fe:ff:
+ INF: 
+ 
+ 192.168.2.166: 0x05fd01 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 88:0x41 fe:0x31 ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.166: 0x05fd02 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 88:0x41 fe:0x31 ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.167: 0x05fd01 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 88:0x41 fe:0x31 ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.167: 0x05fd02 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 88:0x41 fe:0x31 ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.172: 0x013001 
+ status=ADDED  type="HEATING COOLING UNIT"  epId=64  
+ data:
+ GET: 80:0x31 81:0x00 82:0x00004700 83:0x 84:0x000a 85:0x000003e8 86:0x050000690000000000 88:0x42 89:0x0000 8a:0x000069 8b:0x416852 8c:0x5241532d4332383544522020 8d:0x 8e:0x07e2010b 8f:0x42 90:0x42 92:0x0000 93:0x41 94:0x42 96:0x0000 99:0x0000 9a:0x4200000001 a0:0x41 a3:0x31 b0:0x42 b3:0x18 b4:0x32 b9:0x0001 ba:0x1b bb:0x0d be:0x7e c6:0x01 c7:0x1000000000000000 cb:0x0010000000000000 ee:0x fc:0x41 fd:0x0100 fe:0x30 ff:0x31 
+ SET: 80:81:82:84:85:86:88:89:8a:8b:8c:8e:8f:90:92:93:94:96:99:9a:9d:9e:9f:a0:a3:b0:b3:b4:b9:ba:bb:be:c6:c7:cb:fc:fd:fe:ff:
+ INF: 
+ 
+ 192.168.2.178: 0x05fd01 
+ status=ADDED  type="ONOFF LIGHT SWITCH"  epId=41  
+ data:
+ GET: 80:0x30 81:0x00 82:0x00004200 83:0x 86:0x0200001b20e2 87:0x64 88:0x41 89:0x03ff 8a:0x00001b 8b:0x000001 8c:0x48454d2d434d313141202020 8d:0x000000000000000000000000 8e:0x07dd0413 e0:0x303030303030303030303030 f1:0x30 f2:0x0a f3:0x303030303030303030303030 fe:0x31 ff:0x31 
+ SET: 80:81:82:86:87:88:89:8a:8b:8c:8d:8e:9d:9e:9f:e0:f1:f2:f3:fe:ff:
+ INF: 
+ 
+ 192.168.2.178: 0x05fd02 
+ status=ADDED  type="ONOFF LIGHT SWITCH"  epId=61  
+ data:
+ GET: 80:0x31 81:0x25 82:0x00004200 83:0x 86:0x0200001b20e2 87:0x64 88:0x41 89:0x03ff 8a:0x00001b 8b:0x000001 8c:0x48454d2d434d313141202020 8d:0x000000000000000000000000 8e:0x07dd0413 e0:0x303030303030303030303030 f1:0x31 f2:0x0b f3:0x303030303030303030303030 fe:0x31 ff:0x31 
+ SET: 80:81:82:86:87:88:89:8a:8b:8c:8d:8e:9d:9e:9f:e0:f1:f2:f3:fe:ff:
+ INF: 
+ 
+ 192.168.2.179: 0x05fd01 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 88:0x41 fe:0x31 ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.179: 0x05fd02 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 88:0x41 fe:0x31 ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.180: 0x05fd01 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 88:0x41 fe:0x31 ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.180: 0x05fd02 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 88:0x41 fe:0x31 ff:0x31 
+ SET: 
+ INF: 
+ 
+ 192.168.2.182: 0x001101 
+ status=ADDED  type="TEMPERATURE SENSOR"  epId=17  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x00002c 8b:0x000001 8c:0x424853494630314120202020 8d:0x 8e:0x07dc0b1b e0:0x0021 ff:0x31 
+ SET: 80:81:82:88:8a:8b:8c:8e:9d:9e:9f:e0:ff:
+ INF: 
+ 
+ 192.168.2.182: 0x001201 
+ status=ADDED  type="HUMIDITY SENSOR"  epId=28  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x00002c 8b:0x000001 8c:0x424853494630314120202020 8d:0x 8e:0x07dc0b1b e0:0x44 
+ SET: 80:81:82:88:8a:8b:8c:8e:9d:9e:9f:e0:
+ INF: 
+ 
+ 192.168.2.183: 0x05fd01 
+ status=ADDED  type="ONOFF SWITCH (ihouse)"  epId=21  
+ data:
+ GET: 80:0x31 81:0x00 82:0x00004200 83:0x 86:0x0200001b20e2 87:0x64 88:0x41 89:0x03ff 8a:0x00001b 8b:0x000001 8c:0x48454d2d434d313141202020 8d:0x000000000000000000000000 8e:0x07dd0413 e0:0x303030303030303030303030 f1:0x31 f2:0x0a f3:0x303030303030303030303030 fe:0x31 ff:0x31 
+ SET: 80:81:82:86:87:88:89:8a:8b:8c:8d:8e:9d:9e:9f:e0:f1:f2:f3:fe:ff:
+ INF: 
+ 
+ 192.168.2.183: 0x05fd02 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 88:0x41 fe:0x31 ff:0x31 
+ SET: 80:81:82:86:87:88:89:8a:8b:8c:8d:8e:9d:9e:9f:e0:f1:f2:f3:fe:ff:
+ INF: 
+ 
+ 192.168.2.184: 0x05fd01 
+ status=ADDED  type="ONOFF SWITCH (ihouse)"  epId=20  
+ data:
+ GET: 80:0x31 81:0x00 82:0x00004200 83:0x 86:0x0200001b20e2 87:0x64 88:0x41 89:0x03ff 8a:0x00001b 8b:0x000001 8c:0x48454d2d434d313141202020 8d:0x000000000000000000000000 8e:0x07dd0413 e0:0x303030303030303030303030 f1:0x31 f2:0x0a f3:0x303030303030303030303030 fe:0x31 ff:0x31 
+ SET: 80:81:82:86:87:88:89:8a:8b:8c:8d:8e:9d:9e:9f:e0:f1:f2:f3:fe:ff:
+ INF: 
+ 
+ 192.168.2.184: 0x05fd02 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 88:0x41 fe:0x31 ff:0x31 
+ SET: 80:81:82:86:87:88:89:8a:8b:8c:8d:8e:9d:9e:9f:e0:f1:f2:f3:fe:ff:
+ INF: 
+ 
+ 192.168.2.191: 0x001101 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.191: 0x001102 
+ status=ADDED  type="TEMPERATURE SENSOR"  epId=45  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x000000 8c:0x 8d:0x 8e:0x e0:0x006b 
+ SET: 80:81:82:88:8a:9d:9e:9f:e0:
+ INF: 
+ 
+ 192.168.2.191: 0x001103 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.191: 0x001104 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.191: 0x001105 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.191: 0x001106 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.191: 0x001107 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.191: 0x001108 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.191: 0x001201 
+ status=ADDED  type="HUMIDITY SENSOR"  epId=38  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x000000 8c:0x 8d:0x 8e:0x e0:0x30 
+ SET: 80:81:82:88:8a:9d:9e:9f:e0:
+ INF: 
+ 
+ 192.168.2.191: 0x001202 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.191: 0x001203 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.191: 0x001204 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.191: 0x001205 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.191: 0x001206 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.191: 0x001207 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.191: 0x001208 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.192: 0x001101 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.192: 0x001102 
+ status=ADDED  type="TEMPERATURE SENSOR"  epId=47  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x000000 8c:0x 8d:0x 8e:0x e0:0x005a 
+ SET: 80:81:82:88:8a:9d:9e:9f:e0:
+ INF: 
+ 
+ 192.168.2.192: 0x001103 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.192: 0x001104 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.192: 0x001105 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.192: 0x001106 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.192: 0x001107 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.192: 0x001108 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.192: 0x001201 
+ status=ADDED  type="HUMIDITY SENSOR"  epId=36  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x000000 8c:0x 8d:0x 8e:0x e0:0x37 
+ SET: 80:81:82:88:8a:9d:9e:9f:e0:
+ INF: 
+ 
+ 192.168.2.192: 0x001202 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.192: 0x001203 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.192: 0x001204 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.192: 0x001205 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.192: 0x001206 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.192: 0x001207 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.192: 0x001208 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.193: 0x001101 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.193: 0x001102 
+ status=ADDED  type="TEMPERATURE SENSOR"  epId=40  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x000000 8c:0x 8d:0x 8e:0x e0:0x0054 
+ SET: 80:81:82:88:8a:9d:9e:9f:e0:
+ INF: 
+ 
+ 192.168.2.193: 0x001103 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.193: 0x001104 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.193: 0x001105 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.193: 0x001106 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.193: 0x001107 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.193: 0x001108 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.193: 0x001201 
+ status=ADDED  type="HUMIDITY SENSOR"  epId=30  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x000000 8c:0x 8d:0x 8e:0x e0:0x3a 
+ SET: 80:81:82:88:8a:9d:9e:9f:e0:
+ INF: 
+ 
+ 192.168.2.193: 0x001202 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.193: 0x001203 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.193: 0x001204 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.193: 0x001205 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.193: 0x001206 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.193: 0x001207 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.193: 0x001208 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.194: 0x001101 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.194: 0x001102 
+ status=ADDED  type="TEMPERATURE SENSOR"  epId=43  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x000000 8c:0x 8d:0x 8e:0x e0:0x004b 
+ SET: 80:81:82:88:8a:9d:9e:9f:e0:
+ INF: 
+ 
+ 192.168.2.194: 0x001103 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.194: 0x001104 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.194: 0x001105 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.194: 0x001106 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.194: 0x001107 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.194: 0x001108 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.194: 0x001201 
+ status=ADDED  type="HUMIDITY SENSOR"  epId=29  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x000000 8c:0x 8d:0x 8e:0x e0:0x3e 
+ SET: 80:81:82:88:8a:9d:9e:9f:e0:
+ INF: 
+ 
+ 192.168.2.194: 0x001202 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.194: 0x001203 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.194: 0x001204 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.194: 0x001205 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.194: 0x001206 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.194: 0x001207 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.194: 0x001208 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.195: 0x001101 
+ status=NONE  type="CANNOT_CONVERT_MATTER_DEVICE_ERROR 12"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.195: 0x001102 
+ status=ADDED  type="TEMPERATURE SENSOR"  epId=66  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x000000 8c:0x 8d:0x 8e:0x e0:0x0058 
+ SET: 80:81:82:88:8a:9d:9e:9f:e0:
+ INF: 
+ 
+ 192.168.2.195: 0x001103 
+ status=ADDED  type="TEMPERATURE SENSOR"  epId=68  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x000000 8c:0x 8d:0x 8e:0x e0:0x005c 
+ SET: 80:81:82:88:8a:9d:9e:9f:e0:
+ INF: 
+ 
+ 192.168.2.195: 0x001104 
+ status=NONE  type="CANNOT_CONVERT_MATTER_DEVICE_ERROR 1477177296"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.195: 0x001105 
+ status=NONE  type="CANNOT_CONVERT_MATTER_DEVICE_ERROR 260"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.195: 0x001106 
+ status=NONE  type="CANNOT_CONVERT_MATTER_DEVICE_ERROR 53"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.195: 0x001201 
+ status=ADDED  type="HUMIDITY SENSOR"  epId=65  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x000000 8c:0x 8d:0x 8e:0x e0:0x39 
+ SET: 80:81:82:88:8a:9d:9e:9f:e0:
+ INF: 
+ 
+ 192.168.2.195: 0x001202 
+ status=ADDED  type="HUMIDITY SENSOR"  epId=67  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x000000 8c:0x 8d:0x 8e:0x e0:0x35 
+ SET: 80:81:82:88:8a:9d:9e:9f:e0:
+ INF: 
+ 
+ 192.168.2.195: 0x001203 
+ status=ADDED  type="HUMIDITY SENSOR"  epId=69  
+ data:
+ GET: 80:0x30 81:0x00 82:0x032a6100 83:0x 88:0x42 8a:0x000000 8c:0x 8d:0x 8e:0x e0:0x33 
+ SET: 80:81:82:88:8a:9d:9e:9f:e0:
+ INF: 
+ 
+ 192.168.2.195: 0x001204 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.195: 0x001205 
+ status=NONE  type="CANNOT_CONVERT_MATTER_DEVICE_ERROR 36"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.2.195: 0x001206 
+ status=NONE  type="CANNOT_CONVERT_MATTER_DEVICE_ERROR 89"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.3.251: 0x001101 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.3.251: 0x05fd02 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.3.252: 0x001301 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.3.252: 0x05fd02 
+ status=NONE  type="UNKNOW"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.3.49: 0x029001 
+ status=NONE  type="DIMMABLE LIGHT"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.3.49: 0x029002 
+ status=NONE  type="DIMMABLE LIGHT"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.3.49: 0x029003 
+ status=NONE  type="DIMMABLE LIGHT"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.3.49: 0x029004 
+ status=NONE  type="DIMMABLE LIGHT"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.3.49: 0x029005 
+ status=NONE  type="DIMMABLE LIGHT"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.3.49: 0x029006 
+ status=NONE  type="DIMMABLE LIGHT"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.3.49: 0x029007 
+ status=NONE  type="DIMMABLE LIGHT"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.3.49: 0x029008 
+ status=NONE  type="DIMMABLE LIGHT"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.3.49: 0x029009 
+ status=NONE  type="DIMMABLE LIGHT"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.3.49: 0x02900a 
+ status=NONE  type="DIMMABLE LIGHT"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.3.49: 0x02900b 
+ status=NONE  type="DIMMABLE LIGHT"  epId=-1  
+ data:
+ GET: 
+ SET: 
+ INF: 
+ 
+ 192.168.3.49: 0x02900c 
+ status=ADDED  type="DIMMABLE LIGHT"  epId=5  
+ data:
+ GET: 80:0x31 82:0x 83:0x 8a:0x 8c:0x 8d:0x 8e:0x b0:0x64 c0:0xffffff f1:0xff 
+ SET: 80:9d:9e:9f:b0:c0:f1:
+ INF: 
+ 
+ 192.168.3.49: 0x02900d 
+ status=ADDED  type="DIMMABLE LIGHT"  epId=6  
+ data:
+ GET: 80:0x31 82:0x 83:0x 8a:0x 8c:0x 8d:0x 8e:0x b0:0x64 c0:0xffffff f1:0xff 
+ SET: 80:9d:9e:9f:b0:c0:f1:
+ INF: 
+ 
+ 192.168.3.49: 0x02900e 
+ status=ADDED  type="DIMMABLE LIGHT"  epId=3  
+ data:
+ GET: 80:0x31 82:0x 83:0x 8a:0x 8c:0x 8d:0x 8e:0x b0:0x64 c0:0xffffff f1:0xff 
+ SET: 80:9d:9e:9f:b0:c0:f1:
+ INF: 
+ 
+ 192.168.3.49: 0x02900f 
+ status=ADDED  type="DIMMABLE LIGHT"  epId=4  
+ data:
+ GET: 80:0x31 82:0x 83:0x 8a:0x 8c:0x 8d:0x 8e:0x b0:0x64 c0:0xffffff f1:0xff 
+ SET: 80:9d:9e:9f:b0:c0:f1:
+ INF: 
+ 
+ 192.168.3.49: 0x029010 
+ status=ADDED  type="DIMMABLE LIGHT"  epId=9  
+ data:
+ GET: 80:0x31 82:0x 83:0x 8a:0x 8c:0x 8d:0x 8e:0x b0:0x64 c0:0xffffff f1:0xff 
+ SET: 80:9d:9e:9f:b0:c0:f1:
+ INF: 
+ 
+ 192.168.3.49: 0x029011 
+ status=ADDED  type="DIMMABLE LIGHT"  epId=10  
+ data:
+ GET: 80:0x31 82:0x 83:0x 8a:0x 8c:0x 8d:0x 8e:0x b0:0x64 c0:0xffffff f1:0xff 
+ SET: 80:9d:9e:9f:b0:c0:f1:
+ INF: 
+ 
+ 192.168.3.49: 0x029012 
+ status=ADDED  type="DIMMABLE LIGHT"  epId=7  
+ data:
+ GET: 80:0x31 82:0x 83:0x 8a:0x 8c:0x 8d:0x 8e:0x b0:0x64 c0:0xffffff f1:0xff 
+ SET: 80:9d:9e:9f:b0:c0:f1:
+ INF: 
+ 
+ 192.168.3.49: 0x029013 
+ status=ADDED  type="DIMMABLE LIGHT"  epId=8  
+ data:
+ GET: 80:0x31 82:0x 83:0x 8a:0x 8c:0x 8d:0x 8e:0x b0:0x64 c0:0xffffff f1:0xff 
+ SET: 80:9d:9e:9f:b0:c0:f1:
+ INF: 
+ 
+ 192.168.3.49: 0x029014 
+ status=ADDED  type="DIMMABLE LIGHT"  epId=13  
+ data:
+ GET: 80:0x31 82:0x 83:0x 8a:0x 8c:0x 8d:0x 8e:0x b0:0x64 c0:0xffffff f1:0xff 
+ SET: 80:9d:9e:9f:b0:c0:f1:
+ INF: 
+ 
+ 192.168.3.49: 0x029015 
+ status=ADDED  type="DIMMABLE LIGHT"  epId=14  
+ data:
+ GET: 80:0x31 82:0x 83:0x 8a:0x 8c:0x 8d:0x 8e:0x b0:0x64 c0:0xffffff f1:0xff 
+ SET: 80:9d:9e:9f:b0:c0:f1:
+ INF: 
+ 
+ 192.168.3.49: 0x029016 
+ status=ADDED  type="DIMMABLE LIGHT"  epId=11  
+ data:
+ GET: 80:0x31 82:0x 83:0x 8a:0x 8c:0x 8d:0x 8e:0x b0:0x64 c0:0xffffff f1:0xff 
+ SET: 80:9d:9e:9f:b0:c0:f1:
+ INF: 
+ 
+ 192.168.3.49: 0x029017 
+ status=ADDED  type="DIMMABLE LIGHT"  epId=12  
+ data:
+ GET: 80:0x31 82:0x 83:0x 8a:0x 8c:0x 8d:0x 8e:0x b0:0x64 c0:0xffffff f1:0xff 
+ SET: 80:9d:9e:9f:b0:c0:f1:
+ INF: 
+ 
+ 192.168.3.49: 0x029018 
+ status=ADDED  type="DIMMABLE LIGHT"  epId=15  
+ data:
+ GET: 80:0x31 82:0x 83:0x 8a:0x 8c:0x 8d:0x 8e:0x b0:0x64 c0:0xffffff f1:0xff 
+ SET: 80:9d:9e:9f:b0:c0:f1:
+ INF: 
+ 
+ 192.168.3.49: 0x029019 
+ status=ADDED  type="DIMMABLE LIGHT"  epId=16  
+ data:
+ GET: 80:0x31 82:0x 83:0x 8a:0x 8c:0x 8d:0x 8e:0x b0:0x64 c0:0xffffff f1:0xff 
+ SET: 80:9d:9e:9f:b0:c0:f1:
+ INF: 
+ 
+======================count=221============================
