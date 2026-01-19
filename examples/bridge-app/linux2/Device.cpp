@@ -16,27 +16,25 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
+#ifndef DEVICE_C
+#define DEVICE_C
 #include "Device.h"
 
-#include <crypto/RandUtils.h>
 #include <cstdio>
 #include <platform/CHIPDeviceLayer.h>
-
+#include "EchonetEndpoint.h"
 #include <string>
-#include <sys/types.h>
+#include "Utils.h"
 
-using namespace chip;
+using namespace std;
 using namespace chip::app::Clusters::Actions;
 
 Device::Device(const char * szDeviceName, std::string szLocation)
 {
     chip::Platform::CopyString(mName, szDeviceName);
-    chip::Platform::CopyString(mUniqueId, "");
-    mLocation             = szLocation;
-    mReachable            = false;
-    mConfigurationVersion = 1;
-    mEndpointId           = 0;
+    mLocation   = szLocation;
+    mReachable  = false;
+    mEndpointId = 0;
 }
 
 bool Device::IsReachable()
@@ -73,16 +71,10 @@ void Device::SetName(const char * szName)
 
     chip::Platform::CopyString(mName, szName);
 
-    if (changed)
+     if (changed)
     {
         HandleDeviceChange(this, kChanged_Name);
     }
-}
-
-void Device::SetUniqueId(const char * szDeviceUniqueId)
-{
-    chip::Platform::CopyString(mUniqueId, szDeviceUniqueId);
-    ChipLogProgress(DeviceLayer, "Device[%s]: New UniqueId=\"%s\"", mName, mUniqueId);
 }
 
 void Device::SetLocation(std::string szLocation)
@@ -99,240 +91,14 @@ void Device::SetLocation(std::string szLocation)
     }
 }
 
-void Device::GenerateUniqueId()
+
+DeviceWindowCovering::DeviceWindowCovering(const char * szDeviceName, std::string szLocation) : Device(szDeviceName, szLocation)
 {
-    // Ensure the buffer is zeroed out
-    memset(mUniqueId, 0, kDeviceUniqueIdSize + 1);
-
-    static const char kRandCharChoices[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-    // Prefix the generated value with "GEN-"
-    memcpy(mUniqueId, "GEN-", 4);
-    for (unsigned idx = 4; idx < kDeviceUniqueIdSize; idx++)
-    {
-        mUniqueId[idx] = kRandCharChoices[Crypto::GetRandU8() % (sizeof(kRandCharChoices) - 1)];
-    }
-
-    mUniqueId[kDeviceUniqueIdSize] = '\0'; // Ensure null-termination
+    
 }
-
-uint32_t Device::GetConfigurationVersion()
+void DeviceWindowCovering::HandleDeviceChange(Device * device, Device::Changed_t changeMask)
 {
-    return mConfigurationVersion;
-}
 
-void Device::SetConfigurationVersion(uint32_t configurationVersion)
-{
-    bool changed = (mConfigurationVersion != configurationVersion);
-
-    mConfigurationVersion = configurationVersion;
-
-    ChipLogProgress(DeviceLayer, "Device[%s]: New Configuration Version=\"%d\"", mName, mConfigurationVersion);
-
-    if (changed)
-    {
-        HandleDeviceChange(this, kChanged_ConfigurationVersion);
-    }
-}
-
-DeviceOnOff::DeviceOnOff(const char * szDeviceName, std::string szLocation) : Device(szDeviceName, szLocation)
-{
-    mOn = false;
-}
-
-bool DeviceOnOff::IsOn()
-{
-    return mOn;
-}
-
-void DeviceOnOff::SetOnOff(bool aOn)
-{
-    bool changed;
-
-    changed = aOn ^ mOn;
-    mOn     = aOn;
-    ChipLogProgress(DeviceLayer, "Device[%s]: %s", mName, aOn ? "ON" : "OFF");
-
-    if ((changed) && (mChanged_CB))
-    {
-        mChanged_CB(this, kChanged_OnOff);
-    }
-}
-
-void DeviceOnOff::Toggle()
-{
-    bool aOn = !IsOn();
-    SetOnOff(aOn);
-}
-
-void DeviceOnOff::SetChangeCallback(DeviceCallback_fn aChanged_CB)
-{
-    mChanged_CB = aChanged_CB;
-}
-
-void DeviceOnOff::HandleDeviceChange(Device * device, Device::Changed_t changeMask)
-{
-    if (mChanged_CB)
-    {
-        mChanged_CB(this, (DeviceOnOff::Changed_t) changeMask);
-    }
-}
-
-DeviceSwitch::DeviceSwitch(const char * szDeviceName, std::string szLocation, uint32_t aFeatureMap) :
-    Device(szDeviceName, szLocation)
-{
-    mNumberOfPositions = 2;
-    mCurrentPosition   = 0;
-    mMultiPressMax     = 2;
-    mFeatureMap        = aFeatureMap;
-}
-
-void DeviceSwitch::SetNumberOfPositions(uint8_t aNumberOfPositions)
-{
-    bool changed;
-
-    changed            = aNumberOfPositions != mNumberOfPositions;
-    mNumberOfPositions = aNumberOfPositions;
-
-    if ((changed) && (mChanged_CB))
-    {
-        mChanged_CB(this, kChanged_NumberOfPositions);
-    }
-}
-
-void DeviceSwitch::SetCurrentPosition(uint8_t aCurrentPosition)
-{
-    bool changed;
-
-    changed          = aCurrentPosition != mCurrentPosition;
-    mCurrentPosition = aCurrentPosition;
-
-    if ((changed) && (mChanged_CB))
-    {
-        mChanged_CB(this, kChanged_CurrentPosition);
-    }
-}
-
-void DeviceSwitch::SetMultiPressMax(uint8_t aMultiPressMax)
-{
-    bool changed;
-
-    changed        = aMultiPressMax != mMultiPressMax;
-    mMultiPressMax = aMultiPressMax;
-
-    if ((changed) && (mChanged_CB))
-    {
-        mChanged_CB(this, kChanged_MultiPressMax);
-    }
-}
-
-void DeviceSwitch::SetChangeCallback(DeviceCallback_fn aChanged_CB)
-{
-    mChanged_CB = aChanged_CB;
-}
-
-void DeviceSwitch::HandleDeviceChange(Device * device, Device::Changed_t changeMask)
-{
-    if (mChanged_CB)
-    {
-        mChanged_CB(this, (DeviceSwitch::Changed_t) changeMask);
-    }
-}
-
-DeviceTempSensor::DeviceTempSensor(const char * szDeviceName, std::string szLocation, int16_t min, int16_t max,
-                                   int16_t measuredValue) :
-    Device(szDeviceName, szLocation),
-    mMin(min), mMax(max), mMeasurement(measuredValue)
-{}
-
-void DeviceTempSensor::SetMeasuredValue(int16_t measurement)
-{
-    // Limit measurement based on the min and max.
-    if (measurement < mMin)
-    {
-        measurement = mMin;
-    }
-    else if (measurement > mMax)
-    {
-        measurement = mMax;
-    }
-
-    bool changed = mMeasurement != measurement;
-
-    ChipLogProgress(DeviceLayer, "TempSensorDevice[%s]: New measurement=\"%d\"", mName, measurement);
-
-    mMeasurement = measurement;
-
-    if (changed && mChanged_CB)
-    {
-        mChanged_CB(this, kChanged_MeasurementValue);
-    }
-}
-
-void DeviceTempSensor::SetChangeCallback(DeviceCallback_fn aChanged_CB)
-{
-    mChanged_CB = aChanged_CB;
-}
-
-void DeviceTempSensor::HandleDeviceChange(Device * device, Device::Changed_t changeMask)
-{
-    if (mChanged_CB)
-    {
-        mChanged_CB(this, (DeviceTempSensor::Changed_t) changeMask);
-    }
-}
-
-void ComposedDevice::HandleDeviceChange(Device * device, Device::Changed_t changeMask)
-{
-    if (mChanged_CB)
-    {
-        mChanged_CB(this, (ComposedDevice::Changed_t) changeMask);
-    }
-}
-
-void DevicePowerSource::HandleDeviceChange(Device * device, Device::Changed_t changeMask)
-{
-    if (mChanged_CB)
-    {
-        mChanged_CB(this, (DevicePowerSource::Changed_t) changeMask);
-    }
-}
-
-void DevicePowerSource::SetBatChargeLevel(uint8_t aBatChargeLevel)
-{
-    bool changed;
-
-    changed         = aBatChargeLevel != mBatChargeLevel;
-    mBatChargeLevel = aBatChargeLevel;
-
-    if ((changed) && (mChanged_CB))
-    {
-        mChanged_CB(this, kChanged_BatLevel);
-    }
-}
-
-void DevicePowerSource::SetDescription(std::string aDescription)
-{
-    bool changed;
-
-    changed      = aDescription != mDescription;
-    mDescription = aDescription;
-
-    if ((changed) && (mChanged_CB))
-    {
-        mChanged_CB(this, kChanged_Description);
-    }
-}
-
-void DevicePowerSource::SetEndpointList(std::vector<chip::EndpointId> aEndpointList)
-{
-    bool changed  = aEndpointList != mEndpointList;
-    mEndpointList = aEndpointList;
-
-    if (changed && mChanged_CB)
-    {
-        mChanged_CB(this, kChanged_EndpointList);
-    }
 }
 
 EndpointListInfo::EndpointListInfo(uint16_t endpointListId, std::string name, EndpointListTypeEnum type)
@@ -375,3 +141,31 @@ Action::Action(uint16_t actionId, std::string name, ActionTypeEnum type, uint16_
     mStatus            = status;
     mIsVisible         = isVisible;
 }
+
+
+
+
+
+
+
+DeviceEchonetAdapter::DeviceEchonetAdapter(const char * szDeviceName, std::string szLocation) : Device(szDeviceName, szLocation)
+{
+    
+}
+void DeviceEchonetAdapter::HandleDeviceChange(Device * device, Device::Changed_t changeMask)
+{
+
+}
+
+DeviceIHouseEchonetSwitch::DeviceIHouseEchonetSwitch(const char * szDeviceName, std::string szLocation) : Device(szDeviceName, szLocation)
+{
+    
+}
+void DeviceIHouseEchonetSwitch::HandleDeviceChange(Device * device, Device::Changed_t changeMask)
+{
+
+}
+
+
+
+#endif

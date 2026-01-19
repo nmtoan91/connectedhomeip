@@ -18,212 +18,262 @@
 
 #pragma once
 
+#ifndef DEVICE_H
+#define DEVICE_H
 #include <app/util/attribute-storage.h>
 
-#include <cstdint>
 #include <stdbool.h>
 #include <stdint.h>
 
 #include <functional>
-#include <string>
-#include <sys/types.h>
 #include <vector>
+#include <string>
+#include <map>
+using namespace std;
 
+
+
+
+//#include "../EchonetEndpointInfo.h"
 class Device
 {
 public:
-    static const int kDeviceNameSize     = 32;
-    static const int kDeviceUniqueIdSize = 32;
+//toanstt 
+    //map<uint32,AttributePropertyAdapter> 
+    //map<uint32_t,string> bridgedDeviceBasicAttributes;
+    // string vendorName;
+    // unsigned int vendorId;
+    // string productName;
+    // unsigned int productId;
+    // unsigned int softwareVersion;
+    // string softwareVersionString;
+    // string manufacturingDate;
+    // unsigned int partNumber;
+    // unsigned int serialNumber;
+//end toanstt
+    static const int kDeviceNameSize = 64;
 
     enum Changed_t
     {
-        kChanged_Reachable            = 1u << 0,
-        kChanged_Location             = 1u << 1,
-        kChanged_Name                 = 1u << 2,
-        kChanged_ConfigurationVersion = 1u << 3,
-        kChanged_Last                 = kChanged_ConfigurationVersion,
+        kChanged_Reachable = 1u << 0,
+        kChanged_Location  = 1u << 1,
+        kChanged_Name      = 1u << 2,
+        kChanged_Last      = kChanged_Name,
     } Changed;
-
+    chip::DeviceTypeId deviceId;
     Device(const char * szDeviceName, std::string szLocation);
     virtual ~Device() {}
 
     bool IsReachable();
     void SetReachable(bool aReachable);
     void SetName(const char * szDeviceName);
-    void SetUniqueId(const char * szDeviceUniqueId);
     void SetLocation(std::string szLocation);
-    void GenerateUniqueId();
-    uint32_t GetConfigurationVersion();
-    void SetConfigurationVersion(uint32_t configurationVersion);
     inline void SetEndpointId(chip::EndpointId id) { mEndpointId = id; };
     inline chip::EndpointId GetEndpointId() { return mEndpointId; };
     inline void SetParentEndpointId(chip::EndpointId id) { mParentEndpointId = id; };
     inline chip::EndpointId GetParentEndpointId() { return mParentEndpointId; };
     inline char * GetName() { return mName; };
-    inline char * GetUniqueId() { return mUniqueId; };
     inline std::string GetLocation() { return mLocation; };
     inline std::string GetZone() { return mZone; };
     inline void SetZone(std::string zone) { mZone = zone; };
+    //toanstt
+    //inline string GetBridgedDeviceBasicAttributes(uint32_t key){if (bridgedDeviceBasicAttributes.find(key) == bridgedDeviceBasicAttributes.end()) {return "TOANSTT";} else {return bridgedDeviceBasicAttributes.at(key);} };
 
+    //end toanstt
 private:
     virtual void HandleDeviceChange(Device * device, Device::Changed_t changeMask) = 0;
 
 protected:
-    bool mReachable                         = false;
-    char mName[kDeviceNameSize + 1]         = { 0 };
-    char mUniqueId[kDeviceUniqueIdSize + 1] = { 0 };
-    uint32_t mConfigurationVersion;
+    bool mReachable;
+    char mName[kDeviceNameSize];
     std::string mLocation;
     chip::EndpointId mEndpointId;
     chip::EndpointId mParentEndpointId;
     std::string mZone;
-};
-
-class DeviceOnOff : public Device
-{
 public:
-    enum Changed_t
-    {
-        kChanged_OnOff = kChanged_Last << 1,
-    } Changed;
-
-    DeviceOnOff(const char * szDeviceName, std::string szLocation);
-
-    bool IsOn();
-    void SetOnOff(bool aOn);
-    void Toggle();
-
-    using DeviceCallback_fn = std::function<void(DeviceOnOff *, DeviceOnOff::Changed_t)>;
-    void SetChangeCallback(DeviceCallback_fn aChanged_CB);
-
-private:
-    void HandleDeviceChange(Device * device, Device::Changed_t changeMask);
-
-private:
-    bool mOn;
-    DeviceCallback_fn mChanged_CB;
+    std::string echonetId;
+    void* echonetEndpointInfoPointer;
 };
 
-class DeviceSwitch : public Device
+// class DeviceOnOff : public Device
+// {
+// public:
+    
+//     enum Changed_t
+//     {
+//         kChanged_OnOff = kChanged_Last << 1,
+//     } Changed;
+
+//     DeviceOnOff(const char * szDeviceName, std::string szLocation);
+
+//     bool IsOn();
+//     void SetOnOff(bool aOn);
+//     void Toggle();
+
+//     using DeviceCallback_fn = std::function<void(DeviceOnOff *, DeviceOnOff::Changed_t)>;
+//     void SetChangeCallback(DeviceCallback_fn aChanged_CB);
+
+// private:
+//     void HandleDeviceChange(Device * device, Device::Changed_t changeMask);
+
+// private:
+//     //bool mOn;
+//     DeviceCallback_fn mChanged_CB;
+// };
+
+
+
+// class DeviceDimmable : public DeviceOnOff
+// {
+// public:
+//     DeviceDimmable(const char * szDeviceName, std::string szLocation); 
+//     //uint8_t fakedCurrentLevel;
+//     uint8_t GetCurrentLevel();//{return fakedCurrentLevel;};
+//     void SetCurrentLevel(uint8_t newLevel);//{fakedCurrentLevel=newLevel;};
+// };
+// class DeviceColorTemperature : public DeviceDimmable
+// {
+// public:
+//     DeviceColorTemperature(const char * szDeviceName, std::string szLocation); 
+// };
+class DeviceWindowCovering : public Device
 {
-public:
-    enum Changed_t
-    {
-        kChanged_NumberOfPositions = kChanged_Last << 1,
-        kChanged_CurrentPosition   = kChanged_Last << 2,
-        kChanged_MultiPressMax     = kChanged_Last << 3,
-    } Changed;
-
-    DeviceSwitch(const char * szDeviceName, std::string szLocation, uint32_t aFeatureMap);
-
-    void SetNumberOfPositions(uint8_t aNumberOfPositions);
-    void SetCurrentPosition(uint8_t aCurrentPosition);
-    void SetMultiPressMax(uint8_t aMultiPressMax);
-
-    inline uint8_t GetNumberOfPositions() { return mNumberOfPositions; };
-    inline uint8_t GetCurrentPosition() { return mCurrentPosition; };
-    inline uint8_t GetMultiPressMax() { return mMultiPressMax; };
-    inline uint32_t GetFeatureMap() { return mFeatureMap; };
-
-    using DeviceCallback_fn = std::function<void(DeviceSwitch *, DeviceSwitch::Changed_t)>;
-    void SetChangeCallback(DeviceCallback_fn aChanged_CB);
-
-private:
+    public:
+    DeviceWindowCovering(const char * szDeviceName, std::string szLocation);
     void HandleDeviceChange(Device * device, Device::Changed_t changeMask);
-
-private:
-    uint8_t mNumberOfPositions;
-    uint8_t mCurrentPosition;
-    uint8_t mMultiPressMax;
-    uint32_t mFeatureMap;
-    DeviceCallback_fn mChanged_CB;
 };
 
-class DeviceTempSensor : public Device
-{
-public:
-    enum Changed_t
-    {
-        kChanged_MeasurementValue = kChanged_Last << 1,
-    } Changed;
 
-    DeviceTempSensor(const char * szDeviceName, std::string szLocation, int16_t min, int16_t max, int16_t measuredValue);
+// class DeviceSwitch : public Device
+// {
+// public:
+//     enum Changed_t
+//     {
+//         kChanged_NumberOfPositions = kChanged_Last << 1,
+//         kChanged_CurrentPosition   = kChanged_Last << 2,
+//         kChanged_MultiPressMax     = kChanged_Last << 3,
+//     } Changed;
 
-    inline int16_t GetMeasuredValue() { return mMeasurement; };
-    void SetMeasuredValue(int16_t measurement);
+//     DeviceSwitch(const char * szDeviceName, std::string szLocation, uint32_t aFeatureMap);
 
-    using DeviceCallback_fn = std::function<void(DeviceTempSensor *, DeviceTempSensor::Changed_t)>;
-    void SetChangeCallback(DeviceCallback_fn aChanged_CB);
+//     void SetNumberOfPositions(uint8_t aNumberOfPositions);
+//     void SetCurrentPosition(uint8_t aCurrentPosition);
+//     void SetMultiPressMax(uint8_t aMultiPressMax);
 
-    const int16_t mMin;
-    const int16_t mMax;
+//     inline uint8_t GetNumberOfPositions() { return mNumberOfPositions; };
+//     inline uint8_t GetCurrentPosition() { return mCurrentPosition; };
+//     inline uint8_t GetMultiPressMax() { return mMultiPressMax; };
+//     inline uint32_t GetFeatureMap() { return mFeatureMap; };
 
-private:
-    void HandleDeviceChange(Device * device, Device::Changed_t changeMask);
+//     using DeviceCallback_fn = std::function<void(DeviceSwitch *, DeviceSwitch::Changed_t)>;
+//     void SetChangeCallback(DeviceCallback_fn aChanged_CB);
 
-private:
-    int16_t mMeasurement;
-    DeviceCallback_fn mChanged_CB;
-};
+// private:
+//     void HandleDeviceChange(Device * device, Device::Changed_t changeMask);
 
-class ComposedDevice : public Device
-{
-public:
-    ComposedDevice(const char * szDeviceName, std::string szLocation) : Device(szDeviceName, szLocation){};
+// private:
+//     uint8_t mNumberOfPositions;
+//     uint8_t mCurrentPosition;
+//     uint8_t mMultiPressMax;
+//     uint32_t mFeatureMap;
+//     DeviceCallback_fn mChanged_CB;
+// };
 
-    using DeviceCallback_fn = std::function<void(ComposedDevice *, ComposedDevice::Changed_t)>;
+// class DeviceTempSensor : public Device
+// {
+// public:
+//     enum Changed_t
+//     {
+//         kChanged_MeasurementValue = kChanged_Last << 1,
+//     } Changed;
 
-    void SetChangeCallback(DeviceCallback_fn aChanged_CB);
+//     DeviceTempSensor(const char * szDeviceName, std::string szLocation, int16_t min, int16_t max, int16_t measuredValue);
 
-private:
-    void HandleDeviceChange(Device * device, Device::Changed_t changeMask);
+//     int16_t GetMeasuredValue();// { return mMeasurement; };
+//     void SetMeasuredValue(int16_t measurement);
 
-private:
-    DeviceCallback_fn mChanged_CB;
-};
+//     using DeviceCallback_fn = std::function<void(DeviceTempSensor *, DeviceTempSensor::Changed_t)>;
+//     void SetChangeCallback(DeviceCallback_fn aChanged_CB);
 
-class DevicePowerSource : public Device
-{
-public:
-    enum Changed_t
-    {
-        kChanged_BatLevel     = kChanged_Last << 1,
-        kChanged_Description  = kChanged_Last << 2,
-        kChanged_EndpointList = kChanged_Last << 3,
-    } Changed;
+//     const int16_t mMin;
+//     const int16_t mMax;
 
-    DevicePowerSource(const char * szDeviceName, std::string szLocation,
-                      chip::BitFlags<chip::app::Clusters::PowerSource::Feature> aFeatureMap) :
-        Device(szDeviceName, szLocation),
-        mFeatureMap(aFeatureMap){};
+// private:
+//     void HandleDeviceChange(Device * device, Device::Changed_t changeMask);
 
-    using DeviceCallback_fn = std::function<void(DevicePowerSource *, DevicePowerSource::Changed_t)>;
-    void SetChangeCallback(DeviceCallback_fn aChanged_CB) { mChanged_CB = aChanged_CB; }
+// private:
+//     int16_t mMeasurement;
+//     DeviceCallback_fn mChanged_CB;
+// };
+// class DeviceSensorAll : public Device
+// {
+// public:
+//     enum Changed_t
+//     {
+//         kChanged_MeasurementValue = kChanged_Last << 1,
+//     } Changed;
+//     DeviceSensorAll(const char * szDeviceName, std::string szLocation);
+//     int16_t GetMeasuredValue();
+//     using DeviceCallback_fn = std::function<void(DeviceSensorAll *, DeviceSensorAll::Changed_t)>;
+//     void SetChangeCallback(DeviceCallback_fn aChanged_CB);
+// private:
+//     void HandleDeviceChange(Device * device, Device::Changed_t changeMask);
+// private:
+//     DeviceCallback_fn mChanged_CB;
+// };
+// class ComposedDevice : public Device
+// {
+// public:
+//     ComposedDevice(const char * szDeviceName, std::string szLocation) : Device(szDeviceName, szLocation){};
 
-    void SetBatChargeLevel(uint8_t aBatChargeLevel);
-    void SetDescription(std::string aDescription);
-    void SetEndpointList(std::vector<chip::EndpointId> mEndpointList);
+//     using DeviceCallback_fn = std::function<void(ComposedDevice *, ComposedDevice::Changed_t)>;
 
-    inline uint32_t GetFeatureMap() { return mFeatureMap.Raw(); };
-    inline uint8_t GetBatChargeLevel() { return mBatChargeLevel; };
-    inline uint8_t GetOrder() { return mOrder; };
-    inline uint8_t GetStatus() { return mStatus; };
-    inline std::string GetDescription() { return mDescription; };
-    std::vector<chip::EndpointId> & GetEndpointList() { return mEndpointList; }
+//     void SetChangeCallback(DeviceCallback_fn aChanged_CB);
 
-private:
-    void HandleDeviceChange(Device * device, Device::Changed_t changeMask);
+// private:
+//     void HandleDeviceChange(Device * device, Device::Changed_t changeMask);
 
-private:
-    uint8_t mBatChargeLevel  = 0;
-    uint8_t mOrder           = 0;
-    uint8_t mStatus          = 0;
-    std::string mDescription = "Primary Battery";
-    chip::BitFlags<chip::app::Clusters::PowerSource::Feature> mFeatureMap;
-    DeviceCallback_fn mChanged_CB;
-    // This is linux, vector is not going to kill us here and it's easier. Plus, post c++11, storage is contiguous with .data()
-    std::vector<chip::EndpointId> mEndpointList;
-};
+// private:
+//     DeviceCallback_fn mChanged_CB;
+// };
+
+// class DevicePowerSource : public Device
+// {
+// public:
+//     enum Changed_t
+//     {
+//         kChanged_BatLevel    = kChanged_Last << 1,
+//         kChanged_Description = kChanged_Last << 2,
+//     } Changed;
+
+//     DevicePowerSource(const char * szDeviceName, std::string szLocation,
+//                       chip::BitFlags<chip::app::Clusters::PowerSource::Feature> aFeatureMap) :
+//         Device(szDeviceName, szLocation),
+//         mFeatureMap(aFeatureMap){};
+
+//     using DeviceCallback_fn = std::function<void(DevicePowerSource *, DevicePowerSource::Changed_t)>;
+//     void SetChangeCallback(DeviceCallback_fn aChanged_CB) { mChanged_CB = aChanged_CB; }
+
+//     void SetBatChargeLevel(uint8_t aBatChargeLevel);
+//     void SetDescription(std::string aDescription);
+
+//     inline uint32_t GetFeatureMap() { return mFeatureMap.Raw(); };
+//     inline uint8_t GetBatChargeLevel() { return mBatChargeLevel; };
+//     inline uint8_t GetOrder() { return mOrder; };
+//     inline uint8_t GetStatus() { return mStatus; };
+//     inline std::string GetDescription() { return mDescription; };
+
+// private:
+//     void HandleDeviceChange(Device * device, Device::Changed_t changeMask);
+
+// private:
+//     uint8_t mBatChargeLevel  = 0;
+//     uint8_t mOrder           = 0;
+//     uint8_t mStatus          = 0;
+//     std::string mDescription = "Primary Battery";
+//     chip::BitFlags<chip::app::Clusters::PowerSource::Feature> mFeatureMap;
+//     DeviceCallback_fn mChanged_CB;
+// };
 
 class EndpointListInfo
 {
@@ -287,3 +337,33 @@ private:
     uint16_t mSupportedCommands;
     bool mIsVisible;
 };
+
+
+
+// class DeviceIlluminance : public Device
+// {
+//     public:
+//     DeviceIlluminance(const char * szDeviceName, std::string szLocation);
+//     void HandleDeviceChange(Device * device, Device::Changed_t changeMask);
+// };
+// class DeviceOccupancy : public Device
+// {
+//     public:
+//     DeviceOccupancy(const char * szDeviceName, std::string szLocation);
+//     void HandleDeviceChange(Device * device, Device::Changed_t changeMask);
+// };
+class DeviceEchonetAdapter : public Device
+{
+    public:
+    DeviceEchonetAdapter(const char * szDeviceName, std::string szLocation);
+    void HandleDeviceChange(Device * device, Device::Changed_t changeMask);
+};
+class DeviceIHouseEchonetSwitch : public Device
+{
+    public:
+    DeviceIHouseEchonetSwitch(const char * szDeviceName, std::string szLocation);
+    void HandleDeviceChange(Device * device, Device::Changed_t changeMask);
+};
+
+
+#endif

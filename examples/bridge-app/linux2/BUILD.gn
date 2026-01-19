@@ -20,31 +20,68 @@ assert(chip_build_tools)
 
 executable("chip-bridge-app") {
   sources = [
-    "${chip_root}/examples/bridge-app/bridge-common/include/CHIPProjectAppConfig.h",
     "${chip_root}/examples/bridge-app/linux/bridged-actions-stub.cpp",
+    "${chip_root}/examples/tv-app/tv-common/include/CHIPProjectAppConfig.h",
+
+    #"${chip_root}/src/app/clusters/mode-select-server/mode-select-server.cpp",
+    #"${chip_root}/src/app/clusters/window-covering-server/window-covering-server.cpp",
+
+    #"${chip_root}/src/app/clusters/mode-select-server/supported-modes-manager.h",
+    "AttributePropertyAdapter.cpp",
     "Device.cpp",
+    "EchonetDevicesManager.cpp",
+    "EchonetEndpoint.cpp",
+    "EchonetEndpointDefines.h",
+    "EchonetSelectModeSupportedModes.cpp",
+    "EchonetWindowCoveringDelegate.cpp",
+    "EchonetWindowCoveringDelegate_IHouse.cpp",
+    
+    "TimeManager.cpp",
+    "Utils.cpp",
     "include/Device.h",
+    "include/delegates/EchonetEndpointDelegate_IHouseSwitch.cpp",
+    "include/delegates/EchonetEndpointDelegate_IHouseWindow.cpp",
+    "include/delegates/EchonetEndpointDelegate_IHouseWindowCovering.cpp",
     "include/main.h",
+    "include/openecho/DeviceObject.cpp",
+    "include/openecho/Echo.cpp",
+    "include/openecho/EchoFrame.cpp",
+    "include/openecho/EchoNode.cpp",
+    "include/openecho/EchoObject.cpp",
+    "include/openecho/EchoProperty.cpp",
+    "include/openecho/EchoProtocol.cpp",
+    "include/openecho/EchoSocket.cpp",
+    "include/openecho/EchoStorage.cpp",
+    "include/openecho/EchoUDPProtocol.cpp",
+    "include/openecho/EchoUtils.cpp",
+    "include/openecho/NodeProfile.cpp",
+    "include/openecho/ProfileObject.cpp",
     "main.cpp",
+
+    #"static-supported-modes-manager.cpp",
   ]
 
   deps = [
+    #"${chip_root}/examples/bridge-app/bridge-common",
+    #"${chip_root}/examples/all-clusters-app",
     "${chip_root}/examples/bridge-app/bridge-common",
     "${chip_root}/examples/platform/linux:app-main",
     "${chip_root}/src/lib",
   ]
 
-  cflags = [ "-Wconversion" ]
+  cflags = [
+    "-Wunused-variable",
+    "-Wno-unknown-warning-option",
+  ]
 
-  include_dirs = [ "include" ]
+  include_dirs = [
+    "include",
+    "${chip_root}/third_party/jsoncpp/repo/include",
+  ]
 
   output_dir = root_out_dir
 }
 
 group("linux") {
-  deps = [ ":chip-bridge-app" ]
-}
-
-group("default") {
   deps = [ ":chip-bridge-app" ]
 }

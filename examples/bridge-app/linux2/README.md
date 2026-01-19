@@ -1,167 +1,481 @@
-# Matter Linux Bridge Example
 
-An example demonstrating a simple lighting bridge and the use of dynamic
-endpoints. The document will describe the theory of operation and how to build
-and run Matter Linux Bridge Example on Raspberry Pi. This doc is tested on
-**Ubuntu for Raspberry Pi Server 20.04 LTS (aarch64)** and **Ubuntu for
-Raspberry Pi Desktop 20.10 (aarch64)**
+  
 
-<hr>
+  
 
--   [Matter Linux Bridge Example](#matter-linux-bridge-example)
-    -   [Theory of Operation](#theory-of-operation)
-        -   [Dynamic Endpoints](#dynamic-endpoints)
-        -   [Limitations](#limitations)
-        -   [Bridge Implementation Example](#bridge-implementation-example)
-    -   [Building](#building)
-    -   [Running the Complete Example on Raspberry Pi 4](#running-the-complete-example-on-raspberry-pi-4)
+  
 
-<hr>
+# Introduction
 
-## Theory of Operation
+  
 
-### Dynamic Endpoints
+  
 
-The Bridge Example makes use of Dynamic Endpoints. Current SDK support is
-limited for dynamic endpoints, since endpoints are typically defined (along with
-the clusters and attributes they contain) in a .zap file which then generates
-code and static structures to define the endpoints.
+This is a bridge-app that convert **ECHONET Lite devices** into **Matter endpoint**. The bridge-app is extended from the project `example/bridge-app/linux`.
 
-To support endpoints that are not statically defined, the ZCL attribute storage
-mechanisms will hold additional endpoint information for `NUM_DYNAMIC_ENDPOINTS`
-additional endpoints. These additional endpoint structures must be defined by
-the application and can change at runtime.
+- This bridge-app manages (node detection, data extraction) ECHONET Lite devices and translate them into matter endpoints. The overall concept is in the picture
 
-To facilitate the creation of these endpoint structures, several macros are
-defined:
+![Concept](images/concept.png)
 
-`DECLARE_DYNAMIC_ATTRIBUTE_LIST_BEGIN(attrListName)`
-`DECLARE_DYNAMIC_ATTRIBUTE(attId, attType, attSizeBytes, attrMask)`
-`DECLARE_DYNAMIC_ATTRIBUTE_LIST_END(clusterRevision)`
+  
 
--   These three macros are used to declare a list of attributes for use within a
-    cluster. The declaration must begin with the
-    `DECLARE_DYNAMIC_ATTRIBUTE_LIST_BEGIN` macro which will define the name of
-    the allocated attribute structure. Each attribute is then added by the
-    `DECLARE_DYNAMIC_ATTRIBUTE` macro. Finally,
-    `DECLARE_DYNAMIC_ATTRIBUTE_LIST_END` macro should be used to close the
-    definition.
+- Screen cast: To be added
 
--   All attributes defined with these macros will be configured as
-    `MATTER_ATTRIBUTE_FLAG_EXTERNAL_STORAGE` in the ZCL database and therefore
-    will rely on the application to maintain storage for the attribute.
-    Consequently, reads or writes to these attributes must be handled within the
-    application by the `emberAfExternalAttributeWriteCallback` and
-    `emberAfExternalAttributeReadCallback` functions. See the bridge
-    application's `main.cpp` for an example of this implementation.
+- Demonstration video: To be uploaded
 
-`DECLARE_DYNAMIC_CLUSTER_LIST_BEGIN(clusterListName)`
-`DECLARE_DYNAMIC_CLUSTER(clusterId, clusterAttrs, role, incomingCommands, outgoingCommands)`
-`DECLARE_DYNAMIC_CLUSTER_LIST_END`
+- Paper related to the bridge: Accepted, Presented, To be published to the IEEE Explore
+- For Q&A : cupham@jaist.ac.jp (Japanese is OK) or nmtoan91@jaist.ac.jp
 
--   These three macros are used to declare a list of clusters for use within a
-    endpoint. The declaration must begin with the
-    `DECLARE_DYNAMIC_CLUSTER_LIST_BEGIN` macro which will define the name of the
-    allocated cluster structure. Each cluster is then added by the
-    `DECLARE_DYNAMIC_CLUSTER` macro referencing attribute list previously
-    defined by the `DECLARE_DYNAMIC_ATTRIBUTE...` macros and the lists of
-    incoming/outgoing commands terminated by kInvalidCommandId (or nullptr if
-    there aren't any commands in the list). Finally,
-    `DECLARE_DYNAMIC_CLUSTER_LIST_END` macro should be used to close the
-    definition.
+  
 
-`DECLARE_DYNAMIC_ENDPOINT(endpointName, clusterList)`
+# Build and Run
 
--   This macro is used to declare an endpoint and its associated cluster list,
-    which must be previously defined by the `DECLARE_DYNAMIC_CLUSTER...` macros.
+  
 
-### Limitations
+  
 
-Because code generation is dependent upon the clusters and attributes defined in
-the .zap file (for static endpoint generation), it is necessary to include a
-defined endpoint within the .zap that contains _all_ the clusters that may be
-used on dynamic endpoints. On the bridge example, this is done on endpoint 1,
-which is used as a 'dummy' endpoint that will be disabled at runtime. Endpoint 0
-is also defined in the .zap and contains the bridge basic and configuration
-clusters as well as the root descriptor cluster.
+1. Active Matter environment: [the build guide](guides/BUILDING.md)
 
-### Bridge Implementation Example
+  
 
-The example demonstrates the use of dynamic endpoints and the concept of adding
-and removing endpoints at runtime. First, the example declares a
-`bridgedLightEndpoint` data structure for a Light endpoint with `OnOff`,
-`Descriptor`, `BridgedDeviceBasicInformation`, and `FixedLabel` clusters.
+2. Run the following commands
 
-Using this declared endpoint structure, three endpoints for three bridged lights
-are dynamically added at endpoint ID's `2`, `3`, and `4`, representing
-`Light 1`, `Light 2`, and `Light 3` respectively.
+  
 
-Then, endpoint `3` is removed, simulating the deletion of `Light 2`.
+```
 
-A fourth light, `Light 4`, is then added occupying endpoint ID `5`.
+  
 
-Finally, `Light 2` is re-added, and will occupy endpoint ID `6`.
+cd examples/bridge-app/echonet-lite-bridge-linux
 
-All endpoints populate the `Bridged Device Basic Information` and `Fixed Label`
-clusters. In the `Bridged Device Basic Information` cluster, the `reachable`
-attribute is simulated. In the `Fixed Label` cluster, the `LabelList` attribute
-is simulated with the value/label pair `"room"`/`[light name]`.
+  
 
-## Building
+make
 
--   Install tool chain
+  
 
-    ```sh
-    sudo apt-get install git gcc g++ python pkg-config libssl-dev libdbus-1-dev libglib2.0-dev ninja-build python3-venv python3-dev unzip
-    ```
+```
 
--   Build the example application:
+  
 
-    ```sh
-    cd ~/connectedhomeip/examples/bridge-app/linux
-    git submodule update --init
-    source third_party/connectedhomeip/scripts/activate.sh
-    gn gen out/debug
-    ninja -C out/debug
-    ```
+## Parameters
 
--   To delete generated executable, libraries and object files use:
+  
 
-    ```sh
-    cd ~/connectedhomeip/examples/bridge-app/linux
-    rm -rf out/
-    ```
+  
 
-## Running the Complete Example on Raspberry Pi 4
+| **Parameter** | **Description** |
 
--   Prerequisites
+  
 
-    1. A Raspberry Pi 4 board
-    2. A USB Bluetooth Dongle, Ubuntu desktop will send Bluetooth advertisement,
-       which will block CHIP from connecting via BLE. On Ubuntu server, you need
-       to install `pi-bluetooth` via APT.
-    3. Ubuntu 20.04 or newer image for ARM64 platform.
+| -asyncread | Asynchronous read |
 
--   Building
+  
 
-    Follow [Building](#building) section of this document.
+| -asyncwrite | Asynchronous write |
 
--   Running
+  
 
-    -   [Optional] Plug USB Bluetooth dongle
+| -get_interval <t> | Set get interval time <t>; Disable by setting <t> =0 |
 
-        -   Plug USB Bluetooth dongle and find its bluetooth controller selector
-            as described in
-            [Linux BLE Settings](/platforms/linux/ble_settings.md).
+  
 
-    -   Run Linux Bridge Example App
+  
 
-        ```sh
-        cd ~/connectedhomeip/examples/bridge-app/linux
-        sudo out/debug/chip-bridge-app --ble-controller [bluetooth controller number]
-        # In this example, the device we want to use is hci1
-        sudo out/debug/chip-bridge-app --ble-controller 1
-        ```
+  
 
-    -   Test the device using ChipDeviceController on your laptop / workstation
-        etc.
+# Runtime commands
+
+  
+
+  
+
+| **Command** | **Description** |
+
+  
+
+  
+
+| R | Factory reset |
+
+  
+
+| E | Safe Exit|
+
+  
+
+| e | Show all matter endpoints (mapped from ECHONET Lite devices)|
+
+  
+
+| f | Show all matter endpoints (mapped from ECHONET Lite devices, with gettable, settable properties)|
+
+  
+
+| g | Show all ECHONET Lite devices|
+
+  
+
+  
+
+# Supported (ECHONET Lite) Devices
+
+  
+
+  
+
+- 0x0290 : General Lighting Class
+
+  
+
+- 0x0291 : Mono Functional Lighting Class
+
+  
+
+- 0x0011: Temperature Sensor
+
+  
+
+- 0x000D: Illuminance Sensor
+
+  
+
+- 0x001B: CO2 Sensor
+
+  
+
+- 0x0003: Emergency button
+
+  
+
+- 0x0007: Human detection sensor
+
+  
+
+- 0x0012: Humidity sensor
+
+  
+
+- 0x0025: Water flow rate sensor
+
+  
+
+- 0x0022: Flame sensor
+
+  
+
+- 0x0262: Electrically operated curtain
+
+  
+
+- 0x0265: Electrically operated window
+
+  
+
+- 0x0130: Home air conditioner
+
+  
+
+- 0x05fd: JEM-A Switch
+
+  
+
+  
+
+# How to support new (ECHONET Lite) Devices
+
+  
+
+  
+
+1. Update file `Utils.cpp` by adding more matching rules (add more `case:` statement
+
+  
+
+```cpp
+
+  
+
+switch (echoClassCode)
+
+  
+
+{
+
+  
+
+case  0x0290: //return a light
+
+  
+
+case  0x0130: //return an airconditioner
+
+  
+
+// add more case to return your device type
+
+  
+
+```
+
+  
+
+2. Update file `EchonetEndpoint.cpp` to initialize Matter **endpoint** and add supported **cluster** (function: ``void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()``)
+
+  
+
+  
+
+```cpp
+
+  
+
+void  EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
+
+  
+
+{
+
+  
+
+AttributePropertyAdapter* apt;
+
+  
+
+this->device = NULL;
+
+  
+
+switch (this->type)
+
+  
+
+{
+
+  
+
+case  CustomEndpointTypeEnum::ONOFF_LIGHT:
+
+  
+
+//Add required cluster of the endpoint
+
+  
+
+break;
+
+  
+
+case yourEndpointype:
+
+  
+
+// Add required cluster of the endpoint
+
+  
+
+```
+
+  
+
+3. Add declaration of supported **Clusters**, **Attribute**, **Commands** of each endpoint type following the example in file ```EchonetEndpointDefines.h```
+
+  
+
+Here is an example of the *Bridged Device Basic Attribute Cluster*:
+
+  
+
+```cpp
+
+  
+
+DECLARE_DYNAMIC_ATTRIBUTE_LIST_BEGIN(bridgedDeviceBasicAttrs_)
+
+  
+
+DECLARE_DYNAMIC_ATTRIBUTE(BridgedDeviceBasicInformation::Attributes::NodeLabel::Id, CHAR_STRING, kNodeLabelSize_, 0), /* NodeLabel */
+
+  
+
+DECLARE_DYNAMIC_ATTRIBUTE(BridgedDeviceBasicInformation::Attributes::Reachable::Id, BOOLEAN, 1, 0), /* Reachable */
+
+  
+
+DECLARE_DYNAMIC_ATTRIBUTE(BridgedDeviceBasicInformation::Attributes::FeatureMap::Id, BITMAP32, 4, 0), /* feature map */
+
+  
+
+DECLARE_DYNAMIC_ATTRIBUTE(BridgedDeviceBasicInformation::Attributes::VendorName::Id, CHAR_STRING, kNodeLabelSize_, 0), //0x8A
+
+  
+
+DECLARE_DYNAMIC_ATTRIBUTE(BridgedDeviceBasicInformation::Attributes::VendorID::Id, INT32U, 4, 0), //0x8A
+
+  
+
+DECLARE_DYNAMIC_ATTRIBUTE(BridgedDeviceBasicInformation::Attributes::ProductName::Id, CHAR_STRING, kNodeLabelSize_, 0), //0x8C
+
+  
+
+DECLARE_DYNAMIC_ATTRIBUTE(BridgedDeviceBasicInformation::Attributes::SoftwareVersion::Id, INT32U, 4, 0), // 0x82
+
+  
+
+DECLARE_DYNAMIC_ATTRIBUTE(BridgedDeviceBasicInformation::Attributes::SoftwareVersionString::Id, CHAR_STRING, kNodeLabelSize_, 0), //0x82
+
+  
+
+DECLARE_DYNAMIC_ATTRIBUTE(BridgedDeviceBasicInformation::Attributes::ManufacturingDate::Id, CHAR_STRING, kNodeLabelSize_, 0), //0x8E
+
+  
+
+DECLARE_DYNAMIC_ATTRIBUTE(BridgedDeviceBasicInformation::Attributes::PartNumber::Id, INT8U, 1, 0), // 0x8D
+
+  
+
+DECLARE_DYNAMIC_ATTRIBUTE(BridgedDeviceBasicInformation::Attributes::SerialNumber::Id, INT8U, 1, 0), // 0x83
+
+  
+
+DECLARE_DYNAMIC_ATTRIBUTE_LIST_END();
+
+  
+
+```
+
+  
+
+4. Update ```.zap``` file to support your desired cluster. The current ```bridge-app.zap``` in ```example/bridge-app``` only supports several device types. You need to **modify** the content of ```bridge-app.zap``` by adding target *cluster*.
+
+  
+
+*Note*: The best way to modify the ```.zap``` file is to **copy** the content from ```example/all-clusters-app/all-clusters-common/all-clusters-app.zap```. This ```.zap``` file has all supported clusters of the current SDK.
+
+  
+
+  
+
+## Tips to manually without the zap tool edit the zap files
+
+  
+
+  
+
+- bridge-app.matter
+
+  
+
+1. Search for *endpoint 0* in the **source**  `.matter file`
+
+``Note``: Sometime the desired information is listed near *endpoint 2* tag too
+
+2. Search for *endpoint 1* in the **target**  `.matter` file.
+
+3. Copy and Paste necessary *clusters*'s metadata inside the *endpoint 1* tag
+
+  
+
+- bridge-app.zap
+
+1. Look up for your desired `Cluster` name ( E.g `Window Covering`) by using the keyword from the **source** file (`all-clusters-app.zap`). There should be **2** results but you must **COPY TWO OF THEM**
+
+2. Put it under ``endpointTypes.clusters`` tag of the **target**  `.zap` file.
+
+  
+  
+
+# Troubleshooting ( When sync local with upstream)
+
+  
+
+The Matter SDK is getting involves by multiple developers quite often. It is not guarantee that this source code will work with the latest version of the SDK. The following steps are necessary to fix conflicts with the latest SDK from upstream.
+
+  
+
+  
+
+1. Copy and replace zap files in bridge-common project
+
+  
+
+  
+
+2. In file `src/app/clusters/window-covering-server/window-covering-server.cpp`
+
+  
+
+- Add the following line on the top
+
+  
+```#ifndef EMBER_AF_WINDOW_COVERING_CLUSTER_SERVER_ENDPOINT_COUNT```
+
+```#define EMBER_AF_WINDOW_COVERING_CLUSTER_SERVER_ENDPOINT_COUNT (0)```
+
+```#endif```
+
+  
+
+- Modify `HasFeature()` function (**this is a bug from the SDK**!!!):
+
+  
+
+As the current ```HasFeature()``` does not return a valid value (when *endpoint id > 4*), the bridge can not support more than 4 endpoint. It does not matter, just return `TRUE`. For example:
+
+  
+
+```cpp
+if (delegate)
+{
+    if (HasFeature(endpoint, Feature::kPositionAwareLift)|| true)
+        {
+            LogErrorOnFailure(delegate->HandleMovement(WindowCoveringType::Lift,100));
+        }
+
+    if (HasFeature(endpoint, Feature::kPositionAwareTilt)|| true)
+        {
+            LogErrorOnFailure(delegate->HandleMovement(WindowCoveringType::Tilt,100));
+        }
+
+}
+
+```
+
+  
+
+Alway add ```HasFeature(...) || true``` to the ```if``` statement
+
+  
+
+3. In file ```src/app/clusters/window-covering-server/window-covering-delegate.h```
+
+  
+
+  
+
+- Add `int openPercent variable` to specify open/close percentage (without it, we can not open or close anything): For example
+
+  
+
+```cpp
+virtual CHIP_ERROR
+HandleMovement(WindowCoveringType type, int openPercent) = 0;
+
+```
+
+  
+
+Other `delegate` that calls this function also need to be updated such as:
+
+  
+
+```cpp
+delegate->HandleMovement(WindowCoveringType::Lift,100)
+delegate->HandleMovement(WindowCoveringType::Tilt,100)
+delegate->HandleMovement(WindowCoveringType::Lift,0)
+delegate->HandleMovement(WindowCoveringType::Tilt,0)
+delegate->HandleMovement(WindowCoveringType::Lift,liftValue)
+delegate->HandleMovement(WindowCoveringType::Lift,percent100ths)
+delegate->HandleMovement(WindowCoveringType::Tilt,tiltValue)
+delegate->HandleMovement(WindowCoveringType::Tilt,percent100ths)
+```

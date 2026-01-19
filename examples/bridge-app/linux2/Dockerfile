@@ -15,9 +15,7 @@
 #   limitations under the License.
 #
 
-ARG VERSION=1
-FROM ghcr.io/project-chip/chip-cirque-device-base:${VERSION}
-LABEL org.opencontainers.image.source https://github.com/project-chip/connectedhomeip
+FROM connectedhomeip/chip-cirque-device-base:latest
 
 COPY out/debug/chip-bridge-app /usr/bin/
 COPY entrypoint.sh /
