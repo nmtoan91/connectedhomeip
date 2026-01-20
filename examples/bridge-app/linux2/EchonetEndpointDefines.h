@@ -199,8 +199,8 @@ DECLARE_DYNAMIC_ATTRIBUTE_LIST_BEGIN(bridgedDeviceBasicAttrs_)
     DECLARE_DYNAMIC_ATTRIBUTE(BridgedDeviceBasicInformation::Attributes::SoftwareVersion::Id, INT32U, 4, 0), // 0x82
     DECLARE_DYNAMIC_ATTRIBUTE(BridgedDeviceBasicInformation::Attributes::SoftwareVersionString::Id, CHAR_STRING, kNodeLabelSize_, 0), //0x82
     DECLARE_DYNAMIC_ATTRIBUTE(BridgedDeviceBasicInformation::Attributes::ManufacturingDate::Id, CHAR_STRING, kNodeLabelSize_, 0), //0x8E
-    DECLARE_DYNAMIC_ATTRIBUTE(BridgedDeviceBasicInformation::Attributes::PartNumber::Id, INT8U, 1, 0), // 0x8D
-    DECLARE_DYNAMIC_ATTRIBUTE(BridgedDeviceBasicInformation::Attributes::SerialNumber::Id, INT8U, 1, 0), // 0x83
+    DECLARE_DYNAMIC_ATTRIBUTE(BridgedDeviceBasicInformation::Attributes::PartNumber::Id, CHAR_STRING, 1, 0), // 0x8D
+    DECLARE_DYNAMIC_ATTRIBUTE(BridgedDeviceBasicInformation::Attributes::SerialNumber::Id, CHAR_STRING, 1, 0), // 0x83
 DECLARE_DYNAMIC_ATTRIBUTE_LIST_END();
 
 
@@ -492,8 +492,9 @@ DECLARE_DYNAMIC_CLUSTER_LIST_END;
 DECLARE_DYNAMIC_ENDPOINT(heatingColingEndpoint_, heatingColingClusters_); 
 DataVersion heatingColingDataVersions_[ArraySize(heatingColingClusters_)]; 
 
-
+// FROM PHUONG
 DECLARE_DYNAMIC_ATTRIBUTE_LIST_BEGIN(batteryAttrs_)
+    //DECLARE_DYNAMIC_ATTRIBUTE(EnergyEvse::Attributes::Description::Id, CHAR_STRING, kDescriptorAttributeArraySize_, 0),   
     DECLARE_DYNAMIC_ATTRIBUTE(EnergyEvse::Attributes::State::Id, ENUM8, 1, 0),
     DECLARE_DYNAMIC_ATTRIBUTE(EnergyEvse::Attributes::BatteryCapacity::Id, INT32U, 4, 0), 
     DECLARE_DYNAMIC_ATTRIBUTE(EnergyEvse::Attributes::StateOfCharge::Id, INT8U, 1, 0), 
