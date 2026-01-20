@@ -349,7 +349,32 @@ void EchonetEndpoint::CreateMatterDeviceEndpointOBJ()
         this->delegate = new EchonetEndpointDelegate_IHouseSwitch(this);
 
         break;
+    case MatterEchonetLITECombineEndpointType::CAR_CHARGER:
+        this->device = new DeviceEchonetAdapter(("CAR CHARGER " + this->GetName()).c_str(),"myroom");
+        this->emberAfEndpointType = &carChargerEndpoint_;
+        this->deviceTypeList = Span<const EmberAfDeviceType>(gCarChargerDeviceTypes_);
+        this->dataVersionStorage = Span<DataVersion>(carChargerDataVersions_); 
 
+        
+        // EnergyEVSE
+        apt = CreateDeviceEchonetAdapter(EnergyEvse::Id, EnergyEvse::Attributes::State::Id, 0xC7, ZAP_TYPE(ENUM8), 1, ZAP_TYPE(ENUM8), 1);
+        apt->AddPairOfmapValue({0x30},{0});
+        apt->AddPairOfmapValue({0x40},{1});
+        apt->AddPairOfmapValue({0x41},{3});
+        apt->AddPairOfmapValue({0x42},{4});
+        this->attributePropertyAdapters.insert({make_pair(apt->matterClusterId,apt->matterAttributeId),apt} );
+
+        apt = CreateDeviceEchonetAdapter(EnergyEvse::Id, EnergyEvse::Attributes::BatteryCapacity::Id, 0xE2, ZAP_TYPE(INT32U), 4, ZAP_TYPE(INT32U), 4);
+        apt->valueMultiplierForEchonetValue = 1000.0f; 
+        this->attributePropertyAdapters.insert({make_pair(apt->matterClusterId,apt->matterAttributeId),apt} );
+
+        apt = CreateDeviceEchonetAdapter(EnergyEvse::Id, EnergyEvse::Attributes::StateOfCharge::Id, 0xE4, ZAP_TYPE(INT8U), 1, ZAP_TYPE(INT8U), 1);
+        this->attributePropertyAdapters.insert({make_pair(apt->matterClusterId,apt->matterAttributeId),apt} );
+
+        //Mode Select
+        AddPresetEchonetAdapter_ModeSelect(0xDA, EchonetOptionType::CAR_CHARGER_OPERATION_MODE);
+        AddPresetEchonetAdapter_ModeSelect_Description("Operation mode setting of the electric vehicle charger or discharger");
+        break;
     default:
             this->device = new DeviceEchonetAdapter(("UNKNOW DEVICE " + this->GetName()).c_str(),"myroom");
         break;

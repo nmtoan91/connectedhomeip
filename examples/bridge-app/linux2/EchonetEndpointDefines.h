@@ -103,7 +103,7 @@ const int kDescriptorAttributeArraySize_ = 254;
 #define DEVICE_TYPE_HEATING_COOLING_DEVICE 0x0300
 #define DEVICE_VERSION_DEFAULT 1
 #define DEVICE_TYPE_PRESSURE_SENSOR_for_STORAGE_BATTERY_DEVICE 0x0305
-
+#define DEVICE_TYPE_CAR_CHARGER 0x9997
 
 const EmberAfDeviceType gBridgedOnOffDeviceTypes_[] = { { DEVICE_TYPE_LO_ON_OFF_LIGHT, DEVICE_VERSION_DEFAULT },
                                                        { DEVICE_TYPE_BRIDGED_NODE, DEVICE_VERSION_DEFAULT } };
@@ -152,7 +152,8 @@ const EmberAfDeviceType gBridgeGenericCurtainDeviceTypes_[] = { { DEVICE_TYPE_MO
 const EmberAfDeviceType gHeatingCoolingDeviceTypes_[] = { { DEVICE_TYPE_HEATING_COOLING_DEVICE, DEVICE_VERSION_DEFAULT }, 
                                                             { DEVICE_TYPE_BRIDGED_NODE, DEVICE_VERSION_DEFAULT } };
 
-
+const EmberAfDeviceType gCarChargerDeviceTypes_[] = { { DEVICE_TYPE_CAR_CHARGER, DEVICE_VERSION_DEFAULT }, 
+                                                            { DEVICE_TYPE_BRIDGED_NODE, DEVICE_VERSION_DEFAULT } };
 
 
 
@@ -492,23 +493,40 @@ DECLARE_DYNAMIC_ENDPOINT(heatingColingEndpoint_, heatingColingClusters_);
 DataVersion heatingColingDataVersions_[ArraySize(heatingColingClusters_)]; 
 
 
-// DECLARE_DYNAMIC_ATTRIBUTE_LIST_BEGIN(batteryAttrs_)
-//     DECLARE_DYNAMIC_ATTRIBUTE(EnergyEvse::Attributes::State::Id, ENUM8, 1, 0),
-//     DECLARE_DYNAMIC_ATTRIBUTE(EnergyEvse::Attributes::BatteryCapacity::Id, INT32U, 4, 0), 
-//     DECLARE_DYNAMIC_ATTRIBUTE(EnergyEvse::Attributes::StateOfCharge::Id, INT8U, 1, 0), 
+DECLARE_DYNAMIC_ATTRIBUTE_LIST_BEGIN(batteryAttrs_)
+    DECLARE_DYNAMIC_ATTRIBUTE(EnergyEvse::Attributes::State::Id, ENUM8, 1, 0),
+    DECLARE_DYNAMIC_ATTRIBUTE(EnergyEvse::Attributes::BatteryCapacity::Id, INT32U, 4, 0), 
+    DECLARE_DYNAMIC_ATTRIBUTE(EnergyEvse::Attributes::StateOfCharge::Id, INT8U, 1, 0), 
+DECLARE_DYNAMIC_ATTRIBUTE_LIST_END();
+
+DECLARE_DYNAMIC_ATTRIBUTE_LIST_BEGIN(modeSelectAttrs_)
+    DECLARE_DYNAMIC_ATTRIBUTE(ModeSelect::Attributes::Description::Id, CHAR_STRING, kDescriptorAttributeArraySize_, 0),        
+    DECLARE_DYNAMIC_ATTRIBUTE(ModeSelect::Attributes::StandardNamespace::Id, ENUM16, 2, 0),        
+    DECLARE_DYNAMIC_ATTRIBUTE(ModeSelect::Attributes::SupportedModes::Id, ARRAY, kDescriptorAttributeArraySize_, 0), 
+    DECLARE_DYNAMIC_ATTRIBUTE(ModeSelect::Attributes::CurrentMode::Id, INT8U, 1, 0),
+DECLARE_DYNAMIC_ATTRIBUTE_LIST_END();
+
+constexpr CommandId modeSelectIncomingCommands_[] = {
+    app::Clusters::ModeSelect::Commands::ChangeToMode::Id,
+    kInvalidCommandId
+};
+// DECLARE_DYNAMIC_ATTRIBUTE_LIST_BEGIN(electricalEnergyMeasurementAttrs_)
+//     DECLARE_DYNAMIC_ATTRIBUTE(ElectricalEnergyMeasurement::Attributes::CumulativeEnergyImported::Id, EnergyMeasurementStruct, kDescriptorAttributeArraySize_, 0),
+//     DECLARE_DYNAMIC_ATTRIBUTE(ElectricalEnergyMeasurement::Attributes::CumulativeEnergyExported::Id, EnergyMeasurementStruct, kDescriptorAttributeArraySize_, 0)
 // DECLARE_DYNAMIC_ATTRIBUTE_LIST_END();
 
-// DECLARE_DYNAMIC_ATTRIBUTE_LIST_BEGIN(modeSelectAttrs_)
-//     DECLARE_DYNAMIC_ATTRIBUTE(ModeSelect::Attributes::Description::Id, CHAR_STRING, kDescriptorAttributeArraySize_, 0),        
-//     DECLARE_DYNAMIC_ATTRIBUTE(ModeSelect::Attributes::StandardNamespace::Id, ENUM16, 2, 0),        
-//     DECLARE_DYNAMIC_ATTRIBUTE(ModeSelect::Attributes::SupportedModes::Id, ARRAY, kDescriptorAttributeArraySize_, 0), 
-//     DECLARE_DYNAMIC_ATTRIBUTE(ModeSelect::Attributes::CurrentMode::Id, INT8U, 1, 0),
-// DECLARE_DYNAMIC_ATTRIBUTE_LIST_END();
 
-// constexpr CommandId modeSelectIncomingCommands_[] = {
-//     app::Clusters::ModeSelect::Commands::ChangeToMode::Id,
-//     kInvalidCommandId
-// };
+
+
+DECLARE_DYNAMIC_CLUSTER_LIST_BEGIN(carChargerClusters_)
+    DECLARE_DYNAMIC_CLUSTER(EnergyEvse::Id, batteryAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(ModeSelect::Id, modeSelectAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, modeSelectIncomingCommands_, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
+    // DECLARE_DYNAMIC_CLUSTER(ElectricalEnergyMeasurement::Id, electricalEnergyMeasurementAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr,nullptr)
+DECLARE_DYNAMIC_CLUSTER_LIST_END;
+DECLARE_DYNAMIC_ENDPOINT(carChargerEndpoint_, carChargerClusters_); 
+DataVersion carChargerDataVersions_[ArraySize(carChargerClusters_)]; 
 
 } // namespace
 #endif

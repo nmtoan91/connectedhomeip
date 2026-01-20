@@ -50,7 +50,7 @@ class StaticSupportedModesManager : public chip::app::Clusters::ModeSelect::Supp
     static const ModeOptionStructType echonetOpenCloseStopOptions[];
     static const ModeOptionStructType echonetLightColorOptions[];
     static const ModeOptionStructType echonetPowerSavingOptions[];
-    
+    static const ModeOptionStructType echonetCarChargerOperationOptions[];
 public:
 //toanstt
     vector<EndpointSpanPair> echonetSupportedOptionsByEndpoint;

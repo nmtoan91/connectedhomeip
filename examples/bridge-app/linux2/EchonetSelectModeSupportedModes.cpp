@@ -56,6 +56,32 @@ const ModeOptionStructType StaticSupportedModesManager::echonetPowerSavingOption
 
 
 
+
+
+SemanticTag semanticTags1[]  = { { .value = 0x40 } };
+SemanticTag semanticTags2[]  = { { .value = 0x42 } };
+SemanticTag semanticTags3[]  = { { .value = 0x43 } };
+SemanticTag semanticTags4[]  = { { .value = 0x44 } };
+SemanticTag semanticTags5[]  = { { .value = 0x46 } };
+SemanticTag semanticTags6[]  = { { .value = 0x47 } };
+SemanticTag semanticTags7[]  = { { .value = 0x48 } };
+SemanticTag semanticTags8[]  = { { .value = 0x49 } };
+const ModeOptionStructType StaticSupportedModesManager::echonetCarChargerOperationOptions[] = {
+    buildModeOptionStruct("Other", 0, List<const SemanticTag>(semanticTags1)),
+    buildModeOptionStruct("Charge", 1, List<const SemanticTag>(semanticTags2)),
+    buildModeOptionStruct("Discharge", 2, List<const SemanticTag>(semanticTags3)),
+    buildModeOptionStruct("Standby", 3, List<const SemanticTag>(semanticTags4)),
+    buildModeOptionStruct("Charging/Discharging", 4, List<const SemanticTag>(semanticTags5)),
+    buildModeOptionStruct("IDLE", 5, List<const SemanticTag>(semanticTags6)),
+    buildModeOptionStruct("Preparation", 6, List<const SemanticTag>(semanticTags7)),
+    buildModeOptionStruct("Automatic", 7, List<const SemanticTag>(semanticTags8)),
+};
+
+
+
+
+
+
 StaticSupportedModesManager StaticSupportedModesManager::instance = StaticSupportedModesManager();
 
 SupportedModesManager::ModeOptionsProvider StaticSupportedModesManager::getModeOptionsProvider(EndpointId endpointId) const
@@ -112,6 +138,9 @@ void StaticSupportedModesManager::AddEchonetSupportedOptionsByEndpoint(EndpointI
         break;
     case EchonetOptionType::POWER_SAVING_OPERATION_SETTING_41_42:
     this->echonetSupportedOptionsByEndpoint.push_back(EndpointSpanPair(endpointId,Span<const ModeOptionStructType>(echonetPowerSavingOptions) ));
+        break;
+    case EchonetOptionType::CAR_CHARGER_OPERATION_MODE:
+    this->echonetSupportedOptionsByEndpoint.push_back(EndpointSpanPair(endpointId,Span<const ModeOptionStructType>(echonetCarChargerOperationOptions) ));
         break;
     case EchonetOptionType::OPTION_UNKNOW:
     break;

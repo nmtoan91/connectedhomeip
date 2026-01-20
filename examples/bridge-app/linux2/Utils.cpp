@@ -580,7 +580,7 @@ extern MatterEchonetLITECombineEndpointType GetMatterEndpointTypeFromEchonetEndp
         break;
     case 0x05fd: type= MatterEchonetLITECombineEndpointType::ONOFF_LIGHT_SWITCH;
        break;
-
+    case 0x027e: type= MatterEchonetLITECombineEndpointType::CAR_CHARGER; break;
     // case 0x027d: type= MatterEchonetLITECombineEndpointType::PRESSURE_SENSOR_for_STORAGE_BATTERY ;break;
 
     default:
