@@ -24,8 +24,8 @@ executable("chip-bridge-app") {
     "${chip_root}/examples/tv-app/tv-common/include/CHIPProjectAppConfig.h",
 
     #"${chip_root}/src/app/clusters/mode-select-server/mode-select-server.cpp",
-    #"${chip_root}/src/app/clusters/window-covering-server/window-covering-server.cpp",
-
+    "${chip_root}/src/app/clusters/window-covering-server/window-covering-server.cpp",
+    "${chip_root}/src/app/clusters/window-covering-server/window-covering-delegate.h",
     #"${chip_root}/src/app/clusters/mode-select-server/supported-modes-manager.h",
     "AttributePropertyAdapter.cpp",
     "Device.cpp",

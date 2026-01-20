@@ -81,6 +81,8 @@ namespace {
 const int kNodeLabelSize_ = 32;
 const int kDescriptorAttributeArraySize_ = 254;
 
+#define DECLARE_DYNAMIC_CLUSTER_ROLE 0
+#define ArraySize(arr) (sizeof(arr) / sizeof((arr)[0]))
 
 #define DEVICE_TYPE_BRIDGED_NODE 0x0013
 #define DEVICE_TYPE_LO_ON_OFF_LIGHT 0x0100
@@ -256,17 +258,17 @@ constexpr CommandId windowCoveringIncomingCommands_[] = {
 
 
 DECLARE_DYNAMIC_CLUSTER_LIST_BEGIN(bridgedLightClusters_)
-    DECLARE_DYNAMIC_CLUSTER(OnOff::Id, onOffAttrs_, onOffIncomingCommands_, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, nullptr, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, nullptr,nullptr) 
+    DECLARE_DYNAMIC_CLUSTER(OnOff::Id, onOffAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, onOffIncomingCommands_, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr,nullptr) 
 DECLARE_DYNAMIC_CLUSTER_LIST_END;
 DECLARE_DYNAMIC_ENDPOINT(bridgedLightEndpoint_, bridgedLightClusters_); 
 DataVersion gLightDataVersions_[ArraySize(bridgedLightClusters_)]; 
 
 DECLARE_DYNAMIC_CLUSTER_LIST_BEGIN(bridgedLightSwitchClusters_)
-    DECLARE_DYNAMIC_CLUSTER(OnOff::Id, onOffAttrs_, onOffIncomingCommands_, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, nullptr, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, nullptr,nullptr) 
+    DECLARE_DYNAMIC_CLUSTER(OnOff::Id, onOffAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, onOffIncomingCommands_, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr,nullptr) 
 DECLARE_DYNAMIC_CLUSTER_LIST_END;
 DECLARE_DYNAMIC_ENDPOINT(bridgedLightSwitchEndpoint_, bridgedLightSwitchClusters_); 
 DataVersion gLightDataSwitchVersions_[ArraySize(bridgedLightSwitchClusters_)]; 
@@ -274,10 +276,10 @@ DataVersion gLightDataSwitchVersions_[ArraySize(bridgedLightSwitchClusters_)];
 
 
 DECLARE_DYNAMIC_CLUSTER_LIST_BEGIN(bridgedDimmableLightClusters_)
-    DECLARE_DYNAMIC_CLUSTER(OnOff::Id, onOffAttrs_, onOffIncomingCommands_, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(LevelControl::Id, dimmableAttrs_, levelControlIncomingCommands_, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, nullptr, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, nullptr,nullptr) 
+    DECLARE_DYNAMIC_CLUSTER(OnOff::Id, onOffAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, onOffIncomingCommands_, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(LevelControl::Id, dimmableAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, levelControlIncomingCommands_, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr,nullptr) 
 DECLARE_DYNAMIC_CLUSTER_LIST_END;
 DECLARE_DYNAMIC_ENDPOINT(bridgedDimmableLightEndpoint_, bridgedDimmableLightClusters_); 
 DataVersion gDimmableLightDataVersions_[ArraySize(bridgedDimmableLightClusters_)]; 
@@ -286,9 +288,9 @@ DataVersion gDimmableLightDataVersions_[ArraySize(bridgedDimmableLightClusters_)
 
 
 DECLARE_DYNAMIC_CLUSTER_LIST_BEGIN(windowCoveringClusters_)
-    DECLARE_DYNAMIC_CLUSTER(WindowCovering::Id, windowCoveringAttrs_, windowCoveringIncomingCommands_, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, nullptr, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, nullptr,nullptr) 
+    DECLARE_DYNAMIC_CLUSTER(WindowCovering::Id, windowCoveringAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, windowCoveringIncomingCommands_, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr,nullptr) 
 DECLARE_DYNAMIC_CLUSTER_LIST_END;
 DECLARE_DYNAMIC_ENDPOINT(windowCoveringEndpoint_, windowCoveringClusters_); 
 DataVersion gwindowCoveringDataVersions_[ArraySize(windowCoveringClusters_)]; 
@@ -303,9 +305,9 @@ DECLARE_DYNAMIC_ATTRIBUTE(TemperatureMeasurement::Attributes::MeasuredValue::Id,
     DECLARE_DYNAMIC_ATTRIBUTE(TemperatureMeasurement::Attributes::FeatureMap::Id, BITMAP32, 4, 0),     /* FeatureMap */
     DECLARE_DYNAMIC_ATTRIBUTE_LIST_END();
 DECLARE_DYNAMIC_CLUSTER_LIST_BEGIN(bridgedTempSensorClusters_)
-DECLARE_DYNAMIC_CLUSTER(TemperatureMeasurement::Id, tempSensorAttrs_, nullptr, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, nullptr, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, nullptr, nullptr),
+DECLARE_DYNAMIC_CLUSTER(TemperatureMeasurement::Id, tempSensorAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
     DECLARE_DYNAMIC_CLUSTER_LIST_END;
 DECLARE_DYNAMIC_ENDPOINT(bridgedTempSensorEndpoint_, bridgedTempSensorClusters_);
 DataVersion gTempSensorDataVersions_[ArraySize(bridgedTempSensorClusters_)];
@@ -318,9 +320,9 @@ DECLARE_DYNAMIC_ATTRIBUTE(RelativeHumidityMeasurement::Attributes::MeasuredValue
     DECLARE_DYNAMIC_ATTRIBUTE(RelativeHumidityMeasurement::Attributes::FeatureMap::Id, BITMAP32, 4, 0),     /* FeatureMap */
     DECLARE_DYNAMIC_ATTRIBUTE_LIST_END();
 DECLARE_DYNAMIC_CLUSTER_LIST_BEGIN(bridgedHumiditySensorClusters_)
-DECLARE_DYNAMIC_CLUSTER(RelativeHumidityMeasurement::Id, humiditySensorAttrs_, nullptr, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, nullptr, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, nullptr, nullptr),
+DECLARE_DYNAMIC_CLUSTER(RelativeHumidityMeasurement::Id, humiditySensorAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
     DECLARE_DYNAMIC_CLUSTER_LIST_END;
 DECLARE_DYNAMIC_ENDPOINT(bridgedHumiditySensorEndpoint_, bridgedHumiditySensorClusters_);
 DataVersion gHumiditySensorDataVersions_[ArraySize(bridgedHumiditySensorClusters_)];
@@ -334,9 +336,9 @@ DECLARE_DYNAMIC_ATTRIBUTE(FlowMeasurement::Attributes::MeasuredValue::Id, INT16U
     DECLARE_DYNAMIC_ATTRIBUTE(FlowMeasurement::Attributes::FeatureMap::Id, BITMAP32, 4, 0),     /* FeatureMap */
     DECLARE_DYNAMIC_ATTRIBUTE_LIST_END();
 DECLARE_DYNAMIC_CLUSTER_LIST_BEGIN(bridgedFlowSensorClusters_)
-DECLARE_DYNAMIC_CLUSTER(FlowMeasurement::Id, flowSensorAttrs_, nullptr, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, nullptr, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, nullptr, nullptr),
+DECLARE_DYNAMIC_CLUSTER(FlowMeasurement::Id, flowSensorAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
     DECLARE_DYNAMIC_CLUSTER_LIST_END;
 DECLARE_DYNAMIC_ENDPOINT(bridgedFlowSensorEndpoint_, bridgedFlowSensorClusters_);
 DataVersion gFlowSensorDataVersions_[ArraySize(bridgedFlowSensorClusters_)];
@@ -350,9 +352,9 @@ DECLARE_DYNAMIC_ATTRIBUTE(FlowMeasurement::Attributes::MeasuredValue::Id, INT16U
     DECLARE_DYNAMIC_ATTRIBUTE(FlowMeasurement::Attributes::FeatureMap::Id, BITMAP32, 4, 0),     /* FeatureMap */
     DECLARE_DYNAMIC_ATTRIBUTE_LIST_END();
 DECLARE_DYNAMIC_CLUSTER_LIST_BEGIN(bridgedFlowSensorElectricClusters_)
-DECLARE_DYNAMIC_CLUSTER(FlowMeasurement::Id, flowSensorElectricAttrs_, nullptr, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, nullptr, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, nullptr, nullptr),
+DECLARE_DYNAMIC_CLUSTER(FlowMeasurement::Id, flowSensorElectricAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
     DECLARE_DYNAMIC_CLUSTER_LIST_END;
 DECLARE_DYNAMIC_ENDPOINT(bridgedFlowSensorElectricEndpoint_, bridgedFlowSensorElectricClusters_);
 DataVersion gFlowSensorElectricDataVersions_[ArraySize(bridgedFlowSensorElectricClusters_)];
@@ -365,9 +367,9 @@ DECLARE_DYNAMIC_ATTRIBUTE(PressureMeasurement::Attributes::MeasuredValue::Id, IN
     DECLARE_DYNAMIC_ATTRIBUTE(PressureMeasurement::Attributes::FeatureMap::Id, BITMAP32, 4, 0),     /* FeatureMap */
     DECLARE_DYNAMIC_ATTRIBUTE_LIST_END();
 DECLARE_DYNAMIC_CLUSTER_LIST_BEGIN(bridgedPressureBatterySensorClusters_)
-DECLARE_DYNAMIC_CLUSTER(PressureMeasurement::Id, pressureBatterySensorAttrs_, nullptr, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, nullptr, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, nullptr, nullptr),
+DECLARE_DYNAMIC_CLUSTER(PressureMeasurement::Id, pressureBatterySensorAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
     DECLARE_DYNAMIC_CLUSTER_LIST_END;
 DECLARE_DYNAMIC_ENDPOINT(bridgedPressureBatterySensorEndpoint_, bridgedPressureBatterySensorClusters_);
 DataVersion gPressureBatterySensorDataVersions_[ArraySize(bridgedPressureBatterySensorClusters_)];
@@ -385,9 +387,9 @@ DECLARE_DYNAMIC_ATTRIBUTE_LIST_BEGIN(illuminanceSensorAttrs_)
 
 
 DECLARE_DYNAMIC_CLUSTER_LIST_BEGIN(bridgedIlluminanceSensorClusters_)
-DECLARE_DYNAMIC_CLUSTER(IlluminanceMeasurement::Id, illuminanceSensorAttrs_, nullptr, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, nullptr, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, nullptr, nullptr),
+DECLARE_DYNAMIC_CLUSTER(IlluminanceMeasurement::Id, illuminanceSensorAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
     DECLARE_DYNAMIC_CLUSTER_LIST_END;
 DECLARE_DYNAMIC_ENDPOINT(bridgedIlluminanceSensorEndpoint_, bridgedIlluminanceSensorClusters_);
 DataVersion gIlluminanceSensorDataVersions_[ArraySize(bridgedIlluminanceSensorClusters_)];
@@ -403,9 +405,9 @@ DECLARE_DYNAMIC_ATTRIBUTE_LIST_BEGIN( OccupancySensorAttrs_)
     DECLARE_DYNAMIC_ATTRIBUTE_LIST_END();
 
 DECLARE_DYNAMIC_CLUSTER_LIST_BEGIN(bridgedOccupancySensorClusters_)
-    DECLARE_DYNAMIC_CLUSTER(OccupancySensing::Id, OccupancySensorAttrs_, nullptr, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, nullptr, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, nullptr, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(OccupancySensing::Id, OccupancySensorAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
     DECLARE_DYNAMIC_CLUSTER_LIST_END;
 DECLARE_DYNAMIC_ENDPOINT(bridgedOccupancySensorEndpoint_, bridgedOccupancySensorClusters_);
 DataVersion gOccupancySensorDataVersions_[ArraySize(bridgedOccupancySensorClusters_)];
@@ -429,20 +431,20 @@ DECLARE_DYNAMIC_ATTRIBUTE_LIST_BEGIN( GenericAttrs_)
     DECLARE_DYNAMIC_ATTRIBUTE_LIST_END();
 
 DECLARE_DYNAMIC_CLUSTER_LIST_BEGIN(bridgedGenericClusters_)
-    DECLARE_DYNAMIC_CLUSTER(ModeSelect::Id, GenericAttrs_, GenericAttrsIncomingCommands_, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, nullptr, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, nullptr, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(ModeSelect::Id, GenericAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, GenericAttrsIncomingCommands_, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
     DECLARE_DYNAMIC_CLUSTER_LIST_END;
 DECLARE_DYNAMIC_ENDPOINT(bridgedGenericEndpoint_, bridgedGenericClusters_);
 DataVersion gGenericDataVersions_[ArraySize(bridgedGenericClusters_)];
 
 DECLARE_DYNAMIC_CLUSTER_LIST_BEGIN(bridgedTemperatureLightClusters_)
-    DECLARE_DYNAMIC_CLUSTER(OnOff::Id, onOffAttrs_, onOffIncomingCommands_, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(LevelControl::Id, dimmableAttrs_, levelControlIncomingCommands_, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(ColorControl::Id, colorControlAttrs_ , colorControlIncomingCommands_, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(ModeSelect::Id, GenericAttrs_, GenericAttrsIncomingCommands_, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, nullptr, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, nullptr,nullptr) 
+    DECLARE_DYNAMIC_CLUSTER(OnOff::Id, onOffAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, onOffIncomingCommands_, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(LevelControl::Id, dimmableAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, levelControlIncomingCommands_, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(ColorControl::Id, colorControlAttrs_ , DECLARE_DYNAMIC_CLUSTER_ROLE, colorControlIncomingCommands_, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(ModeSelect::Id, GenericAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, GenericAttrsIncomingCommands_, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr,nullptr) 
 DECLARE_DYNAMIC_CLUSTER_LIST_END;
 DECLARE_DYNAMIC_ENDPOINT(bridgedTemperatureLightEndpoint_, bridgedTemperatureLightClusters_); 
 DataVersion gColorTemperatureLightDataVersions_[ArraySize(bridgedTemperatureLightClusters_)]; 
@@ -478,16 +480,35 @@ constexpr CommandId fancontrolIncomingCommands_[] = {
 };
 
 DECLARE_DYNAMIC_CLUSTER_LIST_BEGIN(heatingColingClusters_)
-    DECLARE_DYNAMIC_CLUSTER(OnOff::Id, onOffAttrs_, onOffIncomingCommands_, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(Thermostat::Id, thermostatAttrs_, thermostatIncomingCommands_, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(FanControl::Id, fancontrolAttrs_, fancontrolIncomingCommands_, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(LevelControl::Id, dimmableAttrs_, levelControlIncomingCommands_, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(ModeSelect::Id, GenericAttrs_, GenericAttrsIncomingCommands_, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, nullptr, nullptr),
-    DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, nullptr,nullptr) 
+    DECLARE_DYNAMIC_CLUSTER(OnOff::Id, onOffAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, onOffIncomingCommands_, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(Thermostat::Id, thermostatAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, thermostatIncomingCommands_, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(FanControl::Id, fancontrolAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, fancontrolIncomingCommands_, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(LevelControl::Id, dimmableAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, levelControlIncomingCommands_, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(ModeSelect::Id, GenericAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, GenericAttrsIncomingCommands_, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(Descriptor::Id, descriptorAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr, nullptr),
+    DECLARE_DYNAMIC_CLUSTER(BridgedDeviceBasicInformation::Id, bridgedDeviceBasicAttrs_, DECLARE_DYNAMIC_CLUSTER_ROLE, nullptr,nullptr) 
 DECLARE_DYNAMIC_CLUSTER_LIST_END;
 DECLARE_DYNAMIC_ENDPOINT(heatingColingEndpoint_, heatingColingClusters_); 
 DataVersion heatingColingDataVersions_[ArraySize(heatingColingClusters_)]; 
+
+
+// DECLARE_DYNAMIC_ATTRIBUTE_LIST_BEGIN(batteryAttrs_)
+//     DECLARE_DYNAMIC_ATTRIBUTE(EnergyEvse::Attributes::State::Id, ENUM8, 1, 0),
+//     DECLARE_DYNAMIC_ATTRIBUTE(EnergyEvse::Attributes::BatteryCapacity::Id, INT32U, 4, 0), 
+//     DECLARE_DYNAMIC_ATTRIBUTE(EnergyEvse::Attributes::StateOfCharge::Id, INT8U, 1, 0), 
+// DECLARE_DYNAMIC_ATTRIBUTE_LIST_END();
+
+// DECLARE_DYNAMIC_ATTRIBUTE_LIST_BEGIN(modeSelectAttrs_)
+//     DECLARE_DYNAMIC_ATTRIBUTE(ModeSelect::Attributes::Description::Id, CHAR_STRING, kDescriptorAttributeArraySize_, 0),        
+//     DECLARE_DYNAMIC_ATTRIBUTE(ModeSelect::Attributes::StandardNamespace::Id, ENUM16, 2, 0),        
+//     DECLARE_DYNAMIC_ATTRIBUTE(ModeSelect::Attributes::SupportedModes::Id, ARRAY, kDescriptorAttributeArraySize_, 0), 
+//     DECLARE_DYNAMIC_ATTRIBUTE(ModeSelect::Attributes::CurrentMode::Id, INT8U, 1, 0),
+// DECLARE_DYNAMIC_ATTRIBUTE_LIST_END();
+
+// constexpr CommandId modeSelectIncomingCommands_[] = {
+//     app::Clusters::ModeSelect::Commands::ChangeToMode::Id,
+//     kInvalidCommandId
+// };
 
 } // namespace
 #endif

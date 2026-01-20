@@ -443,7 +443,13 @@ void EchonetEndpoint::RequestGETPropertiesData_Asynchronous()
             if(apt->matterDataType == ZAP_TYPE(CHAR_STRING))
             {
                 MutableByteSpan zclNameSpan(buffer, maxReadLength);
-                MakeZclCharString(zclNameSpan, (char*)apt->defaultValue);
+                CHIP_ERROR err = MakeZclCharString(zclNameSpan, (char*)apt->defaultValue);
+
+                if (err != CHIP_NO_ERROR) {
+                    // Handle the error, e.g., logging it or taking corrective action
+                    ChipLogError(Zcl, "Error making ZCL string: %s", ErrorStr(err));
+                }
+
             } else
             {
                 if(maxReadLength>1) printf("\n[TOANSTT TODO HERE: Extend this case \n");
@@ -620,7 +626,7 @@ void EchonetEndpoint::RequestGETPropertiesData_Asynchronous()
     if(this->attributePropertyAdapters.find(make_pair(clusterId,attributeId)) == this->attributePropertyAdapters.end())
     {
         printf("\n\n[WARNING WriteProperty] toanstt: key not existed in the map %d \n\n", (int)attributeId);
-        return EMBER_ZCL_STATUS_DEPRECATED82;
+        return Protocols::InteractionModel::Status::Deprecated82;
     }
 
     
@@ -629,7 +635,7 @@ void EchonetEndpoint::RequestGETPropertiesData_Asynchronous()
     if(this->SET_properties.find(apt->echonetPropertyId) == this->SET_properties.end())
     {
         printf("\n\n[WARNING WriteProperty] toanstt: key not existed in SET_properties %d \n\n", (int)attributeId);
-        return EMBER_ZCL_STATUS_DEPRECATED82;
+        return Protocols::InteractionModel::Status::Deprecated82;
     }
     
     //Check dictionary
