@@ -3,14 +3,14 @@
 #include "EchonetEndpointDelegate_IHouseSwitch.h"
 #include "../../EchonetEndpoint.h"
 
-EmberAfStatus EchonetEndpointDelegate_IHouseSwitch::WriteProperty(chip::AttributeId attributeId, ClusterId clusterId, const EmberAfAttributeMetadata * attributeMetadata,uint8_t * buffer)
+Protocols::InteractionModel::Status EchonetEndpointDelegate_IHouseSwitch::WriteProperty(chip::AttributeId attributeId, ClusterId clusterId, const EmberAfAttributeMetadata * attributeMetadata,uint8_t * buffer)
 {
     printf("\n\n\n\n\n\n\n\n\n\n WriteProperty_iHouseSwitch clusterId=0x%08x, attributeId=0x%08x \n\n\n\n\n\n\n",clusterId, attributeId );
     EchonetEndpoint*ep = (EchonetEndpoint*)myEchonetEndpointpointer;
     unsigned char epc = 0x80;
     std::vector<unsigned char> value = {0x30};
     
-    EmberAfStatus errorCode = EMBER_ZCL_STATUS_SUCCESS;
+    Protocols::InteractionModel::Status errorCode = Protocols::InteractionModel::Status::Success;
     
     shared_ptr<DeviceObject> device_;
     if (buffer[0] == 0) //close = 0x42
@@ -24,7 +24,7 @@ EmberAfStatus EchonetEndpointDelegate_IHouseSwitch::WriteProperty(chip::Attribut
     else 
     {
         printf("\n\n\n [ERROR][IHOUSE] Cannot find the case for epc=0x%02x val=0x%02x \n\n\n",  epc, value[0]);
-        return EMBER_ZCL_STATUS_DEPRECATED83;
+        return Protocols::InteractionModel::Status::Deprecated83;
     }
     if(device_ == nullptr)
     {
@@ -49,14 +49,14 @@ EmberAfStatus EchonetEndpointDelegate_IHouseSwitch::WriteProperty(chip::Attribut
             }
             usleep(10 * 1000); //sleep 10 miliseconds
         }
-        //if(ep->currentWaitingTID != 0xFFFF) errorCode = EMBER_ZCL_STATUS_DEPRECATED83; //for test only
+        //if(ep->currentWaitingTID != 0xFFFF) errorCode = Protocols::InteractionModel::Status::Deprecated83; //for test only
     }
     
     ep->GET_properties[epc].echonetValue = value;
     return errorCode;
     
 
-    return EMBER_ZCL_STATUS_SUCCESS;
+    return Protocols::InteractionModel::Status::Success;
 }
 int EchonetEndpointDelegate_IHouseSwitch::ReadProperty(chip::ClusterId clusterId,chip::AttributeId attributeId, uint8_t * buffer, uint16_t maxReadLength)
 {
@@ -95,8 +95,8 @@ int EchonetEndpointDelegate_IHouseSwitch::ReadProperty(chip::ClusterId clusterId
 
     return 0;
 }
-EmberAfStatus EchonetEndpointDelegate_IHouseSwitch::SetGET(unsigned char epc, vector<unsigned char> value)
+Protocols::InteractionModel::Status EchonetEndpointDelegate_IHouseSwitch::SetGET(unsigned char epc, vector<unsigned char> value)
 {
-    return (EmberAfStatus)0;
+    return (Protocols::InteractionModel::Status)0;
 }
 #endif

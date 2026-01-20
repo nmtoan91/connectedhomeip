@@ -366,11 +366,11 @@ EmberAfAttributeMetadata* EchonetEndpoint::GenerateBridgedDeviceBasicAttrs(Ember
     return NULL;
 }
 
- EmberAfStatus EchonetEndpoint::SetGET(unsigned char epc, vector<unsigned char> value)
+ Protocols::InteractionModel::Status EchonetEndpoint::SetGET(unsigned char epc, vector<unsigned char> value)
  {
     if(delegate!=NULL) return delegate->SetGET(epc,value);
 
-    EmberAfStatus errorCode = EMBER_ZCL_STATUS_SUCCESS;
+    Protocols::InteractionModel::Status errorCode = Protocols::InteractionModel::Status::Success;
     //value= {0x30};
     
     EchoFrame eFrame= GetDeviceObject().get()->set(true).reqSetProperty(epc,value).send();
@@ -391,7 +391,7 @@ EmberAfAttributeMetadata* EchonetEndpoint::GenerateBridgedDeviceBasicAttrs(Ember
             }
             usleep(10 * 1000); //sleep 10 miliseconds
         }
-        if(currentWaitingTID != 0xFFFF) errorCode = EMBER_ZCL_STATUS_DEPRECATED83; //for test only
+        if(currentWaitingTID != 0xFFFF) errorCode = Protocols::InteractionModel::Status::Deprecated83; //for test only
     }
     
     GET_properties[epc].echonetValue = value;
@@ -611,7 +611,7 @@ void EchonetEndpoint::RequestGETPropertiesData_Asynchronous()
  }
 
 
- EmberAfStatus EchonetEndpoint::WriteProperty(chip::AttributeId attributeId, ClusterId clusterId, const EmberAfAttributeMetadata * attributeMetadata,uint8_t * buffer)
+ Protocols::InteractionModel::Status EchonetEndpoint::WriteProperty(chip::AttributeId attributeId, ClusterId clusterId, const EmberAfAttributeMetadata * attributeMetadata,uint8_t * buffer)
  {
     //Call WriteProperty of warper if exists
    if(delegate!=NULL) return delegate->WriteProperty(attributeId, clusterId, attributeMetadata, buffer);
@@ -681,7 +681,7 @@ void EchonetEndpoint::RequestGETPropertiesData_Asynchronous()
     } 
     
     SetGET(apt->echonetPropertyId,newData );
-    return EMBER_ZCL_STATUS_SUCCESS;
+    return Protocols::InteractionModel::Status::Success;
  }
 
 AttributePropertyAdapter* EchonetEndpoint::CreateDeviceEchonetAdapter(

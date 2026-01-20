@@ -26,7 +26,8 @@ class EchonetWindowCoveringDelegate_IHouse: public Delegate
     public:
     EchonetEndpoint* echonetEndpoint;
     EchonetWindowCoveringDelegate_IHouse(EchonetEndpoint* echonetEndpoint_) {echonetEndpoint=echonetEndpoint_;};
-    CHIP_ERROR HandleMovement(WindowCoveringType type, int openPercent);
+    CHIP_ERROR HandleMovementWithPercent(WindowCoveringType type, int openPercent);
+    CHIP_ERROR HandleMovement(WindowCoveringType type);
     CHIP_ERROR HandleStopMotion();
 };
 

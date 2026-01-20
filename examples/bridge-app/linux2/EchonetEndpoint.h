@@ -1,6 +1,9 @@
 #pragma once
 #ifndef ECHONETENDPOINTINFO_H
 #define ECHONETENDPOINTINFO_H
+#include <app/util/config.h>
+#include <app/util/af-types.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -24,8 +27,8 @@
 #include <string>
 #include <map>
 #include "Utils.h"
-#include <app/util/af.h>
-#include <app/util/config.h>
+//#include <app/util/af.h>
+
 #include "include/EchonetSelectModeSupportedModes.h"
 #include <iostream>
 #include <memory>
@@ -91,12 +94,12 @@ class EchonetEndpoint
         EchonetEndpoint(string address_,pair<string,unsigned int>& eoj_pair_);
         void CreateMatterDeviceEndpointOBJ();
         vector<unsigned char> GetGET(unsigned char epc)     {    return GET_properties[epc].echonetValue;    };  
-        virtual EmberAfStatus SetGET(unsigned char epc, vector<unsigned char> value);
+        virtual Protocols::InteractionModel::Status SetGET(unsigned char epc, vector<unsigned char> value);
         EmberAfAttributeMetadata* GenerateBridgedDeviceBasicAttrs(EmberAfAttributeMetadata* onOffAttrs, EmberAfAttributeMetadata* descriptorAttrs, const unsigned int* onOffIncomingCommands);
         void RequestGETPropertyData_Asynchronous(unsigned char epc);
         void RequestGETPropertiesData_Asynchronous(); 
         virtual int ReadProperty(chip::ClusterId clusterId,chip::AttributeId attributeId, uint8_t * buffer, uint16_t maxReadLength);
-        virtual EmberAfStatus WriteProperty(chip::AttributeId attributeId, ClusterId clusterId, const EmberAfAttributeMetadata * attributeMetadata,uint8_t * buffer); 
+        virtual Protocols::InteractionModel::Status WriteProperty(chip::AttributeId attributeId, ClusterId clusterId, const EmberAfAttributeMetadata * attributeMetadata,uint8_t * buffer); 
 
         AttributePropertyAdapter* CreateDeviceEchonetAdapter(chip::ClusterId matterClusterId_,  chip::AttributeId matterAttributeId_,unsigned char echonetPropertyId_,       uint16_t matterDataType_ = ZAP_TYPE(INT8U),uint16_t matterDataLength_=1, uint16_t echonetDataType_ =ZAP_TYPE(INT8U), uint16_t echonetDataLength_=1);
         //Preset rules

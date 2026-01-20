@@ -35,7 +35,7 @@
 #include <app/clusters/network-commissioning/network-commissioning.h>
 #include <app/reporting/reporting.h>
 #include <app/util/af-types.h>
-#include <app/util/af.h>
+//#include <app/util/af.h>
 #include <app/util/attribute-storage.h>
 #include <app/util/util.h>
 #include <credentials/DeviceAttestationCredsProvider.h>
@@ -128,22 +128,21 @@ int AddDeviceEndpoint(Device * dev, EmberAfEndpointType * ep, const Span<const E
         if (nullptr == gDevices[index])
         {
             gDevices[index] = dev;
-            EmberAfStatus ret;
             while (true)
             {
                 // Todo: Update this to schedule the work rather than use this lock
                 DeviceLayer::StackLock lock;
                 dev->SetEndpointId(gCurrentEndpointId);
                 dev->SetParentEndpointId(parentEndpointId);
-                ret =
-                    emberAfSetDynamicEndpoint(index, gCurrentEndpointId, ep, dataVersionStorage, deviceTypeList, parentEndpointId);
-                if (ret == EMBER_ZCL_STATUS_SUCCESS)
+                CHIP_ERROR err = emberAfSetDynamicEndpoint(index, gCurrentEndpointId, ep, dataVersionStorage, deviceTypeList, parentEndpointId);
+
+                if (err == CHIP_NO_ERROR)
                 {
                     ChipLogProgress(DeviceLayer, "Added device %s to dynamic endpoint %d (index=%d)", dev->GetName(),
                                     gCurrentEndpointId, index);
                     return index;
                 }
-                if (ret != EMBER_ZCL_STATUS_DUPLICATE_EXISTS)
+                if (err != CHIP_ERROR_ENDPOINT_EXISTS)
                 {
                     return -1;
                 }
@@ -174,7 +173,7 @@ int RemoveDeviceEndpoint(Device * dev)
             ChipLogProgress(DeviceLayer, "Removed device %s from dynamic endpoint %d (index=%d)",dev==nullptr?"NONAME":dev->GetName(), ep, index);
             // Silence complaints about unused ep when progress logging
             // disabled.
-            UNUSED_VAR(ep);
+            (void)(ep);
             return index;
         }
         index++;
@@ -222,10 +221,7 @@ std::vector<EndpointListInfo> GetEndpointListInfo(chip::EndpointId parentId)
     return infoList;
 }
 
-std::vector<Action *> GetActionListInfo(chip::EndpointId parentId)
-{
-    return gActions;
-}
+
 
 namespace {
 void CallReportingCallback(intptr_t closure)
@@ -238,7 +234,12 @@ void CallReportingCallback(intptr_t closure)
 void ScheduleReportingCallback(Device * dev, ClusterId cluster, AttributeId attribute)
 {
     auto * path = Platform::New<app::ConcreteAttributePath>(dev->GetEndpointId(), cluster, attribute);
-    PlatformMgr().ScheduleWork(CallReportingCallback, reinterpret_cast<intptr_t>(path));
+    CHIP_ERROR err = PlatformMgr().ScheduleWork(CallReportingCallback, reinterpret_cast<intptr_t>(path));
+
+    if (err != CHIP_NO_ERROR) {
+        // Handle the error (e.g., log it)
+        ChipLogError(ExchangeManager, "Failed to schedule work: %s", ErrorStr(err));
+    }
 }
 } // anonymous namespace
 
@@ -257,7 +258,7 @@ void HandleDeviceStatusChanged(Device * dev, Device::Changed_t itemChangedMask)
 
 // For better performance, we use dedicated function for return the bridged information
 // These data only request once when adding the echonetLITE endpoint.
-EmberAfStatus HandleReadBridgedDeviceBasicAttribute(Device * dev, chip::AttributeId attributeId, uint8_t * buffer,
+Protocols::InteractionModel::Status  HandleReadBridgedDeviceBasicAttribute(Device * dev, chip::AttributeId attributeId, uint8_t * buffer,
                                                     uint16_t maxReadLength)
 {
     using namespace BridgedDeviceBasicInformation::Attributes;
@@ -272,7 +273,13 @@ EmberAfStatus HandleReadBridgedDeviceBasicAttribute(Device * dev, chip::Attribut
     {
         
         MutableByteSpan zclNameSpan(buffer, maxReadLength);
-        MakeZclCharString(zclNameSpan, dev->GetName());
+        CHIP_ERROR err = MakeZclCharString(zclNameSpan, dev->GetName());
+
+        if (err != CHIP_NO_ERROR) {
+            // Handle the error, log it, or take appropriate action
+            ChipLogError(Zcl, "Error creating ZCL string: %s", ErrorStr(err));
+        }
+
         //printf("\n\n\n\n TOANSTT IS HERE HandleReadBridgedDeviceBasicAttribute : %s \n\n\n",buffer );
     }
     else if ((attributeId == ClusterRevision::Id) && (maxReadLength == 2))
@@ -290,7 +297,18 @@ EmberAfStatus HandleReadBridgedDeviceBasicAttribute(Device * dev, chip::Attribut
 
         EchonetEndpoint* info = (EchonetEndpoint*)(dev->echonetEndpointInfoPointer);
         MutableByteSpan zclNameSpan(buffer, maxReadLength);
-        MakeZclCharString(zclNameSpan,ConvertToString(info->GET_properties[Map_MatterAttribute_To_EPC[attributeId]].echonetValue).c_str());
+        // Call the function and capture the return value
+        CHIP_ERROR err = MakeZclCharString(
+            zclNameSpan,
+            ConvertToString(info->GET_properties[Map_MatterAttribute_To_EPC[attributeId]].echonetValue).c_str()
+        );
+
+        // Check the return value for errors
+        if (err != CHIP_NO_ERROR) {
+            // Handle the error (e.g., log it)
+            ChipLogError(Zcl, "Error creating ZCL string: %s", ErrorStr(err));
+        }
+
     }
     else if (attributeId == VendorID::Id || attributeId == PartNumber::Id || attributeId == SerialNumber::Id )
     {
@@ -302,14 +320,14 @@ EmberAfStatus HandleReadBridgedDeviceBasicAttribute(Device * dev, chip::Attribut
     }
     else
     {
-        printf("\n\n\n TOANSTT: EMBER_ZCL_STATUS_FAILURE\n\n\n\n");
-        return EMBER_ZCL_STATUS_FAILURE;
+        printf("\n\n\n TOANSTT: EMBER_ZCL_STATUS_FAILURE change to Protocols::InteractionModel::Status::Failure\n\n\n\n");
+        return Protocols::InteractionModel::Status::Failure;
     }
 
-    return EMBER_ZCL_STATUS_SUCCESS;
+    return Protocols::InteractionModel::Status::Success;
 }
 
-EmberAfStatus HandleReadDeviceGeneralAttribute(Device * dev, ClusterId clusterId,chip::AttributeId attributeId, uint8_t * buffer, uint16_t maxReadLength)
+Protocols::InteractionModel::Status  HandleReadDeviceGeneralAttribute(Device * dev, ClusterId clusterId,chip::AttributeId attributeId, uint8_t * buffer, uint16_t maxReadLength)
 {
     EchonetEndpoint* echonetEndpoint = (EchonetEndpoint*)dev->echonetEndpointInfoPointer;
     ChipLogProgress(DeviceLayer, "\n HandleReadDeviceGeneralAttribute: device=0x%04x%02x clusterId=%d(0x%02x)   attrId=%d(0x%02x), maxReadLength=%d", echonetEndpoint->echoClassCode, echonetEndpoint->instanceCode, clusterId,clusterId,attributeId,attributeId, maxReadLength);
@@ -321,14 +339,18 @@ EmberAfStatus HandleReadDeviceGeneralAttribute(Device * dev, ClusterId clusterId
     if(ret != 0 )
     {
         printf("\n\n\n\n [HandleReadDeviceGeneralAttribute] TOANSTT NOT IMPLEMENT YET \n\n");
-        return EMBER_ZCL_STATUS_NOT_FOUND;
+        return Protocols::InteractionModel::Status::NotFound;
     }
 
-    return EMBER_ZCL_STATUS_SUCCESS;
+    return Protocols::InteractionModel::Status::Success;
 
     
 }
-EmberAfStatus emberAfExternalAttributeReadCallback(EndpointId endpoint, ClusterId clusterId,
+
+
+
+
+Protocols::InteractionModel::Status  emberAfExternalAttributeReadCallback(EndpointId endpoint, ClusterId clusterId,
                                                    const EmberAfAttributeMetadata * attributeMetadata, uint8_t * buffer,
                                                    uint16_t maxReadLength)
 {
@@ -337,7 +359,7 @@ EmberAfStatus emberAfExternalAttributeReadCallback(EndpointId endpoint, ClusterI
 
     printf("\n\n\n\n\n\nDDDDD    [ExternalAttributeReadCallback]     DDDDDDD %d %d buf= %d \n \n\n\n\n\n\n\n",clusterId,LevelControl::Id,*buffer);
     uint16_t endpointIndex = emberAfGetDynamicIndexFromEndpoint(endpoint);
-    EmberAfStatus ret = EMBER_ZCL_STATUS_FAILURE;
+    Protocols::InteractionModel::Status  ret = Protocols::InteractionModel::Status::Failure;
     if ((endpointIndex < CHIP_DEVICE_CONFIG_DYNAMIC_ENDPOINT_COUNT) && (gDevices[endpointIndex] != nullptr))
     {
         Device * dev = gDevices[endpointIndex];
@@ -354,7 +376,7 @@ EmberAfStatus emberAfExternalAttributeReadCallback(EndpointId endpoint, ClusterI
 
 
 
-EmberAfStatus HandleWriteDeviceGeneralAttribute(Device * dev,ClusterId clusterId, chip::AttributeId attributeId, uint8_t * buffer)
+Protocols::InteractionModel::Status  HandleWriteDeviceGeneralAttribute(Device * dev,ClusterId clusterId, chip::AttributeId attributeId, uint8_t * buffer)
 {
     ChipLogProgress(DeviceLayer, "HandleWriteDeviceModeSelectAttribute: attrId=%d", attributeId);
     EchonetEndpoint* echonetEndpoint = (EchonetEndpoint*)dev->echonetEndpointInfoPointer;
@@ -362,20 +384,20 @@ EmberAfStatus HandleWriteDeviceGeneralAttribute(Device * dev,ClusterId clusterId
     TimeManager::GetInstance()->RecordTime(TimeRecordType::START_COMMAND_WRITE_FROM_CHIPTOOL, echonetEndpoint->echoClassCode, echonetEndpoint->instanceCode, 0,(unsigned short)clusterId, attributeId,(unsigned int)buffer[0] );
 
     //Try to convert and write value to echonetLITE endpoint 
-    EmberAfStatus ret = echonetEndpoint->WriteProperty(attributeId,clusterId,NULL,buffer);
+    Protocols::InteractionModel::Status  ret = echonetEndpoint->WriteProperty(attributeId,clusterId,NULL,buffer);
 
     TimeManager::GetInstance()->RecordTime(TimeRecordType::END_COMMAND_WRITE_FROM_CHIPTOOL, echonetEndpoint->echoClassCode, echonetEndpoint->instanceCode, 0,(unsigned short)clusterId, attributeId,(unsigned int)buffer[0] );
-    if(ret != 0 )
+    if(ret != Protocols::InteractionModel::Status::Success )
     {
         printf("\n\n\n\n [HandleWriteDeviceModeSelectAttribute] TOANSTT NOT IMPLEMENT YET \n\n");
-        return EMBER_ZCL_STATUS_NOT_FOUND;
+        return Protocols::InteractionModel::Status::NotFound;
     }
     
 
     return ret;
 }
 
-EmberAfStatus emberAfExternalAttributeWriteCallback(EndpointId endpoint, ClusterId clusterId,
+Protocols::InteractionModel::Status  emberAfExternalAttributeWriteCallback(EndpointId endpoint, ClusterId clusterId,
                                                     const EmberAfAttributeMetadata * attributeMetadata, uint8_t * buffer)
 {
 
@@ -387,7 +409,7 @@ EmberAfStatus emberAfExternalAttributeWriteCallback(EndpointId endpoint, Cluster
 
     uint16_t endpointIndex = emberAfGetDynamicIndexFromEndpoint(endpoint);
 
-    EmberAfStatus ret = EMBER_ZCL_STATUS_FAILURE;
+    Protocols::InteractionModel::Status  ret = Protocols::InteractionModel::Status::Failure;
 
     // ChipLogProgress(DeviceLayer, "emberAfExternalAttributeWriteCallback: ep=%d", endpoint);
 
@@ -401,7 +423,6 @@ EmberAfStatus emberAfExternalAttributeWriteCallback(EndpointId endpoint, Cluster
 }
 
 
-
 void runOnOffRoomAction(Room * room, bool actionOn, EndpointId endpointId, uint16_t actionID, uint32_t invokeID, bool hasInvokeID)
 {
     
@@ -409,7 +430,13 @@ void runOnOffRoomAction(Room * room, bool actionOn, EndpointId endpointId, uint1
     {
         Actions::Events::StateChanged::Type event{ actionID, invokeID, Actions::ActionStateEnum::kActive };
         EventNumber eventNumber;
-        chip::app::LogEvent(event, endpointId, eventNumber);
+        CHIP_ERROR err = chip::app::LogEvent(event, endpointId, eventNumber);
+
+        if (err != CHIP_NO_ERROR) {
+            // Handle the error (e.g., log it)
+            ChipLogError(EventLogging, "Failed to log event: %s", ErrorStr(err));
+        }
+
     }
 
 
@@ -417,7 +444,12 @@ void runOnOffRoomAction(Room * room, bool actionOn, EndpointId endpointId, uint1
     {
         Actions::Events::StateChanged::Type event{ actionID, invokeID, Actions::ActionStateEnum::kInactive };
         EventNumber eventNumber;
-        chip::app::LogEvent(event, endpointId, eventNumber);
+        CHIP_ERROR err = chip::app::LogEvent(event, endpointId, eventNumber);
+
+        if (err != CHIP_NO_ERROR) {
+            // Handle the error (e.g., log it)
+            ChipLogError(EventLogging, "Failed to log event: %s", ErrorStr(err));
+        }
     }
 }
 
@@ -483,24 +515,42 @@ void ApplicationInit()
     {
         // Just use the Thread one.
 #if CHIP_DEVICE_CONFIG_ENABLE_THREAD
-        sThreadNetworkCommissioningInstance.Init();
+        CHIP_ERROR err = sThreadNetworkCommissioningInstance.Init();
+        if (err != CHIP_NO_ERROR) {
+            // Handle the error (e.g., log it or perform recovery steps)
+            ChipLogError(Inet, "Failed to initialize network commissioning: %s", ErrorStr(err));
+        }
 #endif
     }
     else if (kThreadEnabled)
     {
 #if CHIP_DEVICE_CONFIG_ENABLE_THREAD
-        sThreadNetworkCommissioningInstance.Init();
+        CHIP_ERROR err = sThreadNetworkCommissioningInstance.Init();
+        if (err != CHIP_NO_ERROR) {
+            // Handle the error (e.g., log it or perform recovery steps)
+            ChipLogError(Inet, "Failed to initialize network commissioning: %s", ErrorStr(err));
+        }
 #endif
     }
     else if (kWiFiEnabled)
     {
 #if CHIP_DEVICE_CONFIG_ENABLE_WIFI
-        sWiFiNetworkCommissioningInstance.Init();
+        CHIP_ERROR err = sWiFiNetworkCommissioningInstance.Init();
+        if (err != CHIP_NO_ERROR) {
+            // Handle the error (e.g., log it)
+            ChipLogError(Inet, "Failed to initialize Wi-Fi network commissioning: %s", ErrorStr(err));
+        }
+
 #endif
     }
     else
     {
-        sEthernetNetworkCommissioningInstance.Init();
+        CHIP_ERROR err = sThreadNetworkCommissioningInstance.Init();
+        if (err != CHIP_NO_ERROR) {
+            // Handle the error (e.g., log it or perform recovery steps)
+            ChipLogError(Inet, "Failed to initialize network commissioning: %s", ErrorStr(err));
+        }
+
     }
 }
                                  
@@ -791,7 +841,13 @@ int main(int argc, char * argv[])
 
     initParams.interfaceId = LinuxDeviceOptions::GetInstance().interfaceId;
 
-    chip::Server::GetInstance().Init(initParams);
+    //chip::Server::GetInstance().Init(initParams);
+    CHIP_ERROR err = chip::Server::GetInstance().Init(initParams);
+    if (err != CHIP_NO_ERROR) {
+        // Handle the error, e.g., log the failure or take some action
+        ChipLogError(AppServer, "Failed to initialize the CHIP server: %s", ErrorStr(err));
+    }
+
     SetDeviceAttestationCredentialsProvider(Examples::GetExampleDACProvider());
 
     gFirstDynamicEndpointId = static_cast<chip::EndpointId>(
@@ -825,3 +881,48 @@ int main(int argc, char * argv[])
     chip::DeviceLayer::PlatformMgr().RunEventLoop();
     return 0;
 } 
+
+std::vector<Action *> GetActionListInfo(chip::EndpointId parentId)
+{
+    return gActions;
+}
+
+std::vector<Room *> GetRoomListInfo(chip::EndpointId parentId)
+{
+    return gRooms;
+}
+
+// void runOnOffRoomAction(Room * room, bool actionOn, EndpointId endpointId, uint16_t actionID, uint32_t invokeID, bool hasInvokeID)
+// {
+//     if (hasInvokeID)
+//     {
+//         Actions::Events::StateChanged::Type event{ actionID, invokeID, Actions::ActionStateEnum::kActive };
+//         EventNumber eventNumber;
+//         chip::app::LogEvent(event, endpointId, eventNumber);
+//     }
+
+//     // Check and run the action for ActionLight1 - ActionLight4
+//     if (room->getName().compare(ActionLight1.GetLocation()) == 0)
+//     {
+//         ActionLight1.SetOnOff(actionOn);
+//     }
+//     if (room->getName().compare(ActionLight2.GetLocation()) == 0)
+//     {
+//         ActionLight2.SetOnOff(actionOn);
+//     }
+//     if (room->getName().compare(ActionLight3.GetLocation()) == 0)
+//     {
+//         ActionLight3.SetOnOff(actionOn);
+//     }
+//     if (room->getName().compare(ActionLight4.GetLocation()) == 0)
+//     {
+//         ActionLight4.SetOnOff(actionOn);
+//     }
+
+//     if (hasInvokeID)
+//     {
+//         Actions::Events::StateChanged::Type event{ actionID, invokeID, Actions::ActionStateEnum::kInactive };
+//         EventNumber eventNumber;
+//         chip::app::LogEvent(event, endpointId, eventNumber);
+//     }
+// }

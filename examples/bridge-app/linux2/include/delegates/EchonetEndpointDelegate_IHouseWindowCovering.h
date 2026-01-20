@@ -12,8 +12,8 @@ public:
 
     };
     int ReadProperty(chip::ClusterId clusterId,chip::AttributeId attributeId, uint8_t * buffer, uint16_t maxReadLength);
-    EmberAfStatus WriteProperty(chip::AttributeId attributeId, ClusterId clusterId, const EmberAfAttributeMetadata * attributeMetadata,uint8_t * buffer); 
-    EmberAfStatus SetGET(unsigned char epc, vector<unsigned char> value);
+    Protocols::InteractionModel::Status WriteProperty(chip::AttributeId attributeId, ClusterId clusterId, const EmberAfAttributeMetadata * attributeMetadata,uint8_t * buffer); 
+    Protocols::InteractionModel::Status SetGET(unsigned char epc, vector<unsigned char> value);
 };
 
 #endif
